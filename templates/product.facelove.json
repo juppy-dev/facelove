@@ -136,6 +136,7 @@
                   "type": "price",
                   "settings": {
                     "show_savings": true,
+                    "show_free_shipping": true,
                     "show_sale_price_first": true,
                     "show_installments": false,
                     "show_tax_info": false,
@@ -310,12 +311,14 @@
                 "best_for_4": "Your On-the-Go Routine",
                 "anchor": "choose-your-sticks",
                 "show_benefits": false,
-                "image_1": "shopify://shop_images/FreeShipping-Icon.png",
-                "text_1": "Free shipping on every order",
-                "image_2": "shopify://shop_images/Cell-Icon.png",
-                "text_2": "Adapts to your skin tone",
-                "image_3": "shopify://shop_images/30Day-Icon.png",
-                "text_3": "30-day money-back guarantee",
+                "image_1": "",
+                "text_1": "Adapts to your skin tone",
+                "image_2": "",
+                "text_2": "Lasts all day long",
+                "image_3": "",
+                "text_3": "Hydrates and nourishes",
+                "image_4": "",
+                "text_4": "Risk-free guarantee",
                 "background_color": "#faf8fc"
               },
               "blocks": {}
@@ -390,7 +393,7 @@
         "facelove_font": "montserrat_n4",
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": true,
+        "equal_columns": false,
         "limit_details_width": false,
         "gap": 48,
         "enable_sticky_add_to_cart": true,
@@ -756,11 +759,58 @@
         "link_label": "Choose your sticks",
         "background_color": "#513865"
       }
+    },
+    "ugc": {
+      "type": "facelove-ugc",
+      "blocks": {
+        "video_1": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/facelove-demo-1.mp4",
+            "name": "Emma",
+            "age": "48",
+            "verified": true,
+            "product": "changing-foundation-stick-landing"
+          }
+        },
+        "video_2": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/facelove-demo-2.mp4",
+            "name": "Denise",
+            "age": "55",
+            "verified": true,
+            "product": "changing-foundation-stick-landing"
+          }
+        },
+        "video_3": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/facelove-demo-3.mp4",
+            "name": "Helen",
+            "age": "62",
+            "verified": true,
+            "product": "changing-foundation-stick-landing"
+          }
+        }
+      },
+      "block_order": [
+        "video_1",
+        "video_2",
+        "video_3"
+      ],
+      "settings": {
+        "eyebrow": "The community edit",
+        "heading": "Everyday routines. Your kind of glow.",
+        "text": "<p>A closer look at the moments that make a beauty routine feel like yours.</p>",
+        "demo_mode": true
+      }
     }
   },
   "order": [
     "main",
     "press",
+    "ugc",
     "comparison",
     "benefits",
     "application",
