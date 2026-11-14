@@ -1,0 +1,566 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "media_presentation": "carousel",
+            "media_columns": "two",
+            "image_gap": 4,
+            "large_first_image": false,
+            "slideshow_controls_style": "thumbnails",
+            "slideshow_mobile_controls_style": "thumbnails",
+            "thumbnail_position": "bottom",
+            "thumbnail_width": 56,
+            "thumbnail_radius": 0,
+            "aspect_ratio": "1",
+            "constrain_to_viewport": false,
+            "media_fit": "contain",
+            "media_radius": 0,
+            "extend_media": false,
+            "zoom": true,
+            "video_loop": false,
+            "hide_variants": false,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "details_position": "flex-start",
+            "gap": 18,
+            "sticky_details_desktop": true,
+            "background_media": "none",
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "group_icgrde": {
+              "type": "group",
+              "name": "t:names.header",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "background_media": "none",
+                "background_color": "",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_xrnftG": {
+                  "type": "text",
+                  "name": "t:names.product_title",
+                  "settings": {
+                    "text": "<h1>{{ closest.product.title }}</h1>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h2",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "price_tVjtKg": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": false,
+                    "type_preset": "paragraph",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "text_color": "",
+                    "padding-block-start": 4,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "eyebrow": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>A fresh glow for mature skin</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.875rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#67517d",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "intro": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>Even coverage. A natural glow. A built-in brush to blend it all together.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "eyebrow",
+                "text_xrnftG",
+                "intro",
+                "price_tVjtKg"
+              ]
+            },
+            "variant_picker_R3rGDr": {
+              "type": "variant-picker",
+              "settings": {
+                "show_variant_prices": true,
+                "variant_style": "buttons",
+                "show_swatches": false,
+                "option_label_text_color": "",
+                "variant_style_class": "custom",
+                "custom_variant_background": "#ffffff",
+                "custom_variant_text": "#242025",
+                "custom_variant_border": "#b3a6bd",
+                "selected_variant_style_class": "custom",
+                "custom_selected_variant_background": "#f2ecf7",
+                "custom_selected_variant_text": "#242025",
+                "custom_selected_variant_border": "#67517d",
+                "alignment": "left",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "buy_buttons_eYQEYi": {
+              "type": "buy-buttons",
+              "settings": {
+                "stacking": true,
+                "text_color": "",
+                "show_pickup_availability": false,
+                "gift_card_form": true,
+                "recipient_button_style": "default",
+                "recipient_button_background": "{{ settings.color_palette.background }}",
+                "recipient_button_text": "{{ settings.color_palette.foreground }}",
+                "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_style": "default",
+                "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_text": "{{ settings.color_palette.background }}",
+                "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "input_style": "default",
+                "input_background_color": "{{ settings.color_palette.background }}",
+                "input_text_color": "{{ settings.color_palette.foreground }}",
+                "input_border_color": "{{ settings.color_palette.foreground }}",
+                "border_width": 1,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {
+                    "input_style": "default",
+                    "input_background_color": "{{ settings.color_palette.background }}",
+                    "input_text_color": "{{ settings.color_palette.foreground }}",
+                    "input_border_color": "{{ settings.color_palette.foreground }}",
+                    "border_width": 1,
+                    "border_radius": 0
+                  },
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button",
+                    "custom_button_background": "{{ settings.color_palette.foreground }}",
+                    "custom_button_text": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.background }}"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
+            },
+            "text_aEtTtq": {
+              "type": "text",
+              "name": "t:names.product_description",
+              "settings": {
+                "text": "<p>30-day money-back guarantee. One-time purchase.</p><p>Shipping and taxes calculated at checkout.</p><p><a href=\"#application\">How to apply</a> &nbsp; <a href=\"#product-questions\">Shipping &amp; returns</a></p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "0.875rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "summary": {
+              "type": "facelove-summary",
+              "settings": {
+                "background_color": "#eee7f5"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "group_icgrde",
+            "summary",
+            "variant_picker_R3rGDr",
+            "buy_buttons_eYQEYi",
+            "text_aEtTtq"
+          ]
+        }
+      },
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": true,
+        "limit_details_width": false,
+        "gap": 48,
+        "enable_sticky_add_to_cart": true,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 28,
+        "padding-block-end": 52
+      }
+    },
+    "benefits": {
+      "type": "facelove-editorial",
+      "blocks": {
+        "content_0": {
+          "type": "content",
+          "settings": {
+            "heading": "A natural-looking finish",
+            "text": "<p>Even coverage without a masking effect.</p>",
+            "product_field": "none"
+          }
+        },
+        "content_1": {
+          "type": "content",
+          "settings": {
+            "heading": "A lighter feel",
+            "text": "<p>Long-lasting coverage without feeling heavy.</p>",
+            "product_field": "none"
+          }
+        },
+        "content_2": {
+          "type": "content",
+          "settings": {
+            "heading": "One less tool to reach for",
+            "text": "<p>Use the integrated brush, or blend with your fingers.</p>",
+            "product_field": "none"
+          }
+        }
+      },
+      "block_order": [
+        "content_0",
+        "content_1",
+        "content_2"
+      ],
+      "settings": {
+        "layout": "image",
+        "eyebrow": "Your skin, with a little more glow",
+        "heading": "Coverage that still looks like you.",
+        "text": "<p>A foundation routine should feel comfortable. Start with a little, blend well, and build coverage where you want it.</p>",
+        "image": "shopify://shop_images/ChatGPT_Image_May_15_2026_02_20_25_PM.png",
+        "caption": "Facelove before and after imagery. Individual results vary.",
+        "link": "",
+        "link_label": "",
+        "anchor": "benefits",
+        "background_color": "#eee7f5",
+        "spacing": 72
+      }
+    },
+    "application": {
+      "type": "facelove-editorial",
+      "blocks": {
+        "content_0": {
+          "type": "content",
+          "settings": {
+            "heading": "Moisturize first",
+            "text": "<p>Prepare your skin with your usual moisturizer before applying foundation.</p>",
+            "product_field": "none"
+          }
+        },
+        "content_1": {
+          "type": "content",
+          "settings": {
+            "heading": "Apply and blend",
+            "text": "<p>Apply a small amount. Blend thoroughly with the built-in brush or your fingers.</p>",
+            "product_field": "none"
+          }
+        },
+        "content_2": {
+          "type": "content",
+          "settings": {
+            "heading": "Build where you need it",
+            "text": "<p>Add another light layer to the areas where you would like more coverage.</p>",
+            "product_field": "none"
+          }
+        }
+      },
+      "block_order": [
+        "content_0",
+        "content_1",
+        "content_2"
+      ],
+      "settings": {
+        "layout": "steps",
+        "eyebrow": "A few minutes, just for you",
+        "heading": "Prep. Apply. Make it your own.",
+        "text": "<p>Start on well-moisturized skin. A little at a time is the way to go.</p>",
+        "anchor": "application",
+        "background_color": "#ffffff",
+        "spacing": 72
+      }
+    },
+    "testimonials": {
+      "type": "facelove-editorial",
+      "blocks": {
+        "content_0": {
+          "type": "content",
+          "settings": {
+            "heading": "Emily J.",
+            "text": "<p>“Coverage is medium but buildable. It covered most of my redness and blended nicely.”</p>",
+            "product_field": "none"
+          }
+        },
+        "content_1": {
+          "type": "content",
+          "settings": {
+            "heading": "Lauren N.",
+            "text": "<p>“Blends perfectly and matches my skin tone instantly.”</p>",
+            "product_field": "none"
+          }
+        },
+        "content_2": {
+          "type": "content",
+          "settings": {
+            "heading": "Nicole T.",
+            "text": "<p>“It blends seamlessly into my skin and adapts to my skin tone almost instantly, leaving a smooth, natural-looking finish.”</p>",
+            "product_field": "none"
+          }
+        }
+      },
+      "block_order": [
+        "content_0",
+        "content_1",
+        "content_2"
+      ],
+      "settings": {
+        "layout": "quotes",
+        "eyebrow": "From the Facelove community",
+        "heading": "A place in their everyday routine.",
+        "text": "",
+        "anchor": "reviews",
+        "background_color": "#eee7f5",
+        "spacing": 72
+      }
+    },
+    "questions": {
+      "type": "facelove-editorial",
+      "blocks": {
+        "content_0": {
+          "type": "content",
+          "settings": {
+            "heading": "Which skin tones is it designed for?",
+            "text": "<p>The Changing Foundation Stick is best suited for light to medium skin tones. The cream starts white and develops its color as you blend. Blend thoroughly to see the finished shade.</p>",
+            "product_field": "none"
+          }
+        },
+        "content_1": {
+          "type": "content",
+          "settings": {
+            "heading": "How do I get the best finish?",
+            "text": "",
+            "product_field": "application"
+          }
+        },
+        "content_2": {
+          "type": "content",
+          "settings": {
+            "heading": "What comes in each offer?",
+            "text": "<p>1 Stick includes one foundation stick with its built-in brush. 2 Sticks + Primer includes two foundation sticks and one primer. Choose the pack offer to receive its $49 price.</p>",
+            "product_field": "none"
+          }
+        },
+        "content_3": {
+          "type": "content",
+          "settings": {
+            "heading": "Which ingredients are included?",
+            "text": "<p>Key ingredients listed for this product are below. Refer to the product packaging for the complete, current ingredient list.</p>",
+            "product_field": "ingredients"
+          }
+        },
+        "content_4": {
+          "type": "content",
+          "settings": {
+            "heading": "How much does shipping cost?",
+            "text": "<p>Shipping and taxes are calculated at checkout before you pay.</p>",
+            "product_field": "none"
+          }
+        },
+        "content_5": {
+          "type": "content",
+          "settings": {
+            "heading": "What is the return guarantee?",
+            "text": "<p>Facelove offers a 30-day money-back guarantee. If the foundation does not earn a place in your routine, contact <a href=\"mailto:support@facelove-cosmetics.com\">support@facelove-cosmetics.com</a> for return instructions.</p>",
+            "product_field": "none"
+          }
+        }
+      },
+      "block_order": [
+        "content_0",
+        "content_1",
+        "content_2",
+        "content_3",
+        "content_4",
+        "content_5"
+      ],
+      "settings": {
+        "layout": "questions",
+        "eyebrow": "Before you choose",
+        "heading": "A little more about the stick.",
+        "text": "<p>Shade, application and the details that matter to your routine.</p>",
+        "anchor": "product-questions",
+        "background_color": "#ffffff",
+        "spacing": 72
+      }
+    }
+  },
+  "order": [
+    "main",
+    "benefits",
+    "application",
+    "testimonials",
+    "questions"
+  ]
+}
