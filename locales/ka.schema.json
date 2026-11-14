@@ -215,6 +215,8 @@
     "work_quickly_to_ship": "<p>ჩვენ სწრაფად ვიმუშავებთ, რათა შენი შეკვეთა რაც შეიძლება მალე გამოიგზავნოს. შეკვეთის გაგზავნის შემდეგ მიიღებ ელფოსტას დამატებითი ინფორმაციით. მიწოდების დრო შენს ლოკაციაზეა დამოკიდებული.</p>"
   },
   "info": {
+    "facelove_campaign_end": "Use a fixed ISO date with timezone, e.g. 2026-11-28T00:00:00-05:00. The timer never resets on refresh.",
+
     "actions_display_style": "ხატულები ყოველთვის გამოიყენება მობილურზე",
     "applies_on_image_only": "ვრცელდება მხოლოდ სურათებზე",
     "aspect_ratio_adjusted": "მორგებულია ზოგიერთ განლაგებაში",
@@ -246,6 +248,10 @@
     "show_physical_stores_help": "ასევე ჩამოთვალე ლოკაციები, რომლებიც მონიშნულია, როგორც ფიზიკური ვიტრინა და პროდუქტი მარაგში აქვთ, მაშინაც კი, თუ გატანას არ სთავაზობენ."
   },
   "names": {
+    "facelove_panel_videos": "Facelove panel videos",
+    "facelove_upsells": "Facelove upsells",
+    "facelove_application": "Facelove how-to video",
+
     "facelove_ugc": "Video stories",
 
     "facelove_summary": "Product summary",
@@ -711,6 +717,11 @@
     "below_media": "მედიის ქვემოთ"
   },
   "settings": {
+    "facelove_weekly_sales": "Weekly sales message",
+    "facelove_campaign_end": "Promotion deadline",
+    "facelove_campaign_daily": "Count down to midnight each day",
+    "facelove_campaign_timezone": "Daily countdown timezone (IANA)",
+
     "facelove_show_free_shipping": "Show free shipping badge",
     "facelove_demo_mode": "Show demo labels for placeholder clips and profiles",
     "facelove_profile_name": "Profile name",
@@ -1156,6 +1167,8 @@
     "facelove_gift_label": "Mystery gift label",
     "facelove_primer_image": "Primer image",
     "facelove_primer_label": "Primer label",
+    "facelove_image_tag": "Gallery product tag",
+    "facelove_hide_offer_banner": "Hide promotion above offer choices",
     "facelove_campaign_heading": "Promotion heading",
     "facelove_campaign_label": "Promotion status",
     "facelove_show_progress": "Show promotion progress",

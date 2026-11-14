@@ -215,6 +215,8 @@
     "work_quickly_to_ship": "<p>கூடிய விரைவில் உங்கள் ஆர்டரை ஷிப்பிங் செய்ய நாங்கள் துரிதமாகச் செயல்படுவோம். உங்கள் ஆர்டர் ஷிப்பிங் செய்யப்பட்டவுடன், மேலதிகத் தகவல்களுடன் உங்களுக்கு ஒரு மின்னஞ்சல் வரும். டெலிவரி நேரங்கள் உங்கள் இருப்பிடத்தைப் பொறுத்து மாறுபடும்.</p>"
   },
   "info": {
+    "facelove_campaign_end": "Use a fixed ISO date with timezone, e.g. 2026-11-28T00:00:00-05:00. The timer never resets on refresh.",
+
     "actions_display_style": "மொபைலில் ஐகான்கள் எப்போதும் பயன்படுத்தப்படும்",
     "applies_on_image_only": "படங்களுக்கு மட்டுமே பொருந்தும்",
     "aspect_ratio_adjusted": "சில தளவமைப்புகளில் சரிசெய்யப்படும்",
@@ -246,6 +248,10 @@
     "show_physical_stores_help": "நேரில் பெறுதல் வசதியை வழங்காவிட்டாலும், தயாரிப்பு சரக்கு இருப்பில் உள்ள, நேரடி ஸ்டோர்ஃபிரண்ட் எனக் குறிக்கப்பட்டுள்ள இடங்களையும் பட்டியலிடவும்."
   },
   "names": {
+    "facelove_panel_videos": "Facelove panel videos",
+    "facelove_upsells": "Facelove upsells",
+    "facelove_application": "Facelove how-to video",
+
     "facelove_ugc": "Video stories",
 
     "facelove_summary": "Product summary",
@@ -711,6 +717,11 @@
     "below_media": "மீடியாவுக்குக் கீழே"
   },
   "settings": {
+    "facelove_weekly_sales": "Weekly sales message",
+    "facelove_campaign_end": "Promotion deadline",
+    "facelove_campaign_daily": "Count down to midnight each day",
+    "facelove_campaign_timezone": "Daily countdown timezone (IANA)",
+
     "facelove_show_free_shipping": "Show free shipping badge",
     "facelove_demo_mode": "Show demo labels for placeholder clips and profiles",
     "facelove_profile_name": "Profile name",
@@ -1156,6 +1167,8 @@
     "facelove_gift_label": "Mystery gift label",
     "facelove_primer_image": "Primer image",
     "facelove_primer_label": "Primer label",
+    "facelove_image_tag": "Gallery product tag",
+    "facelove_hide_offer_banner": "Hide promotion above offer choices",
     "facelove_campaign_heading": "Promotion heading",
     "facelove_campaign_label": "Promotion status",
     "facelove_show_progress": "Show promotion progress",

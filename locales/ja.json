@@ -9,6 +9,17 @@
  */
 {
   "facelove": {
+    "offer_ended": "Offer ended",
+    "ends_in": "Ends in",
+    "ends_today": "Today",
+    "sold": "sold",
+    "previous_products": "Previous products",
+    "next_products": "Next products",
+
+    "limited_offer": "Limited Offer",
+    "regular_price": "Regular Price",
+    "free_gift": "FREE Mystery Gift",
+    "free_primer": "FREE Primer",
     "free_shipping_badge": "+ Free Shipping",
     "demo_notice": "Concept preview: generated clips and sample profiles, not customer testimonials.",
     "demo_clip": "Demo clip",
