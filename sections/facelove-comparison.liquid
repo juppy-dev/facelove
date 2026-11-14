@@ -1,0 +1,94 @@
+{% comment %}
+  Accessible text comparison with a dedicated form for the product's referenced two-stick offer.
+  @example
+  Add this section to the Facelove product template and edit each comparison row.
+{% endcomment %}
+{% liquid
+  assign bundle = product.metafields.facelove.bundle_variant.value
+  assign form_id = 'FaceloveBundleForm-' | append: section.id
+%}
+{% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+{% render 'add-to-cart-button-styles' %}
+{% render 'fly-to-cart-styles' %}
+{% render 'buy-buttons-styles' %}
+{% render 'facelove-offer-styles' %}
+<section class="facelove-comparison color-custom-{{ section.id }}">
+  <div class="facelove-comparison__inner">
+    <div class="facelove-comparison__intro">
+      <p>{{ section.settings.eyebrow | escape }}</p>
+      <h2>{{ section.settings.heading | escape }}</h2>
+      <div class="rte">{{ section.settings.text }}</div>
+      {% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '320, 480, 720', sizes: '(min-width: 750px) 32vw, 80vw' }}{% endif %}
+    </div>
+    <div class="facelove-comparison__content">
+      <table>
+        <thead><tr><th scope="col">{{ section.settings.brand_heading | escape }}</th><th scope="col">{{ section.settings.other_heading | escape }}</th></tr></thead>
+        <tbody>{% for block in section.blocks %}<tr {{ block.shopify_attributes }}><td><span aria-hidden="true">✓</span>{{ block.settings.brand_text | escape }}</td><td>{{ block.settings.other_text | escape }}</td></tr>{% endfor %}</tbody>
+      </table>
+      {% if bundle != blank %}
+        <product-form-component data-section-id="{{ section.id }}" data-product-id="{{ product.id }}" data-product-url="{{ product.url }}" data-quantity-default="1" on:submit="/handleSubmit">
+          <div class="visually-hidden" ref="liveRegion" aria-live="assertive" role="status" aria-atomic="true"></div>
+          {% form 'product', product, id: form_id, data-type: 'add-to-cart-form' %}
+            <input type="hidden" name="id" ref="variantId" value="{{ bundle.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <div ref="productFormButtons">
+              <span ref="addToCartTextError" class="product-form-text__error hidden"></span>
+              {% capture button_text %}{{ section.settings.button_label | escape }} <span class="facelove-button-price"><strong>{{ bundle.price | money_without_trailing_zeros }}</strong>{% if bundle.compare_at_price > bundle.price %}<s>{{ bundle.compare_at_price | money_without_trailing_zeros }}</s>{% endif %}</span>{% endcapture %}
+              {% unless bundle.available %}{% assign button_text = 'products.product.sold_out' | t %}{% endunless %}
+              {% render 'add-to-cart-button', product: product, can_add_to_cart: bundle.available, add_to_cart_text: button_text, show_icon: false, class: 'facelove-comparison__button add-to-cart-button' %}
+            </div>
+          {% endform %}
+        </product-form-component>
+        <p class="facelove-comparison__freebies">{{ section.settings.freebies | escape }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% stylesheet %}
+  .facelove-comparison { color: var(--color-foreground); background: var(--color-background); padding-block: 80px; }
+  .facelove-comparison__inner { max-width: 1240px; width: calc(100% - 80px); margin: auto; display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 72px; align-items: center; }
+  .facelove-comparison__intro > p { font-size: 0.875rem; font-weight: 600; }
+  .facelove-comparison h2 { font-size: clamp(1.8rem, 3.3vw, 2.75rem); line-height: 1.15; letter-spacing: -0.025em; margin: 0 0 20px; }
+  .facelove-comparison__intro img { display: block; width: 100%; max-height: 300px; object-fit: contain; margin-block-start: 20px; }
+  .facelove-comparison__content { min-width: 0; }
+  .facelove-comparison table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.9375rem; line-height: 1.45; }
+  .facelove-comparison th { padding: 20px; font-size: 1.25rem; text-align: start; }
+  .facelove-comparison th:first-child { background: #67517d; color: white; border-radius: 8px 0 0 0; }
+  .facelove-comparison th:last-child { background: #eeeaf0; color: #514b57; border-radius: 0 8px 0 0; }
+  .facelove-comparison td { vertical-align: top; padding: 18px 20px; border-block-end: 1px solid #ddd3e4; }
+  .facelove-comparison td:first-child { background: #f5eff9; color: #34223f; font-weight: 500; }
+  .facelove-comparison td:first-child span { display: inline-block; margin-inline-end: 8px; color: #67517d; font-weight: 700; }
+  .facelove-comparison td:last-child { background: #faf8fb; color: #5c5661; }
+  .facelove-comparison__button { width: 100%; min-height: 58px; margin-block-start: 28px; border-radius: 4px; font-size: 1rem; }
+  .facelove-comparison__freebies { text-align: center; font-size: 0.8125rem; line-height: 1.5; margin: 12px auto 0; max-width: 52ch; }
+  @media (max-width: 749px) {
+    .facelove-comparison { padding-block: 44px; }
+    .facelove-comparison__inner { width: calc(100% - 40px); grid-template-columns: 1fr; gap: 28px; }
+    .facelove-comparison__intro img { max-height: 220px; }
+    .facelove-comparison th, .facelove-comparison td { padding: 14px 12px; }
+    .facelove-comparison table { font-size: 0.8125rem; }
+    .facelove-comparison th { font-size: 1rem; }
+    .facelove-comparison__button { font-size: 0.875rem; }
+  }
+{% endstylesheet %}
+{% schema %}
+{
+  "name":"t:names.facelove_comparison", "disabled_on":{"groups":["header","footer"]},
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"t:settings.facelove_eyebrow"},
+    {"type":"text","id":"heading","label":"t:settings.heading"},
+    {"type":"richtext","id":"text","label":"t:settings.text"},
+    {"type":"image_picker","id":"image","label":"t:settings.image"},
+    {"type":"text","id":"brand_heading","label":"t:settings.facelove_brand_heading"},
+    {"type":"text","id":"other_heading","label":"t:settings.facelove_other_heading"},
+    {"type":"text","id":"button_label","label":"t:settings.facelove_link_label"},
+    {"type":"text","id":"freebies","label":"t:settings.facelove_freebies"},
+    {"type":"color","id":"background_color","label":"t:settings.background_color","default":"#ffffff"}
+  ],
+  "blocks":[{"type":"row","name":"t:names.facelove_comparison_row","settings":[
+    {"type":"text","id":"brand_text","label":"t:settings.facelove_brand_heading"},
+    {"type":"text","id":"other_text","label":"t:settings.facelove_other_heading"}
+  ]}],
+  "presets":[{"name":"t:names.facelove_comparison","category":"t:categories.storytelling"}]
+}
+{% endschema %}
