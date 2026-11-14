@@ -1,0 +1,112 @@
+{% doc %}
+  Shared Facelove tokens and scoped typography. The product section owns font loading.
+  @param {font} [brand_font] - Merchant-selected brand font for this product template.
+  @example
+  {% render 'facelove-design', brand_font: section.settings.facelove_font %}
+{% enddoc %}
+{% if brand_font != blank %}
+  {% liquid
+    assign medium_font = brand_font | font_modify: 'weight', '600'
+    assign bold_font = brand_font | font_modify: 'weight', '700'
+  %}
+  {{ brand_font | font_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+  {{ bold_font | font_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+  {% style %}
+    {{ brand_font | font_face: font_display: 'swap' }}
+    {{ medium_font | font_face: font_display: 'swap' }}
+    {{ bold_font | font_face: font_display: 'swap' }}
+    :root { --fl-font: {{ brand_font.family }}, {{ brand_font.fallback_families }}; }
+  {% endstyle %}
+{% endif %}
+{% stylesheet %}
+  /* Hallmark · shape: Product story · genre: editorial · theme: brand · redesign: full · brand: Facelove (spec 2026-11-13) · display: Montserrat · body: Montserrat · hero: Counter · nav: none · footer: none · signature: five reasons as layered 3D flashcards · posture: Committed · surface: absolute · copy: source claims with edited interface copy · job: buy · v2.0.0 */
+  /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: hierarchy, compact the offer before adding expressive story motion. */
+  /* Hallmark · waive 7b · surface: absolute, source product photography is white · Facelove's white canvas keeps the original packaging photography seamless. */
+  /* Hallmark · waive 59 · dense purchase composition, distinct lavender story and guarantee fields · Facelove's offers need proximity to their reassurance and gift contents. */
+  /* Hallmark · user override 67 · explicit user direction · All CTAs use uppercase to match the original Facelove purchase button. */
+  :root {
+    --fl-color-ink: #252029;
+    --fl-color-muted: #655c6d;
+    --fl-color-surface: #ffffff;
+    --fl-color-soft: #faf8fc;
+    --fl-color-well: #f1ebf7;
+    --fl-color-brand: #b69fd1;
+    --fl-color-accent: #67517d;
+    --fl-color-accent-ink: #513865;
+    --fl-color-on-accent: #ffffff;
+    --fl-color-control: #151218;
+    --fl-color-on-control: #ffffff;
+    --fl-color-control-inset: #343038;
+    --fl-color-on-control-muted: #d6cddd;
+    --fl-color-boundary: #8d7d9c;
+    --fl-color-rule: #e2d9e9;
+    --fl-color-success: #236443;
+    --fl-color-success-soft: #edf5ef;
+    --fl-color-rating: #8c5c08;
+    --fl-color-image-outline: rgb(0 0 0 / 0.1);
+    --fl-shadow-soft: 0 2px 8px rgb(39 24 50 / 0.04), 0 16px 48px rgb(39 24 50 / 0.06);
+    --fl-shadow-raised: 0 2px 4px rgb(39 24 50 / 0.05), 0 12px 28px rgb(39 24 50 / 0.12);
+    --fl-space-xs: 4px;
+    --fl-space-sm: 8px;
+    --fl-space-md: 12px;
+    --fl-space-lg: 16px;
+    --fl-space-xl: 24px;
+    --fl-space-2xl: 32px;
+    --fl-space-3xl: 48px;
+    --fl-space-4xl: 64px;
+    --fl-space-section: 96px;
+    --fl-radius-control: 12px;
+    --fl-radius-surface: 24px;
+    --fl-radius-pill: 999px;
+    --fl-container: 1280px;
+    --fl-gutter: clamp(20px, 4vw, 48px);
+    --fl-title: clamp(2rem, 3.2vw, 2.75rem);
+    --fl-section-title: clamp(1.875rem, 3.4vw, 2.75rem);
+    --fl-ease: cubic-bezier(0.2, 0, 0, 1);
+    --fl-duration-fast: 150ms;
+    --fl-duration-state: 300ms;
+  }
+  html:has(.facelove-summary), body:has(.facelove-summary) { overflow-x: clip; }
+  .facelove-landing #MainContent { padding-block-end: calc(140px + var(--safe-area-inset-bottom, 0px)); }
+  .facelove-landing [data-sticky-end] { height: 1px; }
+  .facelove-sticky-shipping { display: none; font-size: 0.6875rem; color: var(--fl-color-success); }
+  @media (max-width: 749px) { .facelove-sticky-shipping { display: block; } }
+  :is(.facelove-journey__link, .facelove-guarantee__copy > a, .facelove-featured-review figcaption a) { text-transform: uppercase; }
+  :is(.shopify-section:has(.facelove-summary), .facelove-press, .facelove-comparison, .facelove-journey, .facelove-editorial, .facelove-guarantee) {
+    --font-body--family: var(--fl-font);
+    --font-heading--family: var(--fl-font);
+    --font-subheading--family: var(--fl-font);
+    --font-accent--family: var(--fl-font);
+    --font-h1--family: var(--fl-font);
+    --font-h2--family: var(--fl-font);
+    --font-h3--family: var(--fl-font);
+    --font-h4--family: var(--fl-font);
+    font-family: var(--fl-font);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  :is(.product-information:has(.facelove-summary), .facelove-comparison, .facelove-journey, .facelove-editorial, .facelove-guarantee) :is(h1, h2, h3) { min-width: 0; overflow-wrap: break-word; text-wrap: balance; font-family: var(--fl-font); }
+  :is(.facelove-comparison, .facelove-journey, .facelove-editorial, .facelove-guarantee) p { text-wrap: pretty; }
+  :is(.product-information:has(.facelove-summary), .facelove-comparison, .facelove-journey, .facelove-editorial, .facelove-guarantee) :is(button, a, summary):focus-visible { outline: 2px solid var(--fl-color-accent); outline-offset: 4px; }
+  :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) .button {
+    --button-background-color: var(--fl-color-control);
+    --button-color: var(--fl-color-on-control);
+    border-radius: var(--fl-radius-control);
+    font-family: var(--fl-font);
+    font-weight: 600;
+    min-height: 52px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+  :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) :is(.price, .compare-at-price, .facelove-saving, .facelove-button-price) { font-variant-numeric: tabular-nums; }
+  @media (hover: hover) {
+    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) .button:not(:disabled):hover { background: var(--fl-color-accent-ink); color: var(--fl-color-on-accent); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) .button { transition: transform var(--fl-duration-fast) ease-out, background-color var(--fl-duration-fast) var(--fl-ease); }
+    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) .button:not(:disabled):active { transform: scale(0.96); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) .button { transition: opacity var(--fl-duration-fast) var(--fl-ease); }
+  }
+{% endstylesheet %}
