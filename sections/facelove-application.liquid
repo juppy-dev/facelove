@@ -1,0 +1,66 @@
+{% comment %}
+  Application guidance paired with a merchant video. Captions are optional merchant content.
+  @example
+  Replace the application section's text-only layout with a Shopify Files video and short technique blocks.
+{% endcomment %}
+{% render 'facelove-design' %}
+{% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+<script src="{{ 'facelove-video.js' | asset_url }}" type="module"></script>
+<section class="facelove-application color-custom-{{ section.id }}" id="{{ section.settings.anchor | handleize }}">
+  <div class="facelove-application__inner">
+    <div class="facelove-application__copy"><h2>{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div></div>
+    {% if section.settings.video != blank %}
+      {% assign play_label = 'facelove.play_video' | t: name: section.settings.heading %}
+      {% assign pause_label = 'facelove.pause_video' | t: name: section.settings.heading %}
+      <figure>
+        <facelove-video class="facelove-application__video" data-play-label="{{ play_label | escape }}" data-pause-label="{{ pause_label | escape }}" data-error-label="{{ 'facelove.video_error' | t | escape }}">
+          {{ section.settings.video | video_tag: image_size: '800x', autoplay: false, loop: true, muted: true, controls: true, preload: 'none', loading: 'lazy', ref: 'video' }}
+          <button type="button" ref="toggle" on:click="/togglePlayback" aria-label="{{ play_label | escape }}" aria-pressed="false" hidden><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path class="facelove-application__play" d="m8 5 11 7-11 7Z"/><path class="facelove-application__pause" d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg></button>
+          <p ref="status" role="status"></p>
+        </facelove-video>
+        {% if section.settings.caption != blank %}<figcaption>{{ section.settings.caption | escape }}</figcaption>{% endif %}
+      </figure>
+    {% endif %}
+    <div class="facelove-application__techniques">
+      {% for block in section.blocks %}<div class="facelove-application__technique" {{ block.shopify_attributes }}><h3>{{ block.settings.heading | escape }}</h3><div class="rte">{{ block.settings.text }}</div></div>{% endfor %}
+    </div>
+  </div>
+</section>
+{% stylesheet %}
+  .facelove-application { padding-block: var(--fl-space-4xl); background: var(--color-background); color: var(--color-foreground); font-family: var(--fl-font); }
+  .facelove-application__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--fl-space-xl) var(--fl-space-4xl); align-items: center; width: min(var(--fl-container), calc(100% - 2 * var(--fl-gutter))); margin: auto; }
+  .facelove-application h2 { margin: 0 0 16px; font: 700 var(--fl-section-title)/1.15 var(--fl-font); letter-spacing: -0.025em; }
+  .facelove-application__copy > .rte { color: var(--fl-color-muted); }
+  .facelove-application__copy { align-self: end; min-width: 0; }
+  .facelove-application__techniques { align-self: start; min-width: 0; }
+  .facelove-application__technique { margin-block-start: 24px; }
+  .facelove-application__technique:first-child { margin-block-start: 0; }
+  .facelove-application h3 { margin: 0 0 8px; font: 600 1.25rem/1.3 var(--fl-font); }
+  .facelove-application p { margin: 0; font-size: 0.9375rem; line-height: 1.6; }
+  .facelove-application figure { grid-row: span 2; margin: 0; min-width: 0; }
+  .facelove-application__video { position: relative; display: block; aspect-ratio: 1; background: var(--fl-color-well); overflow: hidden; border-radius: 12px; }
+  .facelove-application video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .facelove-application__video button { position: absolute; inset: calc(50% - 32px) auto auto calc(50% - 32px); display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; border: 1px solid white; background: rgb(21 18 24 / 0.6); color: white; cursor: pointer; }
+  .facelove-application__video button[hidden] { display: none; }
+  .facelove-application__video button svg { width: 30px; height: 30px; }
+  .facelove-application__pause, [data-playing='true'] .facelove-application__play { display: none; }
+  [data-playing='true'] .facelove-application__pause { display: block; }
+  .facelove-application__video p:not(:empty) { position: absolute; inset: auto 12px 12px; padding: 8px; background: white; color: var(--fl-color-ink); }
+  .facelove-application figcaption { font-size: 0.75rem; color: var(--fl-color-muted); margin-block-start: 8px; }
+  @media (max-width: 749px) { .facelove-application { padding-block: var(--fl-space-3xl); } .facelove-application__inner { grid-template-columns: 1fr; gap: var(--fl-space-lg); } .facelove-application figure { grid-row: auto; } .facelove-application__techniques { margin-block-start: var(--fl-space-sm); } }
+{% endstylesheet %}
+{% schema %}
+{
+  "name":"t:names.facelove_application", "disabled_on":{"groups":["header","footer"]},
+  "settings":[
+    {"type":"text","id":"heading","label":"t:settings.heading"},
+    {"type":"richtext","id":"text","label":"t:settings.text"},
+    {"type":"video","id":"video","label":"t:settings.video"},
+    {"type":"text","id":"caption","label":"t:settings.facelove_caption"},
+    {"type":"text","id":"anchor","label":"t:settings.facelove_anchor"},
+    {"type":"color","id":"background_color","label":"t:settings.background_color","default":"#faf8fc"}
+  ],
+  "blocks":[{"type":"content","name":"t:names.facelove_content","settings":[{"type":"text","id":"heading","label":"t:settings.heading"},{"type":"richtext","id":"text","label":"t:settings.text"}]}],
+  "presets":[{"name":"t:names.facelove_application","category":"t:categories.storytelling"}]
+}
+{% endschema %}
