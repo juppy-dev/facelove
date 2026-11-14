@@ -10,6 +10,7 @@
   @param {string} media_gallery - Captured HTML for the product media gallery block
   @param {string} product_details - Captured HTML for the product details block
   @param {string} additional_blocks - Captured HTML for additional section blocks
+  @param {string} [featured_review] - Optional review below media on desktop and details on mobile.
 
   @example
   {% capture media_gallery %}
@@ -118,6 +119,7 @@
         {{ product_details }}
       {% endif %}
     {% endfor %}
+    {{ featured_review }}
   </product-component>
 
   {{ additional_blocks }}

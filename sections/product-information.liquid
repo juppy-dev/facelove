@@ -24,6 +24,12 @@
   {% content_for 'blocks' %}
 {% endcapture %}
 
+{% capture featured_review %}
+  {% if section.settings.show_facelove_review %}
+    {% content_for 'block', type: 'facelove-featured-review', id: 'featured-review' %}
+  {% endif %}
+{% endcapture %}
+
 {% render 'deferred-media-product-model-styles' %}
 {% render 'deferred-media-video-styles' %}
 
@@ -118,7 +124,7 @@
         class="sticky-add-to-cart__price"
         data-testid="sticky-price-display"
       >
-        {% render 'price', product_resource: product, show_sale_price_first: true %}
+        {% render 'price', product_resource: product, show_sale_price_first: true, show_savings: section.settings.show_savings %}
       </div>
 
       <button
@@ -180,7 +186,8 @@
   settings: section.settings,
   media_gallery: media_gallery,
   product_details: product_details,
-  additional_blocks: additional_blocks
+  additional_blocks: additional_blocks,
+  featured_review: featured_review
 %}
 
 {% stylesheet %}
@@ -387,6 +394,8 @@
     "groups": ["header", "footer"]
   },
   "settings": [
+    { "type": "checkbox", "id": "show_savings", "label": "t:settings.facelove_show_savings", "default": false },
+    { "type": "checkbox", "id": "show_facelove_review", "label": "t:settings.facelove_featured_review", "default": false },
     {
       "type": "header",
       "content": "t:content.layout"
