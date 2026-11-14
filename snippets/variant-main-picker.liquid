@@ -8,6 +8,7 @@
 {%- enddoc -%}
 
 {% assign block_settings = block.settings %}
+{% if block_settings.show_variant_prices %}{% render 'facelove-offer-styles' %}{% endif %}
 
 {% liquid
   # Custom styling applies to:
@@ -110,7 +111,13 @@
                 <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
               {%- endif %}
             </legend>
-            {%- for product_option_value in product_option.values -%}
+            {% liquid
+              assign offer_values = product_option.values
+              if block_settings.show_variant_prices and product_resource.metafields.facelove.bundle_variant != blank
+                assign offer_values = product_option.values | sort: 'name'
+              endif
+            %}
+            {%- for product_option_value in offer_values -%}
               {% if product_option_value.size > longest_value and option_id_attribute %}
                 {% assign longest_value = product_option_value.size %}
               {% endif %}
@@ -166,17 +173,25 @@
                       data-key="variant-option-pill"
                     ></span>
                   {% endif %}
+                  {% if block_settings.show_variant_prices and product_resource.metafields.facelove.bundle_variant != blank %}
+                    <span class="facelove-offer-radio" aria-hidden="true"></span>
+                  {% endif %}
                   <span
                     class="variant-option__button-label__text"
                     data-key="variant-option-text"
                   >
                     {{- product_option_value | escape -}}
+                    {% if block_settings.show_variant_prices and product_option_value.variant.id == product_resource.metafields.facelove.bundle_variant.value.id %}
+                      <small class="facelove-offer-note">{{ 'facelove.bundle_note' | t }}</small>
+                    {% endif %}
                   </span>
                   {% if block_settings.show_variant_prices and product_resource.options.size == 1 %}
                     <span class="variant-option__offer-price">
-                      {{ product_option_value.variant.price | money }}
+                      <strong>{{ product_option_value.variant.price | money_without_trailing_zeros }}</strong>
                       {% if product_option_value.variant.compare_at_price > product_option_value.variant.price %}
-                        <s>{{ product_option_value.variant.compare_at_price | money }}</s>
+                        <s>{{ product_option_value.variant.compare_at_price | money_without_trailing_zeros }}</s>
+                        {% assign saving = product_option_value.variant.compare_at_price | minus: product_option_value.variant.price | money_without_trailing_zeros %}
+                        <span class="facelove-saving">{{ 'facelove.save' | t: amount: saving }}</span>
                       {% endif %}
                     </span>
                   {% endif %}
