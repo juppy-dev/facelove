@@ -1,0 +1,27 @@
+{% doc %}
+  A compact money-back promise next to the product form.
+  @example
+  {% content_for 'block', type: 'facelove-reassurance', id: 'guarantee' %}
+{% enddoc %}
+<div class="facelove-reassurance" {{ block.shopify_attributes }}>
+  {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 96 | image_tag: loading: 'lazy', widths: '48, 96', sizes: '48px', alt: '' }}{% endif %}
+  <div><h2>{{ block.settings.heading | escape }}</h2><div class="rte">{{ block.settings.text }}</div></div>
+</div>
+{% stylesheet %}
+  .facelove-reassurance { display: flex; align-items: start; gap: 14px; padding-block: 16px; border-block: 1px solid rgb(var(--color-foreground-rgb) / 0.15); width: 100%; }
+  .facelove-reassurance img { flex: 0 0 48px; width: 48px; height: 48px; }
+  .facelove-reassurance h2 { font: 600 1rem/1.4 var(--font-body--family); margin: 0 0 5px; }
+  .facelove-reassurance .rte { font-size: 0.875rem; line-height: 1.5; }
+  .facelove-reassurance p { margin: 0; }
+{% endstylesheet %}
+{% schema %}
+{
+  "name":"t:names.facelove_reassurance", "tag":null,
+  "settings":[
+    {"type":"text","id":"heading","label":"t:settings.heading"},
+    {"type":"richtext","id":"text","label":"t:settings.text"},
+    {"type":"image_picker","id":"image","label":"t:settings.image"}
+  ],
+  "presets":[{"name":"t:names.facelove_reassurance","category":"t:categories.product"}]
+}
+{% endschema %}
