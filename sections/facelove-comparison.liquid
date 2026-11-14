@@ -3,6 +3,7 @@
   @example
   Add this section to the Facelove product template and edit each comparison row.
 {% endcomment %}
+{% render 'facelove-design' %}
 {% liquid
   assign bundle = product.metafields.facelove.bundle_variant.value
   assign form_id = 'FaceloveBundleForm-' | append: section.id
@@ -45,30 +46,33 @@
   </div>
 </section>
 {% stylesheet %}
-  .facelove-comparison { color: var(--color-foreground); background: var(--color-background); padding-block: 80px; }
-  .facelove-comparison__inner { max-width: 1240px; width: calc(100% - 80px); margin: auto; display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 72px; align-items: center; }
-  .facelove-comparison__intro > p { font-size: 0.875rem; font-weight: 600; }
-  .facelove-comparison h2 { font-size: clamp(1.8rem, 3.3vw, 2.75rem); line-height: 1.15; letter-spacing: -0.025em; margin: 0 0 20px; }
-  .facelove-comparison__intro img { display: block; width: 100%; max-height: 300px; object-fit: contain; margin-block-start: 20px; }
+  .facelove-comparison { color: var(--color-foreground); background: var(--color-background); padding-block: var(--fl-space-section); }
+  .facelove-comparison__inner { width: min(var(--fl-container), calc(100% - 2 * var(--fl-gutter))); margin: auto; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: var(--fl-space-4xl); align-items: center; }
+  .facelove-comparison__intro > p { font-size: 0.875rem; font-weight: 600; margin-block: 0 var(--fl-space-lg); }
+  .facelove-comparison h2 { font-size: var(--fl-section-title); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin: 0 0 var(--fl-space-xl); }
+  .facelove-comparison__intro img { display: block; width: 100%; max-height: 300px; object-fit: contain; margin-block-start: var(--fl-space-xl); }
   .facelove-comparison__content { min-width: 0; }
-  .facelove-comparison table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.9375rem; line-height: 1.45; }
-  .facelove-comparison th { padding: 20px; font-size: 1.25rem; text-align: start; }
-  .facelove-comparison th:first-child { background: #67517d; color: white; border-radius: 8px 0 0 0; }
-  .facelove-comparison th:last-child { background: #eeeaf0; color: #514b57; border-radius: 0 8px 0 0; }
-  .facelove-comparison td { vertical-align: top; padding: 18px 20px; border-block-end: 1px solid #ddd3e4; }
-  .facelove-comparison td:first-child { background: #f5eff9; color: #34223f; font-weight: 500; }
-  .facelove-comparison td:first-child span { display: inline-block; margin-inline-end: 8px; color: #67517d; font-weight: 700; }
-  .facelove-comparison td:last-child { background: #faf8fb; color: #5c5661; }
-  .facelove-comparison__button { width: 100%; min-height: 58px; margin-block-start: 28px; border-radius: 4px; font-size: 1rem; }
-  .facelove-comparison__freebies { text-align: center; font-size: 0.8125rem; line-height: 1.5; margin: 12px auto 0; max-width: 52ch; }
+  .facelove-comparison table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: 0.9375rem; line-height: 1.5; border-radius: var(--fl-radius-surface); box-shadow: var(--fl-shadow-soft); }
+  .facelove-comparison th { padding: var(--fl-space-xl); font-size: 1.25rem; font-weight: 700; text-align: start; }
+  .facelove-comparison th:first-child { background: var(--fl-color-accent-ink); color: var(--fl-color-on-accent); border-start-start-radius: var(--fl-radius-surface); }
+  .facelove-comparison th:last-child { background: var(--fl-color-well); color: var(--fl-color-ink); border-start-end-radius: var(--fl-radius-surface); }
+  .facelove-comparison td { vertical-align: top; padding: var(--fl-space-lg) var(--fl-space-xl); }
+  .facelove-comparison td:first-child { background: var(--fl-color-well); color: var(--fl-color-accent-ink); font-weight: 600; }
+  .facelove-comparison td:first-child span { display: inline-block; margin-inline-end: var(--fl-space-sm); color: var(--fl-color-accent); font-weight: 700; }
+  .facelove-comparison td:last-child { background: var(--fl-color-soft); color: var(--fl-color-muted); }
+  .facelove-comparison tr:last-child td { padding-block-end: var(--fl-space-xl); }
+  .facelove-comparison tr:last-child td:first-child { border-end-start-radius: var(--fl-radius-surface); }
+  .facelove-comparison tr:last-child td:last-child { border-end-end-radius: var(--fl-radius-surface); }
+  .facelove-comparison__button { width: 100%; min-height: 56px; margin-block-start: var(--fl-space-xl); border-radius: var(--fl-radius-control); font-family: var(--fl-font); font-size: 1rem; font-weight: 600; box-shadow: var(--fl-shadow-raised); }
+  .facelove-comparison__freebies { text-align: center; font-size: 0.8125rem; line-height: 1.5; margin: var(--fl-space-md) auto 0; max-width: 52ch; }
   @media (max-width: 749px) {
-    .facelove-comparison { padding-block: 44px; }
-    .facelove-comparison__inner { width: calc(100% - 40px); grid-template-columns: 1fr; gap: 28px; }
+    .facelove-comparison { padding-block: var(--fl-space-3xl); }
+    .facelove-comparison__inner { grid-template-columns: 1fr; gap: var(--fl-space-2xl); }
     .facelove-comparison__intro img { max-height: 220px; }
-    .facelove-comparison th, .facelove-comparison td { padding: 14px 12px; }
+    .facelove-comparison th, .facelove-comparison td { padding: var(--fl-space-lg) var(--fl-space-md); }
     .facelove-comparison table { font-size: 0.8125rem; }
     .facelove-comparison th { font-size: 1rem; }
-    .facelove-comparison__button { font-size: 0.875rem; }
+    .facelove-comparison__button { font-size: 0.8125rem; }
   }
 {% endstylesheet %}
 {% schema %}

@@ -3,29 +3,42 @@
   @example
   Set guarantee terms and a link to the purchase controls.
 {% endcomment %}
+{% render 'facelove-design' %}
 {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
 <section class="facelove-guarantee color-custom-{{ section.id }}">
   <div class="facelove-guarantee__inner">
-    <div class="facelove-guarantee__seal" aria-hidden="true"><span>30</span><span>{{ section.settings.seal_label | escape }}</span></div>
-    <div><p class="facelove-guarantee__eyebrow">{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div>{% if section.settings.link != blank %}<a href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>{% endif %}</div>
+    {% if section.settings.image != blank %}
+      <figure class="facelove-guarantee__image">{{ section.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 1320px) 550px, (min-width: 750px) 42vw, calc(100vw - 40px)' }}</figure>
+    {% else %}<div class="facelove-guarantee__seal" aria-hidden="true"><span>30</span><span>{{ section.settings.seal_label | escape }}</span></div>{% endif %}
+    <div class="facelove-guarantee__copy">{% if section.settings.eyebrow != blank %}<p class="facelove-guarantee__eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2>{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div>{% if section.settings.link != blank %}<a href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>{% endif %}</div>
   </div>
 </section>
 {% stylesheet %}
-  .facelove-guarantee { padding-block: 72px; color: var(--color-foreground); background: var(--color-background); }
-  .facelove-guarantee__inner { width: min(980px, calc(100% - 80px)); margin: auto; display: grid; grid-template-columns: 220px 1fr; gap: 72px; align-items: center; }
-  .facelove-guarantee__seal { aspect-ratio: 1; border: 1px solid currentColor; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; outline: 1px solid currentColor; outline-offset: -10px; }
-  .facelove-guarantee__seal > :first-child { font-size: 5.5rem; font-weight: 500; line-height: 1.1; letter-spacing: -0.04em; }
-  .facelove-guarantee__seal > :last-child { font-size: 0.875rem; }
-  .facelove-guarantee__eyebrow { font-size: 0.875rem; font-weight: 600; margin: 0 0 12px; }
-  .facelove-guarantee h2 { font-size: clamp(1.8rem, 3.2vw, 2.5rem); line-height: 1.15; letter-spacing: -0.025em; margin: 0 0 20px; }
-  .facelove-guarantee .rte { font-size: 1rem; line-height: 1.6; }
-  .facelove-guarantee a { color: inherit; text-underline-offset: 5px; display: inline-block; padding-block: 10px; font-weight: 600; }
-  @media (max-width: 749px) { .facelove-guarantee { padding-block: 44px; } .facelove-guarantee__inner { width: calc(100% - 40px); grid-template-columns: 1fr; gap: 28px; text-align: center; } .facelove-guarantee__seal { width: 150px; margin: auto; } .facelove-guarantee__seal > :first-child { font-size: 3.75rem; } }
+  .facelove-guarantee { width: min(var(--fl-container), calc(100% - 2 * var(--fl-gutter))); margin: var(--fl-space-3xl) auto; color: var(--color-foreground); background: var(--color-background); border-radius: var(--fl-radius-surface); overflow: hidden; box-shadow: var(--fl-shadow-raised); }
+  .facelove-guarantee__inner { display: grid; grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.15fr); align-items: center; }
+  .facelove-guarantee__image { margin: 0; align-self: stretch; }
+  .facelove-guarantee__image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .facelove-guarantee__copy { padding: var(--fl-space-3xl); }
+  .facelove-guarantee__seal { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .facelove-guarantee__seal > :first-child { font-size: clamp(7rem, 18vw, 14rem); font-weight: 600; line-height: 0.9; letter-spacing: -0.06em; font-variant-numeric: tabular-nums; }
+  .facelove-guarantee__seal > :last-child { font-size: 1rem; margin-block-start: var(--fl-space-lg); }
+  .facelove-guarantee__eyebrow { font-size: 0.875rem; font-weight: 600; margin: 0 0 var(--fl-space-md); }
+  .facelove-guarantee h2 { font-size: var(--fl-section-title); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin: 0 0 var(--fl-space-xl); }
+  .facelove-guarantee .rte { max-width: 52ch; }
+  .facelove-guarantee a { color: inherit; text-underline-offset: 5px; display: inline-block; min-height: 44px; padding-block: var(--fl-space-md); font-weight: 600; }
+  @media (max-width: 749px) {
+    .facelove-guarantee__inner { grid-template-columns: 1fr; }
+    .facelove-guarantee__copy { padding: var(--fl-space-xl); }
+    .facelove-guarantee__image img { aspect-ratio: 1; }
+    .facelove-guarantee__seal { align-items: start; }
+    .facelove-guarantee__seal > :first-child { font-size: 7rem; }
+  }
 {% endstylesheet %}
 {% schema %}
 {
   "name":"t:names.facelove_guarantee", "disabled_on":{"groups":["header","footer"]},
   "settings":[
+    {"type":"image_picker","id":"image","label":"t:settings.image"},
     {"type":"text","id":"seal_label","label":"t:settings.facelove_seal_label"},
     {"type":"text","id":"eyebrow","label":"t:settings.facelove_eyebrow"},
     {"type":"text","id":"heading","label":"t:settings.heading"},
