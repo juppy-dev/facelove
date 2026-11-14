@@ -8,6 +8,7 @@
  * ------------------------------------------------------------
  */
 {
+  "facelove": {"save": "Save {{ amount }}", "bundle_note": "Includes mystery gift + primer", "five_stars": "5 out of 5 stars"},
   "accessibility": {
     "account": "Account",
     "active_filters": "Active filters:",
