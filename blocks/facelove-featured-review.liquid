@@ -8,7 +8,7 @@
   <blockquote>{{ block.settings.quote }}</blockquote>
   <figcaption>
     {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 112 | image_tag: loading: 'lazy', widths: '56, 112', sizes: '56px' }}{% endif %}
-    <strong>{{ block.settings.author | escape }}</strong>
+    <strong class="facelove-featured-review__author">{{ block.settings.author | escape }}{% if block.settings.verified_label != blank %}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1877f2"/><path d="m7 12 3.2 3.2L17 8.5" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>{% endif %}</strong>
     {% if block.settings.link != blank %}<a href="{{ block.settings.link }}">{{ block.settings.link_label | escape }}</a>{% endif %}
   </figcaption>
   <div class="facelove-featured-review__confidence"><span>{% render 'facelove-icon', name: 'shield' %}{{ block.settings.confidence_label | escape }}</span><span>{{ block.settings.shipping_label | escape }}</span></div>
@@ -16,11 +16,13 @@
 {% stylesheet %}
   .facelove-featured-review { order: 2; align-self: start; margin: var(--fl-space-xl) 0 0; padding: var(--fl-space-2xl); background: var(--fl-color-soft); border: 1px solid transparent; box-shadow: var(--fl-shadow-soft); border-radius: var(--fl-radius-surface); font-size: 1rem; }
   .facelove-featured-review__rating { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 0.75rem; }
-  .facelove-featured-review__rating > :first-child { color: var(--fl-color-rating); letter-spacing: 0; font-size: 1.625rem; }
+  .facelove-featured-review__rating > :first-child { color: var(--fl-color-rating); letter-spacing: 0; font-size: 2rem; }
   .facelove-featured-review__rating > :last-child { color: var(--fl-color-success); background: var(--fl-color-success-soft); padding: var(--fl-space-xs) var(--fl-space-sm); border-radius: var(--fl-radius-pill); font-weight: 600; }
-  .facelove-featured-review blockquote { margin: 16px 0; font-size: clamp(1rem, 1.5vw, 1.25rem); line-height: 1.5; }
+  .facelove-featured-review blockquote { margin: 16px 0; font-size: clamp(1rem, 1.5vw, 1.25rem); font-weight: 600; line-height: 1.5; }
   .facelove-featured-review blockquote p { margin: 0; }
   .facelove-featured-review figcaption { display: flex; align-items: center; gap: 12px; font-size: 0.875rem; }
+  .facelove-featured-review__author { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; white-space: nowrap; }
+  .facelove-featured-review__author svg { width: 20px; height: 20px; flex: 0 0 20px; }
   .facelove-featured-review figcaption a { margin-inline-start: auto; font-size: 0.8125rem; text-underline-offset: 4px; padding-block: var(--fl-space-md); }
   .facelove-featured-review__confidence { display: flex; flex-wrap: wrap; align-items: center; gap: var(--fl-space-md); margin-block-start: var(--fl-space-lg); color: var(--fl-color-accent-ink); font-size: 0.75rem; font-weight: 600; }
   .facelove-featured-review__confidence > span { display: flex; align-items: center; gap: var(--fl-space-xs); }

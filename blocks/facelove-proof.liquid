@@ -4,24 +4,30 @@
   {% content_for 'block', type: 'facelove-proof', id: 'social-proof' %}
 {% enddoc %}
 <div class="facelove-proof" {{ block.shopify_attributes }}>
-  <p class="facelove-proof__purchases">
+  {% if block.settings.purchase_text != blank %}<p class="facelove-proof__purchases">
     <span class="facelove-proof__avatars" aria-hidden="true">
       {% for index in (1..3) %}
         {% assign image_key = 'image_' | append: index %}
         {% if block.settings[image_key] != blank %}{{ block.settings[image_key] | image_url: width: 64 | image_tag: widths: '32, 64', sizes: '28px', alt: '' }}{% endif %}
       {% endfor %}
     </span>
-    <span>{{ block.settings.purchase_text }}</span>
-  </p>
-  <a class="facelove-proof__reviews" href="{{ block.settings.review_link }}"><span class="facelove-proof__stars" aria-hidden="true">★★★★★</span><span>{{ block.settings.rating_text | escape }}</span><span class="facelove-proof__count">{{ block.settings.review_text | escape }}</span></a>
+    <span>{% if block.settings.verified_name != blank %}<strong class="facelove-proof__name">{{ block.settings.verified_name | escape }}<svg viewBox="0 0 24 24" role="img" aria-label="{{ 'facelove.verified_buyer' | t }}"><circle cx="12" cy="12" r="11" fill="#1877f2"/><path d="m7 12 3.2 3.2L17 8.5" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg></strong> {% endif %}{{ block.settings.purchase_text }}</span>
+  </p>{% endif %}
+  {% if block.settings.rating_text != blank %}<a class="facelove-proof__reviews" href="{{ block.settings.review_link }}"><span class="facelove-proof__stars" aria-hidden="true">{% for star in (1..5) %}<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 1.5 3.2 6.9 7.5.9-5.5 5.2 1.5 7.4-6.7-3.7-6.7 3.7 1.5-7.4L1.3 9.3l7.5-.9Z"/></svg>{% endfor %}</span><span>{{ block.settings.rating_text | escape }}</span><span class="facelove-proof__count">{{ block.settings.review_text | escape }}</span></a>{% endif %}
+  {% if block.settings.weekly_sales != blank %}<p class="facelove-proof__weekly"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2c1 5-3 6-3 10-2-1-3-3-3-5-2 3-4 5-4 8a9 9 0 0 0 18 0c0-5-4-9-8-13Z"/><path d="M12 13c-2 2-3 3-3 5a3 3 0 0 0 6 0c0-2-1-3-3-5Z"/></svg>{{ block.settings.weekly_sales | escape }}</p>{% endif %}
 </div>
 {% stylesheet %}
   .facelove-proof { width: 100%; font-size: 0.875rem; }
   .facelove-proof__purchases { display: flex; align-items: center; gap: var(--fl-space-sm); margin: 0 0 var(--fl-space-sm); font-size: 0.8125rem; }
   .facelove-proof__avatars { display: flex; padding-inline-end: 6px; }
   .facelove-proof__avatars img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-background); margin-inline-end: -6px; }
-  .facelove-proof__reviews { display: flex; align-items: center; flex-wrap: wrap; gap: var(--fl-space-xs) var(--fl-space-sm); color: inherit; text-decoration: none; }
-  .facelove-proof__stars { color: var(--fl-color-rating); font-size: 1rem; letter-spacing: 0; }
+  .facelove-proof__name { display: inline-flex; align-items: center; gap: 3px; vertical-align: middle; white-space: nowrap; }
+  .facelove-proof__name svg { width: 16px; height: 16px; flex: 0 0 16px; }
+  .facelove-proof__reviews { display: flex; align-items: center; flex-wrap: wrap; gap: var(--fl-space-xs) var(--fl-space-sm); color: inherit; text-decoration: none; line-height: 1.3; }
+  .facelove-proof__stars { display: inline-flex; align-items: center; color: var(--fl-color-rating); line-height: 1; }
+  .facelove-proof__stars svg { display: block; width: 26px; height: 26px; }
+  .facelove-proof__weekly { display: inline-flex; align-items: center; gap: var(--fl-space-xs); margin: 6px 0 0; padding: 3px 8px; border: 1px solid var(--fl-color-brand); border-radius: 4px; color: var(--fl-color-accent-ink); font-size: 0.75rem; font-weight: 600; }
+  .facelove-proof__weekly svg { width: 16px; height: 16px; flex: 0 0 16px; }
   .facelove-proof__count { text-decoration: underline; text-underline-offset: 3px; }
   .facelove-proof__reviews:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 {% endstylesheet %}
@@ -29,6 +35,8 @@
 {
   "name":"t:names.facelove_proof", "tag":null,
   "settings":[
+    {"type":"text","id":"weekly_sales","label":"t:settings.facelove_weekly_sales"},
+    {"type":"text","id":"verified_name","label":"t:settings.facelove_author"},
     {"type":"inline_richtext","id":"purchase_text","label":"t:settings.facelove_purchase_text"},
     {"type":"text","id":"rating_text","label":"t:settings.facelove_rating_text"},
     {"type":"text","id":"review_text","label":"t:settings.facelove_review_text"},
