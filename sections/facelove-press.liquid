@@ -9,13 +9,18 @@
   <div class="facelove-press__logos">{% for block in section.blocks %}{% if block.settings.image != blank %}<div {{ block.shopify_attributes }}>{{ block.settings.image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '180, 360', sizes: '(min-width: 750px) 160px, 100px', alt: block.settings.name }}</div>{% endif %}{% endfor %}</div>
 </section>
 {% stylesheet %}
-  .facelove-press { width: min(var(--fl-container), calc(100% - 2 * var(--fl-gutter))); margin: auto; padding: var(--fl-space-2xl); display: flex; align-items: center; gap: var(--fl-space-3xl); background: var(--fl-color-soft); color: var(--fl-color-ink); border-radius: var(--fl-radius-surface); }
+  .facelove-press { width: 100%; padding: var(--fl-space-2xl) var(--fl-gutter); display: flex; align-items: center; gap: var(--fl-space-3xl); background: var(--fl-color-well); color: var(--fl-color-ink); }
   .facelove-press__label { flex-shrink: 0; }
   .facelove-press h2 { font: 600 1rem/1.4 var(--fl-font); margin: 0 0 var(--fl-space-xs); }
   .facelove-press p { font-size: 0.75rem; margin: 0; color: var(--fl-color-muted); }
   .facelove-press__logos { display: flex; align-items: center; justify-content: space-between; flex: 1; gap: var(--fl-space-2xl); min-width: 0; }
-  .facelove-press__logos > div { min-width: 0; }
+  .facelove-press__logos > div { min-width: 0; padding: var(--fl-space-md); opacity: 0.72; }
   .facelove-press img { width: 160px; height: 36px; object-fit: contain; }
+  @media (hover: hover) { .facelove-press__logos > div:hover { opacity: 1; } }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .facelove-press__logos > div { transition: transform var(--fl-duration-state) var(--fl-ease), opacity var(--fl-duration-fast) var(--fl-ease); }
+    .facelove-press__logos > div:hover { transform: translateY(-3px) scale(1.04); }
+  }
   @media (max-width: 749px) {
     .facelove-press { display: block; text-align: center; padding: var(--fl-space-xl) var(--fl-space-lg); }
     .facelove-press__logos { flex-wrap: wrap; justify-content: center; gap: var(--fl-space-lg) var(--fl-space-xl); margin-block-start: var(--fl-space-xl); }
