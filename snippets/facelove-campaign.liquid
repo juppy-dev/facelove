@@ -1,0 +1,36 @@
+{% doc %}
+  Shared campaign content for the gallery badge and the offer selector.
+  @param {object} campaign - Product section settings owning the promotion.
+  @param {boolean} [overlay] - Use the compact gallery treatment.
+  @example
+  {% render 'facelove-campaign', campaign: section.settings, overlay: true %}
+{% enddoc %}
+{% if campaign.facelove_campaign_heading != blank %}
+  <script src="{{ 'facelove-countdown.js' | asset_url }}" type="module"></script>
+  <facelove-countdown class="facelove-campaign{% if overlay %} facelove-campaign--overlay{% endif %}" data-end="{{ campaign.facelove_campaign_end | escape }}"{% if campaign.facelove_campaign_daily %} data-time-zone="{{ campaign.facelove_campaign_timezone | default: 'America/New_York' | escape }}"{% endif %} data-ended="{{ 'facelove.offer_ended' | t | escape }}">
+    <div class="facelove-campaign__heading"><strong>{{ campaign.facelove_campaign_heading | escape }}</strong>{% unless overlay %}<span>{{ campaign.facelove_campaign_progress }}% {{ 'facelove.sold' | t }}</span>{% endunless %}</div>
+    {% if overlay %}
+      <span class="facelove-campaign__ends">{{ 'facelove.ends_in' | t }}</span>
+      <time ref="timer" role="timer" aria-live="off"{% unless campaign.facelove_campaign_daily %} datetime="{{ campaign.facelove_campaign_end | escape }}"{% endunless %}>{% if campaign.facelove_campaign_daily %}{{ 'facelove.ends_today' | t }}{% else %}{{ campaign.facelove_campaign_end | date: '%b %d, %Y' }}{% endif %}</time>
+    {% else %}
+      <p>{{ campaign.facelove_campaign_text | escape }}</p>
+      <div class="facelove-campaign__progress" aria-hidden="true"><span style="width: {{ campaign.facelove_campaign_progress }}%"></span></div>
+    {% endif %}
+  </facelove-countdown>
+{% endif %}
+{% stylesheet %}
+  .facelove-campaign { display: block; width: 100%; padding: 10px 12px; color: var(--fl-color-accent-ink); background: var(--fl-color-well); border: 1px solid var(--fl-color-brand); border-radius: 8px; }
+  .facelove-campaign[hidden] { display: none; }
+  .facelove-campaign__heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; font-size: 0.8125rem; line-height: 1.3; }
+  .facelove-campaign__heading strong { font-weight: 700; text-transform: uppercase; }
+  .facelove-campaign__heading > span { font-weight: 700; white-space: nowrap; }
+  .facelove-campaign p { margin: 4px 0 0; font-size: 0.6875rem; line-height: 1.4; }
+  .facelove-campaign__progress { height: 4px; margin-block-start: 6px; background: var(--fl-color-rule); border-radius: 2px; overflow: hidden; }
+  .facelove-campaign__progress span { display: block; height: 100%; background: var(--fl-color-accent); }
+  .facelove-campaign--overlay { position: absolute; inset-block-start: 12px; inset-inline-start: 12px; z-index: 2; width: auto; max-width: calc(100% - 24px); padding: 0; background: var(--fl-color-surface); border-radius: 4px; text-align: center; pointer-events: none; }
+  .facelove-campaign--overlay .facelove-campaign__heading { padding: 7px 10px; background: var(--fl-color-accent-ink); color: var(--fl-color-on-accent); font-size: 0.75rem; }
+  .facelove-campaign__ends { display: block; margin-block-start: 6px; font-size: 0.625rem; text-transform: uppercase; font-weight: 600; }
+  .facelove-campaign time { display: block; padding: 0 8px 7px; font-size: 0.875rem; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .product-information__media:has(> .facelove-campaign) { position: relative; }
+  @media (max-width: 749px) { .facelove-campaign--overlay { inset-block-start: 8px; inset-inline-start: 8px; } .facelove-campaign--overlay .facelove-campaign__heading { font-size: 0.625rem; padding: 5px 7px; } .facelove-campaign time { font-size: 0.75rem; } }
+{% endstylesheet %}
