@@ -1,0 +1,133 @@
+{% comment %}
+  Merchant-owned portrait videos with profile and product overlays. Demo labels distinguish trial assets from customer endorsements.
+  @example
+  Add video blocks with Shopify Files videos, profile details and a featured product.
+{% endcomment %}
+{% render 'facelove-design' %}
+<script src="{{ 'facelove-reviews.js' | asset_url }}" type="module"></script>
+<script src="{{ 'facelove-video.js' | asset_url }}" type="module"></script>
+<section class="facelove-ugc" aria-labelledby="UgcHeading-{{ section.id }}">
+  <div class="facelove-ugc__inner">
+    <header class="facelove-ugc__heading">
+      <div>{% if section.settings.eyebrow != blank %}<p class="facelove-ugc__eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2 id="UgcHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2></div>
+      {% if section.settings.text != blank %}<div class="rte">{{ section.settings.text }}</div>{% endif %}
+    </header>
+    {% if section.settings.demo_mode %}<p class="facelove-ugc__demo-note">{{ 'facelove.demo_notice' | t }}</p>{% endif %}
+    <facelove-reviews class="facelove-ugc__rail">
+      <div class="facelove-ugc__track" ref="track" tabindex="0" role="region" aria-label="{{ section.settings.heading | escape }}">
+        {% for block in section.blocks %}
+          {% liquid
+            assign featured_product = block.settings.product | default: product
+            assign clip = block.settings.video
+            assign play_label = 'facelove.play_video' | t: name: block.settings.name
+            assign pause_label = 'facelove.pause_video' | t: name: block.settings.name
+          %}
+          {% if clip != blank %}
+            <article class="facelove-ugc__card" {{ block.shopify_attributes }}>
+              <facelove-video data-play-label="{{ play_label | escape }}" data-pause-label="{{ pause_label | escape }}" data-error-label="{{ 'facelove.video_error' | t | escape }}">
+                {{ clip | video_tag: image_size: '600x', autoplay: false, loop: true, muted: true, controls: true, preload: 'none', loading: 'lazy', ref: 'video' }}
+                {% if section.settings.demo_mode %}<span class="facelove-ugc__demo-label">{{ 'facelove.demo_clip' | t }}</span>{% endif %}
+                <button class="facelove-ugc__play" type="button" ref="toggle" on:click="/togglePlayback" aria-label="{{ play_label | escape }}" aria-pressed="false" hidden>
+                  <svg class="facelove-ugc__play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 5 11 7-11 7Z"/></svg>
+                  <svg class="facelove-ugc__pause-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                </button>
+                <div class="facelove-ugc__overlay">
+                  <div class="facelove-ugc__profile"><h3>{{ block.settings.name | escape }}{% if block.settings.age != blank %}<span>, {{ block.settings.age | escape }}</span>{% endif %}</h3>
+                    {% if block.settings.verified %}<p class="facelove-ugc__verified"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1877f2"/><path d="m7 12 3.2 3.2L17 8.5" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>{{ 'facelove.verified_buyer' | t }}{% if section.settings.demo_mode %}<span>· {{ 'facelove.demo_badge' | t }}</span>{% endif %}</p>{% endif %}
+                  </div>
+                  {% if featured_product != blank %}<a class="facelove-ugc__product" href="{% if featured_product.id == product.id %}#choose-your-sticks{% else %}{{ featured_product.url }}{% endif %}">{% if featured_product.featured_image != blank %}{{ featured_product.featured_image | image_url: width: 112 | image_tag: widths: '56, 112', sizes: '48px', loading: 'lazy', alt: '' }}{% endif %}<span><small>{{ 'facelove.featured_product' | t }}</small><strong>{{ featured_product.title | escape }}</strong></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>{% endif %}
+                </div>
+                <p class="facelove-ugc__status" ref="status" role="status"></p>
+              </facelove-video>
+            </article>
+          {% elsif request.design_mode %}<p>{{ 'facelove.choose_video' | t }}</p>{% endif %}
+        {% endfor %}
+      </div>
+      <div class="facelove-ugc__controls">
+        <button ref="previous" type="button" on:click="/previous" aria-label="{{ 'facelove.previous_videos' | t }}" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6"/></svg></button>
+        <span>{{ 'facelove.swipe_videos' | t }}</span>
+        <button ref="next" type="button" on:click="/next" aria-label="{{ 'facelove.next_videos' | t }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+      </div>
+    </facelove-reviews>
+  </div>
+</section>
+{% stylesheet %}
+  .facelove-ugc { padding-block: var(--fl-space-section); background: var(--fl-color-soft); color: var(--fl-color-ink); font-family: var(--fl-font); }
+  .facelove-ugc__inner { width: min(var(--fl-container), calc(100% - 2 * var(--fl-gutter))); margin-inline: auto; }
+  .facelove-ugc__heading { display: flex; align-items: end; justify-content: space-between; gap: var(--fl-space-3xl); }
+  .facelove-ugc__eyebrow { margin: 0 0 var(--fl-space-md); font-size: 0.875rem; font-weight: 600; color: var(--fl-color-accent-ink); }
+  .facelove-ugc h2 { margin: 0; font: 700 var(--fl-section-title)/1.15 var(--fl-font); letter-spacing: -0.025em; max-width: 19ch; text-wrap: balance; }
+  .facelove-ugc__heading .rte { max-width: 34ch; font-size: 1rem; line-height: 1.6; }
+  .facelove-ugc__demo-note { margin: var(--fl-space-lg) 0 var(--fl-space-xl); color: var(--fl-color-muted); font-size: 0.8125rem; line-height: 1.5; }
+  .facelove-ugc__rail { display: block; }
+  .facelove-ugc__track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * var(--fl-space-xl)) / 3); gap: var(--fl-space-xl); overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--fl-color-accent) transparent; padding-block: var(--fl-space-lg); }
+  .facelove-ugc__card { min-width: 0; scroll-snap-align: start; }
+  .facelove-ugc__card facelove-video { display: block; position: relative; aspect-ratio: 3 / 4; border-radius: var(--fl-radius-surface); overflow: clip; background: var(--fl-color-control); border: 1px solid transparent; box-shadow: var(--fl-shadow-soft); }
+  .facelove-ugc__card video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .facelove-ugc__demo-label { position: absolute; inset-block-start: var(--fl-space-lg); inset-inline-start: var(--fl-space-lg); padding: 5px 10px; border-radius: var(--fl-radius-pill); background: rgb(21 18 24 / 0.8); color: white; font-size: 0.6875rem; font-weight: 600; pointer-events: none; }
+  .facelove-ugc__play { position: absolute; inset-block-start: var(--fl-space-lg); inset-inline-end: var(--fl-space-lg); display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid rgb(255 255 255 / 0.6); border-radius: 50%; background: rgb(21 18 24 / 0.8); color: white; cursor: pointer; }
+  .facelove-ugc__play[hidden] { display: none; }
+  .facelove-ugc__play svg { width: 24px; height: 24px; grid-area: 1 / 1; }
+  .facelove-ugc__play-icon { translate: 1px; }
+  .facelove-ugc__pause-icon, [data-playing='true'] .facelove-ugc__play-icon { opacity: 0; }
+  [data-playing='true'] .facelove-ugc__pause-icon { opacity: 1; }
+  .facelove-ugc__play[aria-busy='true'] { opacity: 0.65; }
+  .facelove-ugc__overlay { position: absolute; inset-inline: 0; inset-block-end: 0; padding: 72px var(--fl-space-xl) var(--fl-space-xl); background: linear-gradient(transparent, rgb(21 18 24 / 0.94) 45%); color: white; pointer-events: none; }
+  .facelove-ugc__profile h3 { margin: 0 0 6px; font: 700 1.5rem/1.2 var(--fl-font); letter-spacing: -0.02em; color: inherit; }
+  .facelove-ugc__profile h3 span { font-weight: 400; }
+  .facelove-ugc__verified { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: 0 0 var(--fl-space-lg); font-size: 0.75rem; line-height: 1.5; }
+  .facelove-ugc__verified svg { width: 20px; height: 20px; flex: 0 0 20px; }
+  .facelove-ugc__product { display: flex; align-items: center; gap: var(--fl-space-md); padding: var(--fl-space-md); background: var(--fl-color-surface); border-radius: var(--fl-radius-control); color: var(--fl-color-ink); text-decoration: none; pointer-events: auto; }
+  .facelove-ugc__product img { width: 48px; height: 48px; object-fit: contain; border-radius: 6px; }
+  .facelove-ugc__product > span { min-width: 0; }
+  .facelove-ugc__product small { display: block; color: var(--fl-color-muted); font-size: 0.625rem; line-height: 1.4; }
+  .facelove-ugc__product strong { display: block; font-size: 0.75rem; line-height: 1.4; font-weight: 600; }
+  .facelove-ugc__product > svg { width: 20px; height: 20px; flex: 0 0 20px; margin-inline-start: auto; }
+  .facelove-ugc__status:empty { display: none; }
+  .facelove-ugc__status { position: absolute; inset: 30% 16px auto; padding: var(--fl-space-lg); border-radius: var(--fl-radius-control); background: var(--fl-color-surface); color: var(--fl-color-ink); font-size: 0.875rem; }
+  .facelove-ugc__controls { display: none; justify-content: center; align-items: center; gap: var(--fl-space-xl); margin-block-start: var(--fl-space-lg); }
+  .facelove-ugc__rail[data-ready='true'][data-scrollable='true'] .facelove-ugc__controls { display: flex; }
+  .facelove-ugc__controls button { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--fl-color-boundary); border-radius: 50%; color: var(--fl-color-accent-ink); background: var(--fl-color-surface); cursor: pointer; }
+  .facelove-ugc__controls button:disabled { opacity: 0.45; cursor: not-allowed; }
+  .facelove-ugc__controls svg { width: 24px; height: 24px; }
+  .facelove-ugc__controls span { font-size: 0.75rem; color: var(--fl-color-muted); }
+  .facelove-ugc :is(button, a, [tabindex]):focus-visible { outline: 3px solid var(--fl-color-accent); outline-offset: 4px; }
+  .facelove-ugc__play:focus-visible { outline-color: white; outline-offset: -6px; }
+  [dir='rtl'] .facelove-ugc__controls svg, [dir='rtl'] .facelove-ugc__product > svg { transform: rotate(180deg); }
+  @media (prefers-reduced-motion: no-preference) {
+    .facelove-ugc__play svg { transition: opacity var(--fl-duration-fast) var(--fl-ease); }
+    .facelove-ugc__card facelove-video { transition: transform var(--fl-duration-state) var(--fl-ease); }
+    .facelove-ugc button:active:not(:disabled) { transform: scale(0.96); }
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) { .facelove-ugc__card facelove-video:hover { transform: translateY(-6px); } }
+  @media (max-width: 959px) { .facelove-ugc__track { grid-auto-columns: 45%; } .facelove-ugc__heading { display: block; } }
+  @media (max-width: 599px) {
+    .facelove-ugc { padding-block: var(--fl-space-3xl); }
+    .facelove-ugc__track { grid-auto-columns: 88%; gap: var(--fl-space-lg); }
+    .facelove-ugc__card facelove-video { aspect-ratio: 9 / 16; }
+    .facelove-ugc__overlay { padding-inline: var(--fl-space-lg); padding-block-end: var(--fl-space-lg); }
+    .facelove-ugc__profile h3 { font-size: 1.375rem; }
+    .facelove-ugc__product { gap: var(--fl-space-sm); padding: var(--fl-space-sm); }
+    .facelove-ugc__product img { width: 40px; height: 40px; }
+  }
+  @media (scripting: none) { .facelove-ugc__overlay { inset-block-end: 48px; } }
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "t:names.facelove_ugc", "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "t:settings.facelove_eyebrow" },
+    { "type": "text", "id": "heading", "label": "t:settings.heading" },
+    { "type": "richtext", "id": "text", "label": "t:settings.text" },
+    { "type": "checkbox", "id": "demo_mode", "label": "t:settings.facelove_demo_mode", "default": true }
+  ],
+  "blocks": [{ "type": "video", "name": "t:names.video", "settings": [
+    { "type": "video", "id": "video", "label": "t:settings.video" },
+    { "type": "text", "id": "name", "label": "t:settings.facelove_profile_name" },
+    { "type": "text", "id": "age", "label": "t:settings.facelove_profile_age" },
+    { "type": "checkbox", "id": "verified", "label": "t:settings.facelove_verified", "default": false },
+    { "type": "product", "id": "product", "label": "t:settings.product" }
+  ] }],
+  "presets": [{ "name": "t:names.facelove_ugc", "category": "t:categories.storytelling" }]
+}
+{% endschema %}
