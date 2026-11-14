@@ -52,17 +52,17 @@
   .facelove-comparison h2 { font-size: var(--fl-section-title); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin: 0 0 var(--fl-space-xl); }
   .facelove-comparison__intro img { display: block; width: 100%; max-height: 300px; object-fit: contain; margin-block-start: var(--fl-space-xl); }
   .facelove-comparison__content { min-width: 0; }
-  .facelove-comparison table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: 0.9375rem; line-height: 1.5; border-radius: var(--fl-radius-surface); box-shadow: var(--fl-shadow-soft); }
+  .facelove-comparison table { --comparison-radius: 8px; width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: 0.9375rem; line-height: 1.5; border-radius: var(--comparison-radius); box-shadow: var(--fl-shadow-soft); }
   .facelove-comparison th { padding: var(--fl-space-xl); font-size: 1.25rem; font-weight: 700; text-align: start; }
-  .facelove-comparison th:first-child { background: var(--fl-color-accent-ink); color: var(--fl-color-on-accent); border-start-start-radius: var(--fl-radius-surface); }
-  .facelove-comparison th:last-child { background: var(--fl-color-well); color: var(--fl-color-ink); border-start-end-radius: var(--fl-radius-surface); }
+  .facelove-comparison th:first-child { background: var(--fl-color-accent-ink); color: var(--fl-color-on-accent); border-start-start-radius: var(--comparison-radius); }
+  .facelove-comparison th:last-child { background: var(--fl-color-well); color: var(--fl-color-ink); border-start-end-radius: var(--comparison-radius); }
   .facelove-comparison td { vertical-align: top; padding: var(--fl-space-lg) var(--fl-space-xl); }
   .facelove-comparison td:first-child { background: var(--fl-color-well); color: var(--fl-color-accent-ink); font-weight: 600; }
   .facelove-comparison td:first-child span { display: inline-block; margin-inline-end: var(--fl-space-sm); color: var(--fl-color-accent); font-weight: 700; }
   .facelove-comparison td:last-child { background: var(--fl-color-soft); color: var(--fl-color-muted); }
   .facelove-comparison tr:last-child td { padding-block-end: var(--fl-space-xl); }
-  .facelove-comparison tr:last-child td:first-child { border-end-start-radius: var(--fl-radius-surface); }
-  .facelove-comparison tr:last-child td:last-child { border-end-end-radius: var(--fl-radius-surface); }
+  .facelove-comparison tr:last-child td:first-child { border-end-start-radius: var(--comparison-radius); }
+  .facelove-comparison tr:last-child td:last-child { border-end-end-radius: var(--comparison-radius); }
   .facelove-comparison__button { width: 100%; min-height: 56px; margin-block-start: var(--fl-space-xl); border-radius: var(--fl-radius-control); font-family: var(--fl-font); font-size: 1rem; font-weight: 600; box-shadow: var(--fl-shadow-raised); }
   .facelove-comparison__freebies { text-align: center; font-size: 0.8125rem; line-height: 1.5; margin: var(--fl-space-md) auto 0; max-width: 52ch; }
   @media (max-width: 749px) {
