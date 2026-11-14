@@ -10,7 +10,7 @@
     {% if section.settings.image != blank %}
       <figure class="facelove-guarantee__image">{{ section.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 1320px) 550px, (min-width: 750px) 42vw, calc(100vw - 40px)' }}</figure>
     {% else %}<div class="facelove-guarantee__seal" aria-hidden="true"><span>30</span><span>{{ section.settings.seal_label | escape }}</span></div>{% endif %}
-    <div class="facelove-guarantee__copy">{% if section.settings.eyebrow != blank %}<p class="facelove-guarantee__eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2>{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div>{% if section.settings.link != blank %}<a href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>{% endif %}</div>
+    <div class="facelove-guarantee__copy">{% if section.settings.eyebrow != blank %}<p class="facelove-guarantee__eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2>{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div>{% if product != blank %}{% assign form_id = 'GuaranteeProductForm-' | append: section.id %}{% render 'facelove-purchase', product: product, form_id: form_id %}{% elsif section.settings.link != blank %}<a href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>{% endif %}</div>
   </div>
 </section>
 {% stylesheet %}
