@@ -52,6 +52,17 @@
       data-shopify-visual-preview
     {% endif %}
   >
+    <noscript>
+      <ul>
+        {% for variant in product_resource.variants %}
+          <li>
+            <a href="{{ variant.url }}"{% if variant.id == product_resource.selected_or_first_available_variant.id %} aria-current="true"{% endif %}>
+              {{ variant.title | escape }} - {{ variant.price | money }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </noscript>
     <form class="variant-picker__form">
       {%- for product_option in product_resource.options_with_values -%}
         {%- liquid
@@ -110,7 +121,7 @@
                   type="radio"
                   name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
                   value="{{ product_option_value | escape }}"
-                  aria-label="{{ product_option_value.name | escape }}{% if product_option_value.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}"
+                  aria-label="{{ product_option_value.name | escape }}{% if block_settings.show_variant_prices and product_resource.options.size == 1 %} - {{ product_option_value.variant.price | money | strip_html | escape }}{% endif %}{% if product_option_value.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}"
                   {% if product_option_value.available == false %}
                     aria-disabled="true"
                   {% endif %}
@@ -161,6 +172,14 @@
                   >
                     {{- product_option_value | escape -}}
                   </span>
+                  {% if block_settings.show_variant_prices and product_resource.options.size == 1 %}
+                    <span class="variant-option__offer-price">
+                      {{ product_option_value.variant.price | money }}
+                      {% if product_option_value.variant.compare_at_price > product_option_value.variant.price %}
+                        <s>{{ product_option_value.variant.compare_at_price | money }}</s>
+                      {% endif %}
+                    </span>
+                  {% endif %}
                 {% endif %}
                 {% render 'strikethrough-variant', product_option: product_option_value %}
               </label>
@@ -246,3 +265,25 @@
 
 {% render 'swatch-styles' %}
 {% render 'variant-picker-styles' %}
+
+{% stylesheet %}
+  @media (scripting: none) {
+    .variant-picker__form {
+      display: none;
+    }
+  }
+
+  .variant-option__offer-price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-weight: 600;
+    z-index: 1;
+  }
+
+  .variant-option__offer-price s {
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+{% endstylesheet %}
