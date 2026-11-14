@@ -19,7 +19,7 @@
   {% endstyle %}
 {% endif %}
 {% stylesheet %}
-  /* Hallmark · shape: Product story · genre: editorial · theme: brand · redesign: full · brand: Facelove (spec 2026-11-13) · display: Montserrat · body: Montserrat · hero: Counter · nav: none · footer: none · signature: five reasons as layered 3D flashcards · posture: Committed · surface: absolute · copy: source claims with edited interface copy · job: buy · v2.0.0 */
+  /* Hallmark · shape: Product story · genre: editorial · theme: brand · redesign: full · brand: Facelove (spec 2026-11-13) · display: Montserrat · body: Montserrat · hero: Counter · nav: native theme · footer: native theme · signature: full-width horizontal stories and centered video loop · posture: Committed · surface: absolute · copy: source claims with edited interface copy · job: buy · v2.0.0 */
   /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: hierarchy, compact the offer before adding expressive story motion. */
   /* Hallmark · waive 7b · surface: absolute, source product photography is white · Facelove's white canvas keeps the original packaging photography seamless. */
   /* Hallmark · waive 59 · dense purchase composition, distinct lavender story and guarantee fields · Facelove's offers need proximity to their reassurance and gift contents. */
@@ -42,7 +42,7 @@
     --fl-color-rule: #e2d9e9;
     --fl-color-success: #236443;
     --fl-color-success-soft: #edf5ef;
-    --fl-color-rating: #8c5c08;
+    --fl-color-rating: #f9bc4b;
     --fl-color-image-outline: rgb(0 0 0 / 0.1);
     --fl-shadow-soft: 0 2px 8px rgb(39 24 50 / 0.04), 0 16px 48px rgb(39 24 50 / 0.06);
     --fl-shadow-raised: 0 2px 4px rgb(39 24 50 / 0.05), 0 12px 28px rgb(39 24 50 / 0.12);
@@ -88,7 +88,7 @@
   :is(.product-information:has(.facelove-summary), .facelove-comparison, .facelove-journey, .facelove-editorial, .facelove-guarantee) :is(h1, h2, h3) { min-width: 0; overflow-wrap: break-word; text-wrap: balance; font-family: var(--fl-font); }
   :is(.facelove-comparison, .facelove-journey, .facelove-editorial, .facelove-guarantee) p { text-wrap: pretty; }
   :is(.product-information:has(.facelove-summary), .facelove-comparison, .facelove-journey, .facelove-editorial, .facelove-guarantee) :is(button, a, summary):focus-visible { outline: 2px solid var(--fl-color-accent); outline-offset: 4px; }
-  :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) .button {
+  :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey, .facelove-guarantee) .button {
     --button-background-color: var(--fl-color-control);
     --button-color: var(--fl-color-on-control);
     border-radius: var(--fl-radius-control);
@@ -100,13 +100,13 @@
   }
   :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) :is(.price, .compare-at-price, .facelove-saving, .facelove-button-price) { font-variant-numeric: tabular-nums; }
   @media (hover: hover) {
-    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) .button:not(:disabled):hover { background: var(--fl-color-accent-ink); color: var(--fl-color-on-accent); }
+    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey, .facelove-guarantee) .button:not(:disabled):hover { background: var(--fl-color-accent-ink); color: var(--fl-color-on-accent); }
   }
   @media (prefers-reduced-motion: no-preference) {
-    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) .button { transition: transform var(--fl-duration-fast) ease-out, background-color var(--fl-duration-fast) var(--fl-ease); }
-    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) .button:not(:disabled):active { transform: scale(0.96); }
+    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey, .facelove-guarantee) .button { transition: transform var(--fl-duration-fast) ease-out, background-color var(--fl-duration-fast) var(--fl-ease); }
+    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey, .facelove-guarantee) .button:not(:disabled):active { transform: scale(0.96); }
   }
   @media (prefers-reduced-motion: reduce) {
-    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey) .button { transition: opacity var(--fl-duration-fast) var(--fl-ease); }
+    :is(.shopify-section:has(.facelove-summary), .facelove-comparison, .facelove-journey, .facelove-guarantee) .button { transition: opacity var(--fl-duration-fast) var(--fl-ease); }
   }
 {% endstylesheet %}
