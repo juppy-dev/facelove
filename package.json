@@ -1,0 +1,9 @@
+{
+  "name": "facelove-theme",
+  "private": true,
+  "description": "Development checks for the Facelove Horizon theme trial.",
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "lighthouse": "^13.6.0"
+  }
+}
