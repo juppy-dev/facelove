@@ -4,7 +4,7 @@
   Add video blocks with Shopify Files videos, profile details and a featured product.
 {% endcomment %}
 {% render 'facelove-design' %}
-<script src="{{ 'facelove-reviews.js' | asset_url }}" type="module"></script>
+<script src="{{ 'facelove-loop.js' | asset_url }}" type="module"></script>
 <script src="{{ 'facelove-video.js' | asset_url }}" type="module"></script>
 <section class="facelove-ugc" aria-labelledby="UgcHeading-{{ section.id }}">
   <div class="facelove-ugc__inner">
@@ -12,8 +12,7 @@
       <div>{% if section.settings.eyebrow != blank %}<p class="facelove-ugc__eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2 id="UgcHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2></div>
       {% if section.settings.text != blank %}<div class="rte">{{ section.settings.text }}</div>{% endif %}
     </header>
-    {% if section.settings.demo_mode %}<p class="facelove-ugc__demo-note">{{ 'facelove.demo_notice' | t }}</p>{% endif %}
-    <facelove-reviews class="facelove-ugc__rail">
+    <facelove-loop class="facelove-ugc__rail">
       <div class="facelove-ugc__track" ref="track" tabindex="0" role="region" aria-label="{{ section.settings.heading | escape }}">
         {% for block in section.blocks %}
           {% liquid
@@ -48,20 +47,21 @@
         <span>{{ 'facelove.swipe_videos' | t }}</span>
         <button ref="next" type="button" on:click="/next" aria-label="{{ 'facelove.next_videos' | t }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
       </div>
-    </facelove-reviews>
+    </facelove-loop>
   </div>
 </section>
 {% stylesheet %}
   .facelove-ugc { padding-block: var(--fl-space-section); background: var(--fl-color-soft); color: var(--fl-color-ink); font-family: var(--fl-font); }
-  .facelove-ugc__inner { width: min(var(--fl-container), calc(100% - 2 * var(--fl-gutter))); margin-inline: auto; }
-  .facelove-ugc__heading { display: flex; align-items: end; justify-content: space-between; gap: var(--fl-space-3xl); }
+  .facelove-ugc__inner { width: 100%; }
+  .facelove-ugc__heading { display: flex; align-items: end; justify-content: space-between; gap: var(--fl-space-3xl); padding-inline: var(--fl-gutter); margin-block-end: var(--fl-space-xl); }
   .facelove-ugc__eyebrow { margin: 0 0 var(--fl-space-md); font-size: 0.875rem; font-weight: 600; color: var(--fl-color-accent-ink); }
   .facelove-ugc h2 { margin: 0; font: 700 var(--fl-section-title)/1.15 var(--fl-font); letter-spacing: -0.025em; max-width: 19ch; text-wrap: balance; }
   .facelove-ugc__heading .rte { max-width: 34ch; font-size: 1rem; line-height: 1.6; }
-  .facelove-ugc__demo-note { margin: var(--fl-space-lg) 0 var(--fl-space-xl); color: var(--fl-color-muted); font-size: 0.8125rem; line-height: 1.5; }
   .facelove-ugc__rail { display: block; }
-  .facelove-ugc__track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * var(--fl-space-xl)) / 3); gap: var(--fl-space-xl); overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--fl-color-accent) transparent; padding-block: var(--fl-space-lg); }
-  .facelove-ugc__card { min-width: 0; scroll-snap-align: start; }
+  .facelove-ugc__track { --fl-ugc-card-width: clamp(260px, 28vw, 380px); position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: var(--fl-ugc-card-width); gap: var(--fl-space-md); overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: none; padding: var(--fl-space-xl) max(0px, calc((100% - var(--fl-ugc-card-width)) / 2)); }
+  .facelove-ugc__card { min-width: 0; scroll-snap-align: center; scroll-snap-stop: always; }
+  .facelove-ugc__rail[data-ready='true'] .facelove-ugc__card facelove-video { transform: scale(0.86); opacity: 0.7; }
+  .facelove-ugc__rail[data-ready='true'] .facelove-ugc__card[data-active='true'] facelove-video { transform: scale(1); opacity: 1; }
   .facelove-ugc__card facelove-video { display: block; position: relative; aspect-ratio: 3 / 4; border-radius: var(--fl-radius-surface); overflow: clip; background: var(--fl-color-control); border: 1px solid transparent; box-shadow: var(--fl-shadow-soft); }
   .facelove-ugc__card video { display: block; width: 100%; height: 100%; object-fit: cover; }
   .facelove-ugc__demo-label { position: absolute; inset-block-start: var(--fl-space-lg); inset-inline-start: var(--fl-space-lg); padding: 5px 10px; border-radius: var(--fl-radius-pill); background: rgb(21 18 24 / 0.8); color: white; font-size: 0.6875rem; font-weight: 600; pointer-events: none; }
@@ -72,10 +72,10 @@
   .facelove-ugc__pause-icon, [data-playing='true'] .facelove-ugc__play-icon { opacity: 0; }
   [data-playing='true'] .facelove-ugc__pause-icon { opacity: 1; }
   .facelove-ugc__play[aria-busy='true'] { opacity: 0.65; }
-  .facelove-ugc__overlay { position: absolute; inset-inline: 0; inset-block-end: 0; padding: 72px var(--fl-space-xl) var(--fl-space-xl); background: linear-gradient(transparent, rgb(21 18 24 / 0.94) 45%); color: white; pointer-events: none; }
+  .facelove-ugc__overlay { position: absolute; inset-inline: 0; inset-block-end: 0; display: grid; row-gap: var(--fl-space-xl); padding: 72px var(--fl-space-xl) var(--fl-space-xl); background: linear-gradient(transparent, rgb(21 18 24 / 0.94) 45%); color: white; pointer-events: none; }
   .facelove-ugc__profile h3 { margin: 0 0 6px; font: 700 1.5rem/1.2 var(--fl-font); letter-spacing: -0.02em; color: inherit; }
   .facelove-ugc__profile h3 span { font-weight: 400; }
-  .facelove-ugc__verified { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: 0 0 var(--fl-space-lg); font-size: 0.75rem; line-height: 1.5; }
+  .facelove-ugc__verified { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: 0; font-size: 0.75rem; line-height: 1.5; }
   .facelove-ugc__verified svg { width: 20px; height: 20px; flex: 0 0 20px; }
   .facelove-ugc__product { display: flex; align-items: center; gap: var(--fl-space-md); padding: var(--fl-space-md); background: var(--fl-color-surface); border-radius: var(--fl-radius-control); color: var(--fl-color-ink); text-decoration: none; pointer-events: auto; }
   .facelove-ugc__product img { width: 48px; height: 48px; object-fit: contain; border-radius: 6px; }
@@ -86,7 +86,7 @@
   .facelove-ugc__status:empty { display: none; }
   .facelove-ugc__status { position: absolute; inset: 30% 16px auto; padding: var(--fl-space-lg); border-radius: var(--fl-radius-control); background: var(--fl-color-surface); color: var(--fl-color-ink); font-size: 0.875rem; }
   .facelove-ugc__controls { display: none; justify-content: center; align-items: center; gap: var(--fl-space-xl); margin-block-start: var(--fl-space-lg); }
-  .facelove-ugc__rail[data-ready='true'][data-scrollable='true'] .facelove-ugc__controls { display: flex; }
+  .facelove-ugc__rail[data-ready='true'] .facelove-ugc__controls { display: flex; }
   .facelove-ugc__controls button { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--fl-color-boundary); border-radius: 50%; color: var(--fl-color-accent-ink); background: var(--fl-color-surface); cursor: pointer; }
   .facelove-ugc__controls button:disabled { opacity: 0.45; cursor: not-allowed; }
   .facelove-ugc__controls svg { width: 24px; height: 24px; }
@@ -96,15 +96,14 @@
   [dir='rtl'] .facelove-ugc__controls svg, [dir='rtl'] .facelove-ugc__product > svg { transform: rotate(180deg); }
   @media (prefers-reduced-motion: no-preference) {
     .facelove-ugc__play svg { transition: opacity var(--fl-duration-fast) var(--fl-ease); }
-    .facelove-ugc__card facelove-video { transition: transform var(--fl-duration-state) var(--fl-ease); }
+    .facelove-ugc__card facelove-video { transition: transform var(--fl-duration-state) var(--fl-ease), opacity var(--fl-duration-state) var(--fl-ease); }
     .facelove-ugc button:active:not(:disabled) { transform: scale(0.96); }
   }
-  @media (hover: hover) and (prefers-reduced-motion: no-preference) { .facelove-ugc__card facelove-video:hover { transform: translateY(-6px); } }
-  @media (max-width: 959px) { .facelove-ugc__track { grid-auto-columns: 45%; } .facelove-ugc__heading { display: block; } }
+  .facelove-ugc__rail[data-repositioning='true'] .facelove-ugc__card facelove-video { transition: none; }
+  @media (max-width: 959px) { .facelove-ugc__heading { display: block; } }
   @media (max-width: 599px) {
     .facelove-ugc { padding-block: var(--fl-space-3xl); }
-    .facelove-ugc__track { grid-auto-columns: 88%; gap: var(--fl-space-lg); }
-    .facelove-ugc__card facelove-video { aspect-ratio: 9 / 16; }
+    .facelove-ugc__track { --fl-ugc-card-width: 80vw; gap: 0; }
     .facelove-ugc__overlay { padding-inline: var(--fl-space-lg); padding-block-end: var(--fl-space-lg); }
     .facelove-ugc__profile h3 { font-size: 1.375rem; }
     .facelove-ugc__product { gap: var(--fl-space-sm); padding: var(--fl-space-sm); }
