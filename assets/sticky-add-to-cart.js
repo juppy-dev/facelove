@@ -69,12 +69,19 @@ class StickyAddToCartComponent extends Component {
   /** @type {boolean} */
   #hiddenByBottom = false;
 
+  #mobileQuery = window.matchMedia('(max-width: 749px)');
+
   connectedCallback() {
     super.connectedCallback();
+
+    if (this.#abortController.signal.aborted) this.#abortController = new AbortController();
 
     this.#setupIntersectionObserver();
 
     const { signal } = this.#abortController;
+    if (this.hasAttribute('data-mobile-always-available')) {
+      this.#mobileQuery.addEventListener('change', () => this.#setupIntersectionObserver(), { signal });
+    }
     const target = this.closest('.shopify-section');
     target?.addEventListener(StandardEvents.productSelect, this.#handleProductSelect, { signal });
 
@@ -108,11 +115,28 @@ class StickyAddToCartComponent extends Component {
    * Sets up the IntersectionObserver to watch the buy buttons visibility
    */
   #setupIntersectionObserver() {
+    this.#buyButtonsIntersectionObserver?.disconnect();
+    this.#mainBottomObserver?.disconnect();
+    this.#hiddenByBottom = false;
+    this.#hideStickyBar();
     const productForm = this.#getProductForm();
     if (!productForm) return;
 
     const buyButtonsBlock = productForm.closest('.buy-buttons-block');
     if (!buyButtonsBlock) return;
+
+    if (this.hasAttribute('data-mobile-always-available') && this.#mobileQuery.matches) {
+      this.#targetAddToCartButton = productForm.querySelector('[ref="addToCartButton"]');
+      if (!this.#targetAddToCartButton) return;
+      // Mobile visitors can buy before reaching the form, without showing two competing actions.
+      this.#buyButtonsIntersectionObserver = new IntersectionObserver(([entry]) => {
+        if (!entry) return;
+        if (entry.isIntersecting || this.#isChatActive()) this.#hideStickyBar();
+        else this.#showStickyBar();
+      });
+      this.#buyButtonsIntersectionObserver.observe(this.#targetAddToCartButton);
+      return;
+    }
 
     // In themes migrated from 2.0, the footer element doesn't exist
     const footer = document.querySelector('footer') ?? document.querySelector('[class*="footer-group"]') ?? document.querySelector('[data-sticky-end]');
@@ -127,7 +151,7 @@ class StickyAddToCartComponent extends Component {
       if (!entry.isIntersecting && !this.#isStuck) {
         // Check if the element is above the viewport (scrolled past) or below (not yet reached)
         const rect = entry.target.getBoundingClientRect();
-        if (rect.bottom < 0 || rect.top < 0) {
+        if ((rect.bottom < 0 || rect.top < 0) && !this.#hiddenByBottom) {
           if (this.#isChatActive()) return;
           this.#showStickyBar();
         }
@@ -144,7 +168,7 @@ class StickyAddToCartComponent extends Component {
         const [entry] = entries;
         if (!entry) return;
 
-        if (entry.isIntersecting && this.#isStuck) {
+        if (entry.isIntersecting) {
           this.#hiddenByBottom = true;
           this.#hideStickyBar();
         } else if (!entry.isIntersecting && this.#hiddenByBottom) {
