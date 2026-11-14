@@ -17,11 +17,14 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "<strong>BLACK FRIDAY SALE</strong> · SAVE $69 ON 2 STICKS",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
             "letter_spacing": "normal",
-            "case": "none"
+            "case": "none",
+            "weight": "600",
+            "text_color": "#ffffff",
+            "link": "/products/changing-foundation-stick-landing#choose-your-sticks"
           },
           "blocks": {}
         }
@@ -33,11 +36,11 @@
       "settings": {
         "speed": 5,
         "section_width": "page-width",
-        "background_color": "{{ settings.color_palette.background }}",
-        "divider_width": 1,
+        "background_color": "#67517d",
+        "divider_width": 0,
         "divider_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "padding-block-start": 10,
+        "padding-block-end": 10
       }
     },
     "header_section": {

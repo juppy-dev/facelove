@@ -68,6 +68,11 @@
     grid-area: stack;
   }
 
+  .announcement-bar__slider:not(:has(slideshow-arrows)) .announcement-bar__slides {
+    width: 100%;
+    padding-inline: var(--padding-md);
+  }
+
   .announcement-bar__slide {
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     content-visibility: visible;
