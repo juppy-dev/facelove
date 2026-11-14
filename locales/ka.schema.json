@@ -709,6 +709,10 @@
     "below_media": "მედიის ქვემოთ"
   },
   "settings": {
+    "facelove_guarantee_label": "Guarantee label",
+    "facelove_accelerated_checkout": "Show accelerated checkout",
+    "facelove_best_for": "Best suited for heading",
+
     "facelove_variant_prices": "Show prices for single-option products",
     "facelove_eyebrow": "Introductory label",
     "facelove_caption": "Image caption",

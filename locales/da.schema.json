@@ -185,6 +185,10 @@
     "disclosures": "Oplysninger"
   },
   "settings": {
+    "facelove_guarantee_label": "Guarantee label",
+    "facelove_accelerated_checkout": "Show accelerated checkout",
+    "facelove_best_for": "Best suited for heading",
+
     "facelove_show_savings": "Show savings badge",
     "facelove_show_price": "Show prices on the button",
     "facelove_hide_quantity": "Hide quantity selector",
