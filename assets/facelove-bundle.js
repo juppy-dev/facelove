@@ -1,6 +1,7 @@
 import { Component } from '@theme/component';
 import { StandardEvents } from '@shopify/events';
 
+/** @extends {Component<{ status: HTMLElement, checks: HTMLElement[], locks: HTMLElement[] }>} */
 class FaceloveBundle extends Component {
   #abort;
   #selection = 0;
@@ -25,6 +26,12 @@ class FaceloveBundle extends Component {
       const { detail } = await event.promise;
       if (!this.isConnected || selection !== this.#selection) return;
       this.dataset.unlocked = String(String(detail?.resource?.id) === this.dataset.bundleId);
+      this.refs.status.textContent = this.dataset.unlocked === 'true' ? this.dataset.unlockedLabel : this.dataset.lockedLabel;
+      for (const [index, check] of this.refs.checks.entries()) {
+        const included = index === 0 || this.dataset.unlocked === 'true';
+        check.hidden = !included;
+        this.refs.locks[index].hidden = included;
+      }
     } catch {
       // Retain the last confirmed offer when Shopify cannot resolve the new selection.
     }

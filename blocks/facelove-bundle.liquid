@@ -11,8 +11,8 @@
   endif
 %}
 <script src="{{ 'facelove-bundle.js' | asset_url }}" type="module"></script>
-<facelove-bundle class="facelove-bundle" data-bundle-id="{{ bundle.id }}" data-unlocked="{{ unlocked }}" {{ block.shopify_attributes }}>
-  <p class="facelove-bundle__status"><span class="facelove-bundle__locked">{{ block.settings.locked_heading | escape }}</span><span class="facelove-bundle__unlocked">{{ block.settings.unlocked_heading | escape }}</span></p>
+<facelove-bundle class="facelove-bundle" data-bundle-id="{{ bundle.id }}" data-unlocked="{{ unlocked }}" data-locked-label="{{ block.settings.locked_heading | escape }}" data-unlocked-label="{{ block.settings.unlocked_heading | escape }}" {{ block.shopify_attributes }}>
+  <p class="visually-hidden" ref="status" role="status" aria-live="polite" aria-atomic="true">{% if unlocked %}{{ block.settings.unlocked_heading | escape }}{% else %}{{ block.settings.locked_heading | escape }}{% endif %}</p>
   <ul class="facelove-bundle__gifts">
     {% for index in (1..3) %}
       {% liquid
@@ -23,10 +23,10 @@
       <li{% if forloop.first %} class="facelove-bundle__always-included"{% endif %}>
         <div class="facelove-bundle__image">
           {% if gift_image != blank %}{{ gift_image | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80, 160', sizes: '72px', alt: '' }}{% endif %}
-          <span class="facelove-bundle__lock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
-          <span class="facelove-bundle__check" aria-hidden="true">{{ 'icon-checkmark.svg' | inline_asset_content }}</span>
+          <span class="facelove-bundle__lock" ref="locks[]" aria-hidden="true"{% if unlocked or forloop.first %} hidden{% endif %}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+          <span class="facelove-bundle__check" ref="checks[]" aria-hidden="true"{% unless unlocked or forloop.first %} hidden{% endunless %}>{{ 'icon-checkmark.svg' | inline_asset_content }}</span>
         </div>
-        <strong>{{ block.settings[label_key] | escape }}</strong>
+        <strong><span>{{ 'facelove.free' | t }}</span>{{ block.settings[label_key] | remove: 'FREE ' | remove: 'Free ' | escape }}</strong>
       </li>
     {% endfor %}
   </ul>
@@ -39,31 +39,31 @@
   {% endif %}
 </facelove-bundle>
 {% stylesheet %}
-  .facelove-bundle { display: block; width: 100%; font-size: 0.875rem; }
-  .facelove-bundle__status { margin: 0 0 14px; text-align: center; font-weight: 600; }
+  .facelove-bundle { display: block; width: 100%; font-size: 0.875rem; padding-block-start: var(--fl-space-sm); }
   .facelove-bundle__gifts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; text-align: center; }
-  .facelove-bundle__gifts li { color: #59616c; line-height: 1.35; }
+  .facelove-bundle__gifts li { color: var(--fl-color-muted); line-height: 1.35; }
   .facelove-bundle__gifts strong { display: block; max-width: 12ch; margin: auto; }
-  .facelove-bundle__image { position: relative; width: 72px; height: 72px; margin: 0 auto 10px; }
+  .facelove-bundle__gifts strong > span { display: block; text-transform: uppercase; }
+  .facelove-bundle__image { position: relative; width: 72px; height: 72px; margin: 0 auto var(--fl-space-md); }
   .facelove-bundle__image img { width: 100%; height: 100%; object-fit: contain; filter: grayscale(1); opacity: 0.55; }
-  .facelove-bundle__lock, .facelove-bundle__check { position: absolute; inset-block-end: 0; inset-inline-end: -3px; display: grid; place-items: center; width: 25px; height: 25px; border: 2px solid white; border-radius: 50%; color: white; background: #424958; }
+  .facelove-bundle__lock, .facelove-bundle__check { position: absolute; inset-block-end: 0; inset-inline-end: -3px; display: grid; place-items: center; width: 25px; height: 25px; border: 2px solid var(--fl-color-surface); border-radius: 50%; color: var(--fl-color-on-accent); background: var(--fl-color-muted); }
   .facelove-bundle__image svg { width: 15px; height: 15px; }
-  .facelove-bundle__check { display: none; background: #236443; }
-  .facelove-bundle__unlocked { display: none; }
+  .facelove-bundle__check { background: var(--fl-color-success); }
+  .facelove-bundle__image > [hidden] { display: none; }
   .facelove-bundle[data-unlocked='true'] .facelove-bundle__image img { filter: none; opacity: 1; }
-  .facelove-bundle[data-unlocked='true'] .facelove-bundle__gifts li { color: #236443; }
-  .facelove-bundle[data-unlocked='true'] .facelove-bundle__check { display: grid; }
-  .facelove-bundle[data-unlocked='true'] .facelove-bundle__unlocked { display: inline; }
-  .facelove-bundle[data-unlocked='true'] .facelove-bundle__lock, .facelove-bundle[data-unlocked='true'] .facelove-bundle__locked { display: none; }
-  .facelove-bundle .facelove-bundle__always-included { color: #236443; }
+  .facelove-bundle[data-unlocked='true'] .facelove-bundle__gifts li { color: var(--fl-color-success); }
+  .facelove-bundle .facelove-bundle__always-included { color: var(--fl-color-success); }
   .facelove-bundle__always-included .facelove-bundle__image img { filter: none; opacity: 1; }
-  .facelove-bundle__always-included .facelove-bundle__check { display: grid; }
-  .facelove-bundle__always-included .facelove-bundle__lock { display: none; }
-  .facelove-bundle__campaign { padding: 18px 20px; margin-block-start: 24px; background: #f5edf8; border-inline-start: 3px solid #67517d; color: #392c43; }
+  .facelove-bundle__campaign { padding: var(--fl-space-xl); margin-block-start: var(--fl-space-xl); background: var(--fl-color-well); border-radius: var(--fl-radius-control); color: var(--fl-color-accent-ink); }
   .facelove-bundle__campaign > div:first-child { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
-  .facelove-bundle__campaign p { margin: 10px 0 0; font-size: 0.75rem; }
-  .facelove-bundle__progress { height: 6px; margin-block-start: 12px; background: #ded1e8; border-radius: 3px; overflow: hidden; }
-  .facelove-bundle__progress span { height: 100%; display: block; background: #67517d; }
+  .facelove-bundle__campaign p { margin: var(--fl-space-md) 0 0; font-size: 0.75rem; }
+  .facelove-bundle__progress { height: 6px; margin-block-start: var(--fl-space-md); background: var(--fl-color-rule); border-radius: var(--fl-radius-pill); overflow: hidden; }
+  .facelove-bundle__progress span { height: 100%; display: block; background: var(--fl-color-accent); border-radius: inherit; }
+  @media (prefers-reduced-motion: no-preference) {
+    .facelove-bundle__image img { transition: opacity var(--fl-duration-state) var(--fl-ease); }
+    .facelove-bundle__lock, .facelove-bundle__check { animation: facelove-perk-enter var(--fl-duration-state) var(--fl-ease); }
+    @keyframes facelove-perk-enter { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: none; } }
+  }
 {% endstylesheet %}
 {% schema %}
 {
