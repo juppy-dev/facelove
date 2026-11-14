@@ -4,11 +4,13 @@
   {% render 'facelove-offer-styles' %}
 {% enddoc %}
 {% stylesheet %}
-  .facelove-saving { display: inline-block; font: 650 0.8125rem/1.2 var(--font-body--family); color: #fff; background: #513865; border-radius: 4px; padding: 6px 9px; white-space: nowrap; }
-  .facelove-button-price { display: inline-flex; align-items: baseline; gap: 8px; margin-inline-start: 8px; }
+  .facelove-saving { display: inline-block; font: 600 0.8125rem/1.2 var(--fl-font); color: var(--fl-color-on-accent); background: var(--fl-color-accent-ink); border-radius: var(--fl-radius-pill); padding: var(--fl-space-xs) var(--fl-space-md); white-space: nowrap; }
+  .facelove-button-price { display: inline-flex; align-items: center; gap: var(--fl-space-sm); margin-inline-start: var(--fl-space-xs); padding: var(--fl-space-xs) var(--fl-space-sm); background: var(--fl-color-control-inset); border-radius: var(--fl-radius-pill); }
   .facelove-button-price strong { font-size: 1.125rem; }
-  .facelove-button-price s { font-size: 0.875rem; font-weight: 400; }
-  .facelove-offer-note { display: block; font-size: 0.75rem; font-weight: 400; margin-block-start: 4px; }
-  .facelove-offer-radio { flex: 0 0 18px; height: 18px; border: 1px solid #817589; border-radius: 50%; }
-  label:has(:checked) > .facelove-offer-radio { background: #67517d; border: 4px solid #f2ecf7; outline: 2px solid #67517d; outline-offset: -1px; }
+  .facelove-button-price s { font-size: 0.8125rem; font-weight: 400; color: var(--fl-color-on-control-muted); }
+  .facelove-button-arrow { flex-shrink: 0; }
+  .facelove-offer-heading { margin: 0 0 var(--fl-space-xs); font-size: 0.8125rem; font-weight: 700; text-align: center; color: var(--fl-color-ink); }
+  .facelove-offer-note { display: block; font-size: 0.8125rem; font-weight: 400; margin-block-start: var(--fl-space-xs); }
+  .facelove-offer-radio { flex: 0 0 18px; height: 18px; border: 1px solid var(--fl-color-boundary); border-radius: 50%; }
+  label:has(:checked) > .facelove-offer-radio { background: var(--fl-color-accent); border: 4px solid var(--fl-color-well); outline: 2px solid var(--fl-color-accent); outline-offset: -1px; }
 {% endstylesheet %}

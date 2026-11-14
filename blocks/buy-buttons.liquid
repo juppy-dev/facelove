@@ -235,12 +235,14 @@
             add_to_cart_text: add_to_cart_text
           %}
 
+          {% unless block_settings.show_accelerated_checkout == false %}
           {% content_for 'block',
             type: 'accelerated-checkout',
             id: 'accelerated-checkout',
             can_add_to_cart: can_add_to_cart,
             form_obj: form
           %}
+          {% endunless %}
         </div>
         {%- if block_settings.gift_card_form and product.gift_card? -%}
           </span>
@@ -457,6 +459,7 @@
   "tag": null,
   "settings": [
     { "type": "checkbox", "id": "hide_quantity", "label": "t:settings.facelove_hide_quantity", "default": false },
+    { "type": "checkbox", "id": "show_accelerated_checkout", "label": "t:settings.facelove_accelerated_checkout", "default": true },
     {
       "type": "checkbox",
       "id": "stacking",

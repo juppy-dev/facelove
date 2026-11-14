@@ -41,7 +41,7 @@
       disabled
     {% endunless %}
   >
-    {% if show_icon %}
+    {% if show_icon and show_price != true %}
       <span
         aria-hidden="true"
         class="svg-wrapper add-to-cart-icon"
@@ -52,11 +52,12 @@
     {{- add_to_cart_text | default: default_add_to_cart_text -}}
     {% if show_price and can_add_to_cart %}
       <span class="facelove-button-price">
-        <strong>{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</strong>
         {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
           <s>{{ product.selected_or_first_available_variant.compare_at_price | money_without_trailing_zeros }}</s>
         {% endif %}
+        <strong>{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</strong>
       </span>
+      <svg class="facelove-button-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>
     {% endif %}
     {% comment %} checkmark burst markup {% endcomment %}
     <span class="add-to-cart__added">
