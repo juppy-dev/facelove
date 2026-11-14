@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
-{
+ */{
   "sections": {
     "main": {
       "type": "product-information",
@@ -24,11 +23,11 @@
             "slideshow_mobile_controls_style": "thumbnails",
             "thumbnail_position": "bottom",
             "thumbnail_width": 72,
-            "thumbnail_radius": 12,
+            "thumbnail_radius": 0,
             "aspect_ratio": "1",
             "constrain_to_viewport": false,
             "media_fit": "contain",
-            "media_radius": 24,
+            "media_radius": 0,
             "extend_media": false,
             "zoom": true,
             "video_loop": false,
@@ -50,7 +49,7 @@
             "custom_width_mobile": 100,
             "height": "fit",
             "details_position": "flex-start",
-            "gap": 12,
+            "gap": 8,
             "sticky_details_desktop": false,
             "background_media": "none",
             "background_color": "",
@@ -78,7 +77,7 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "gap": 8,
+                "gap": 6,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -132,30 +131,6 @@
                   },
                   "blocks": {}
                 },
-                "price_tVjtKg": {
-                  "type": "price",
-                  "settings": {
-                    "show_savings": true,
-                    "show_free_shipping": true,
-                    "show_sale_price_first": true,
-                    "show_installments": false,
-                    "show_tax_info": false,
-                    "type_preset": "paragraph",
-                    "width": "100%",
-                    "alignment": "left",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "text_color": "",
-                    "padding-block-start": 4,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
                 "intro": {
                   "type": "text",
                   "name": "t:names.text",
@@ -185,14 +160,12 @@
               },
               "block_order": [
                 "text_xrnftG",
-                "intro",
-                "price_tVjtKg"
+                "intro"
               ]
             },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
               "settings": {
-                "show_variant_prices": true,
                 "variant_style": "buttons",
                 "show_swatches": false,
                 "option_label_text_color": "",
@@ -205,18 +178,17 @@
                 "custom_selected_variant_text": "#242025",
                 "custom_selected_variant_border": "#67517d",
                 "alignment": "left",
-                "padding-block-start": 0,
+                "padding-block-start": 12,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-end": 0,
+                "show_variant_prices": true
               },
               "blocks": {}
             },
             "buy_buttons_eYQEYi": {
               "type": "buy-buttons",
               "settings": {
-                "hide_quantity": true,
-                "show_accelerated_checkout": false,
                 "stacking": true,
                 "text_color": "",
                 "show_pickup_availability": false,
@@ -238,7 +210,9 @@
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-end": 0,
+                "hide_quantity": true,
+                "show_accelerated_checkout": false
               },
               "blocks": {
                 "quantity": {
@@ -258,11 +232,11 @@
                   "type": "add-to-cart",
                   "static": true,
                   "settings": {
-                    "show_price": true,
                     "style_class": "button",
                     "custom_button_background": "{{ settings.color_palette.foreground }}",
                     "custom_button_text": "{{ settings.color_palette.background }}",
-                    "custom_button_border": "{{ settings.color_palette.background }}"
+                    "custom_button_border": "{{ settings.color_palette.background }}",
+                    "show_price": true
                   },
                   "blocks": {}
                 },
@@ -279,7 +253,7 @@
               "type": "text",
               "name": "t:names.product_description",
               "settings": {
-                "text": "<p>One-time purchase. No subscription.</p>",
+                "text": "",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -304,12 +278,7 @@
             "summary": {
               "type": "facelove-summary",
               "settings": {
-                "best_for_heading": "Best Suited For",
-                "best_for_1": "Your Natural Glow",
-                "best_for_2": "A Little More Coverage",
-                "best_for_3": "Skin That Craves Moisture",
-                "best_for_4": "Your On-the-Go Routine",
-                "anchor": "choose-your-sticks",
+                "background_color": "",
                 "show_benefits": false,
                 "image_1": "",
                 "text_1": "Adapts to your skin tone",
@@ -317,22 +286,38 @@
                 "text_2": "Lasts all day long",
                 "image_3": "",
                 "text_3": "Hydrates and nourishes",
-                "image_4": "",
+                "anchor": "choose-your-sticks",
+                "best_for_heading": "",
+                "best_for_1": "Your Natural Glow",
+                "best_for_2": "A Little More Coverage",
+                "best_for_3": "Skin That Craves Moisture",
+                "best_for_4": "Your On-the-Go Routine",
                 "text_4": "Risk-free guarantee",
-                "background_color": "#faf8fc"
+                "image_4": ""
               },
               "blocks": {}
             },
             "proof": {
               "type": "facelove-proof",
               "settings": {
-                "purchase_text": "<strong>Freya</strong> and <strong>1M+</strong> others purchased",
-                "rating_text": "Excellent 4.8",
-                "review_text": "7,295+ reviews",
+                "verified_name": "Freya",
+                "purchase_text": "and <strong>1M+</strong> others purchased",
+                "rating_text": "",
+                "review_text": "",
                 "review_link": "#reviews",
                 "image_1": "shopify://shop_images/Playful_Wink_and_Peace_Sign_Portrait.png",
                 "image_2": "shopify://shop_images/Smiling_Woman_with_Finger_Heart_Gesture.png",
-                "image_3": "shopify://shop_images/Blonde_Woman_Selfie_with_Gold_iPhone_1.png"
+                "image_3": "shopify://shop_images/Blonde_Woman_Selfie_with_Gold_iPhone_1.png",
+                "weekly_sales": ""
+              }
+            },
+            "rating": {
+              "type": "facelove-proof",
+              "settings": {
+                "rating_text": "Excellent 4.8",
+                "weekly_sales": "1,284 sold this week",
+                "review_text": "7,295+ reviews",
+                "review_link": "#reviews"
               }
             },
             "guarantee": {
@@ -354,43 +339,95 @@
                 "gift_label_2": "FREE Mystery Gift",
                 "gift_image_3": "shopify://shop_images/ChatGPT_Image_Jul_23_2026_06_52_42_PM_1.png",
                 "gift_label_3": "FREE Primer",
-                "campaign_heading": "Black Friday offer",
+                "campaign_heading": "",
                 "campaign_label": "87% sold",
                 "campaign_text": "Selling fast. Limited promotional quantities available.",
                 "show_progress": true,
                 "progress": 87
+              }
+            },
+            "price_tVjtKg": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "paragraph",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "show_savings": true,
+                "show_free_shipping": true
+              },
+              "blocks": {}
+            },
+            "panel_videos": {
+              "type": "facelove-panel-videos",
+              "settings": {
+                "heading": "See it in their routine",
+                "demo_mode": false,
+                "video_1": "shopify://files/videos/facelove-demo-1.mp4",
+                "name_1": "Emma",
+                "age_1": "48",
+                "video_2": "shopify://files/videos/facelove-demo-2.mp4",
+                "name_2": "Denise",
+                "age_2": "55",
+                "video_3": "shopify://files/videos/facelove-demo-3.mp4",
+                "name_3": "Helen",
+                "age_3": "62"
+              }
+            },
+            "upsells": {
+              "type": "facelove-upsells",
+              "settings": {
+                "heading": "Complete your routine",
+                "products": [
+                  "facelove-foundation-brush-upsell",
+                  "everlove-mascara-for-mature-lashes"
+                ]
               }
             }
           },
           "block_order": [
             "proof",
             "group_icgrde",
+            "rating",
+            "price_tVjtKg",
             "summary",
             "variant_picker_R3rGDr",
+            "bundle",
             "buy_buttons_eYQEYi",
             "text_aEtTtq",
             "guarantee",
-            "bundle"
+            "upsells",
+            "panel_videos"
           ]
         },
         "featured-review": {
           "type": "facelove-featured-review",
-          "static": true,
           "settings": {
-            "confidence_label": "30-Day Money-Back Guarantee",
-            "shipping_label": "FREE Shipping",
-            "link": "#reviews",
-            "link_label": "Read More Reviews",
             "quote": "<p>“Wore it all weekend — lake trip Saturday, backyard party Sunday, still looked flawless Monday. This foundation doesn't quit.”</p>",
             "author": "Nicole, 36",
-            "verified_label": "✓ Verified Buyer"
-          }
+            "verified_label": "✓ Verified Buyer",
+            "confidence_label": "30-Day Money-Back Guarantee",
+            "shipping_label": "FREE Shipping",
+            "link": "",
+            "link_label": "Read More Reviews"
+          },
+          "static": true
         }
       },
+      "block_order": [],
       "settings": {
-        "show_savings": true,
-        "show_facelove_review": true,
-        "facelove_font": "montserrat_n4",
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
         "equal_columns": false,
@@ -398,12 +435,33 @@
         "gap": 48,
         "enable_sticky_add_to_cart": true,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 24,
-        "padding-block-end": 52
+        "padding-block-start": 16,
+        "padding-block-end": 52,
+        "show_savings": true,
+        "show_facelove_review": true,
+        "facelove_image_tag": "New & Improved",
+        "facelove_sticky_rating": "4.8",
+        "facelove_font": "montserrat_n4",
+        "facelove_hide_offer_banner": true,
+        "facelove_campaign_heading": "Black Friday Sale",
+        "facelove_campaign_text": "While supplies last. Limited promotional quantities.",
+        "facelove_campaign_end": "2026-11-28T00:00:00-05:00",
+        "facelove_campaign_daily": true,
+        "facelove_campaign_timezone": "America/New_York",
+        "facelove_campaign_progress": 87
       }
     },
     "benefits": {
       "type": "facelove-journey",
+      "settings": {
+        "eyebrow": "",
+        "heading": "5 reasons why over 50,000 women are enthusiastic",
+        "text": "<p>The foundation that truly adapts to your skin.</p>",
+        "anchor": "benefits",
+        "link": "#choose-your-sticks",
+        "link_label": "Add to Cart",
+        "background_color": "#f5f0f8"
+      },
       "blocks": {
         "chapter_0": {
           "type": "chapter",
@@ -411,7 +469,7 @@
             "heading": "Instantly a natural, even & youthful glow",
             "text": "<ul><li>Even coverage without a masking effect</li><li>Instantly softens fine lines</li><li>Fresh, natural glow</li><li>It blends in within seconds, effortlessly, without streaks</li></ul>",
             "image": "shopify://shop_images/Before_and_After_of_a_202604292026_800x_cd14602f-82ff-497b-8b61-d3054c61432c.jpg",
-            "caption": "Facelove product imagery. Individual results vary."
+            "caption": ""
           }
         },
         "chapter_1": {
@@ -429,7 +487,7 @@
             "heading": "Ideal for mature and sensitive skin",
             "text": "<ul><li>Does not settle into wrinkles or pores</li><li>Gentle, moisturizing formula</li><li>No cakey, dry, or tight feeling</li><li>No irritation, redness or itching</li></ul>",
             "image": "shopify://shop_images/ChatGPT_Image_May_14_2026_07_45_19_PM.png",
-            "caption": "Facelove product imagery. Individual results vary."
+            "caption": ""
           }
         },
         "chapter_3": {
@@ -438,7 +496,7 @@
             "heading": "It lasts all day and feels feather-light.",
             "text": "<ul><li>It stays even without smearing.</li><li>No shine, no dryness</li><li>Long-lasting coverage without feeling heavy</li><li>Easy to remove, no rubbing required.</li></ul>",
             "image": "shopify://shop_images/ChatGPT_Image_May_14_2026_07_56_18_PM_800x_0bfaff99-bc86-4d07-885d-75d000baa1f0.png",
-            "caption": "Facelove product imagery. Individual results vary."
+            "caption": ""
           }
         },
         "chapter_4": {
@@ -447,7 +505,7 @@
             "heading": "Skincare & anti-aging for visibly smoother skin",
             "text": "<ul><li>Nourishes, soothes and supports the skin barrier.</li><li>Fine lines appear smoother with each application</li><li>Gives the skin more suppleness and freshness</li><li>A product for care, glow and an even complexion</li></ul>",
             "image": "shopify://shop_images/ChatGPT_Image_12_jun_2026_11_22_06.png",
-            "caption": "Facelove product imagery. Individual results vary."
+            "caption": ""
           }
         }
       },
@@ -457,42 +515,38 @@
         "chapter_2",
         "chapter_3",
         "chapter_4"
-      ],
-      "settings": {
-        "eyebrow": "",
-        "heading": "5 reasons why over 50,000 women are enthusiastic",
-        "text": "<p>The foundation that truly adapts to your skin.</p>",
-        "anchor": "benefits",
-        "link": "#choose-your-sticks",
-        "link_label": "Choose your sticks",
-        "background_color": "#f5f0f8"
-      }
+      ]
     },
     "application": {
-      "type": "facelove-editorial",
+      "type": "facelove-application",
+      "settings": {
+        "heading": "How to apply your foundation stick",
+        "text": "<p>Start on well-moisturized skin. A little at a time is the way to go.</p>",
+        "background_color": "#faf8fc",
+        "anchor": "application",
+        "video": "shopify://files/videos/facelove-demo-1.mp4",
+        "caption": ""
+      },
       "blocks": {
         "content_0": {
           "type": "content",
           "settings": {
             "heading": "Moisturize first",
-            "text": "<p>Prepare your skin with your usual moisturizer before applying foundation.</p>",
-            "product_field": "none"
+            "text": "<p>Prepare your skin with your usual moisturizer before applying foundation.</p>"
           }
         },
         "content_1": {
           "type": "content",
           "settings": {
             "heading": "Apply and blend",
-            "text": "<p>Apply a small amount. Blend thoroughly with the built-in brush or your fingers.</p>",
-            "product_field": "none"
+            "text": "<p>Apply a small amount. Blend thoroughly with the built-in brush or your fingers.</p>"
           }
         },
         "content_2": {
           "type": "content",
           "settings": {
             "heading": "Build where you need it",
-            "text": "<p>Add another light layer to the areas where you would like more coverage.</p>",
-            "product_field": "none"
+            "text": "<p>Add another light layer to the areas where you would like more coverage.</p>"
           }
         }
       },
@@ -500,48 +554,48 @@
         "content_0",
         "content_1",
         "content_2"
-      ],
-      "settings": {
-        "layout": "steps",
-        "eyebrow": "",
-        "heading": "How to apply your foundation stick",
-        "text": "<p>Start on well-moisturized skin. A little at a time is the way to go.</p>",
-        "anchor": "application",
-        "background_color": "#ffffff",
-        "spacing": 72
-      }
+      ]
     },
     "testimonials": {
       "type": "facelove-editorial",
+      "settings": {
+        "layout": "quotes",
+        "heading": "What women say after wearing it.",
+        "eyebrow": "Excellent 4.8 · 7,295+ reviews",
+        "text": "",
+        "background_color": "#eee7f5",
+        "spacing": 72,
+        "anchor": "reviews"
+      },
       "blocks": {
         "content_0": {
           "type": "content",
           "settings": {
             "heading": "Emily J.",
-            "image": "shopify://shop_images/208098501-1782359327.6122.jpg",
-            "badge": "✓ Verified Buyer",
             "text": "<p>“Coverage is medium but buildable. It covered most of my redness and blended nicely.”</p>",
-            "product_field": "none"
+            "product_field": "none",
+            "image": "shopify://shop_images/208098501-1782359327.6122.jpg",
+            "badge": "✓ Verified Buyer"
           }
         },
         "content_1": {
           "type": "content",
           "settings": {
             "heading": "Lauren N.",
-            "image": "shopify://shop_images/208098507-1784683595.5133.jpg",
-            "badge": "✓ Verified Buyer",
             "text": "<p>“Blends perfectly and matches my skin tone instantly.”</p>",
-            "product_field": "none"
+            "product_field": "none",
+            "image": "shopify://shop_images/208098507-1784683595.5133.jpg",
+            "badge": "✓ Verified Buyer"
           }
         },
         "content_2": {
           "type": "content",
           "settings": {
             "heading": "Nicole T.",
-            "image": "shopify://shop_images/208098494-1779105042.5107.jpg",
-            "badge": "Customer Review",
             "text": "<p>“It blends seamlessly into my skin and adapts to my skin tone almost instantly, leaving a smooth, natural-looking finish.”</p>",
-            "product_field": "none"
+            "product_field": "none",
+            "image": "shopify://shop_images/208098494-1779105042.5107.jpg",
+            "badge": "Customer Review"
           }
         }
       },
@@ -549,19 +603,19 @@
         "content_0",
         "content_1",
         "content_2"
-      ],
-      "settings": {
-        "layout": "quotes",
-        "eyebrow": "Excellent 4.8 · 7,295+ reviews",
-        "heading": "What women say after wearing it.",
-        "text": "",
-        "anchor": "reviews",
-        "background_color": "#eee7f5",
-        "spacing": 72
-      }
+      ]
     },
     "questions": {
       "type": "facelove-editorial",
+      "settings": {
+        "layout": "questions",
+        "heading": "Questions about the foundation stick",
+        "eyebrow": "",
+        "text": "<p>Shade, application and the details that matter to your routine.</p>",
+        "background_color": "#ffffff",
+        "spacing": 72,
+        "anchor": "product-questions"
+      },
       "blocks": {
         "content_0": {
           "type": "content",
@@ -619,19 +673,14 @@
         "content_3",
         "content_4",
         "content_5"
-      ],
-      "settings": {
-        "layout": "questions",
-        "eyebrow": "",
-        "heading": "Questions about the foundation stick",
-        "text": "<p>Shade, application and the details that matter to your routine.</p>",
-        "anchor": "product-questions",
-        "background_color": "#ffffff",
-        "spacing": 72
-      }
+      ]
     },
     "press": {
       "type": "facelove-press",
+      "settings": {
+        "heading": "As Seen On",
+        "qualifier": "Sponsored content"
+      },
       "blocks": {
         "publication_0": {
           "type": "publication",
@@ -675,14 +724,21 @@
         "publication_2",
         "publication_3",
         "publication_4"
-      ],
-      "settings": {
-        "heading": "As Seen On",
-        "qualifier": "Sponsored content"
-      }
+      ]
     },
     "comparison": {
       "type": "facelove-comparison",
+      "settings": {
+        "eyebrow": "Why more than 50,000 women over 40 love it",
+        "heading": "Switch to the only foundation truly made for mature skin",
+        "text": "",
+        "image": "shopify://shop_images/Lavender_foundation_sticks_on_white_studio_background.webp",
+        "brand_heading": "Facelove",
+        "other_heading": "Other Brand",
+        "button_label": "Add 2 Sticks + Primer",
+        "freebies": "Includes FREE shipping, a FREE mystery gift and a FREE primer with your 2-Stick purchase.",
+        "background_color": "#ffffff"
+      },
       "blocks": {
         "row_0": {
           "type": "row",
@@ -734,34 +790,29 @@
         "row_3",
         "row_4",
         "row_5"
-      ],
-      "settings": {
-        "eyebrow": "Why more than 50,000 women over 40 love it",
-        "heading": "Switch to the only foundation truly made for mature skin",
-        "text": "",
-        "image": "shopify://shop_images/Lavender_foundation_sticks_on_white_studio_background.webp",
-        "brand_heading": "Facelove",
-        "other_heading": "Other Brand",
-        "button_label": "Add 2 Sticks + Primer",
-        "freebies": "Includes FREE shipping, a FREE mystery gift and a FREE primer with your 2-Stick purchase.",
-        "background_color": "#ffffff"
-      }
+      ]
     },
     "guarantee": {
       "type": "facelove-guarantee",
       "settings": {
-        "image": "shopify://shop_images/MoneyBack-ChangingFoundationStick.png",
         "seal_label": "day guarantee",
         "eyebrow": "30-Day Money-Back Guarantee",
         "heading": "Love it. Or get your money back.",
         "text": "<p>Give your Changing Foundation Stick a place in your routine for 30 days.</p><p>If it is not the right fit, return it for a full refund.</p>",
         "link": "#choose-your-sticks",
-        "link_label": "Choose your sticks",
-        "background_color": "#513865"
+        "link_label": "Add to Cart",
+        "background_color": "#513865",
+        "image": "shopify://shop_images/MoneyBack-ChangingFoundationStick.png"
       }
     },
     "ugc": {
       "type": "facelove-ugc",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Everyday routines. Your kind of glow.",
+        "text": "<p>A closer look at the moments that make a beauty routine feel like yours.</p>",
+        "demo_mode": false
+      },
       "blocks": {
         "video_1": {
           "type": "video",
@@ -798,19 +849,13 @@
         "video_1",
         "video_2",
         "video_3"
-      ],
-      "settings": {
-        "eyebrow": "The community edit",
-        "heading": "Everyday routines. Your kind of glow.",
-        "text": "<p>A closer look at the moments that make a beauty routine feel like yours.</p>",
-        "demo_mode": true
-      }
+      ]
     }
   },
   "order": [
     "main",
-    "press",
     "ugc",
+    "press",
     "comparison",
     "benefits",
     "application",
@@ -818,5 +863,5 @@
     "guarantee",
     "questions"
   ],
-  "layout": "facelove"
+  "layout": "theme"
 }
