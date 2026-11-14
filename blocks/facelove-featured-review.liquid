@@ -1,0 +1,43 @@
+{% doc %}
+  A source review placed beneath the gallery on desktop and product details on mobile.
+  @example
+  {% content_for 'block', type: 'facelove-featured-review', id: 'featured-review' %}
+{% enddoc %}
+<figure class="facelove-featured-review" {{ block.shopify_attributes }}>
+  <div class="facelove-featured-review__rating"><span role="img" aria-label="{{ 'facelove.five_stars' | t }}">★★★★★</span><span>{{ block.settings.verified_label | escape }}</span></div>
+  <blockquote>{{ block.settings.quote }}</blockquote>
+  <figcaption>
+    {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 112 | image_tag: loading: 'lazy', widths: '56, 112', sizes: '56px' }}{% endif %}
+    <strong>{{ block.settings.author | escape }}</strong>
+  </figcaption>
+</figure>
+{% stylesheet %}
+  .facelove-featured-review { order: 2; align-self: start; margin: 24px 0 0; padding: 24px; background: var(--color-background); border: 1px solid rgb(var(--color-foreground-rgb) / 0.2); border-inline-start: 4px solid #67517d; border-radius: 4px; font-size: 16px; }
+  .facelove-featured-review__rating { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 0.75rem; }
+  .facelove-featured-review__rating > :first-child { color: #8c5c08; letter-spacing: 2px; font-size: 1rem; }
+  .facelove-featured-review blockquote { margin: 16px 0; font-size: clamp(1rem, 1.5vw, 1.25rem); line-height: 1.5; }
+  .facelove-featured-review blockquote p { margin: 0; }
+  .facelove-featured-review figcaption { display: flex; align-items: center; gap: 12px; font-size: 0.875rem; }
+  .facelove-featured-review img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+  @media (min-width: 750px) {
+    .product-information__grid:has(> .facelove-featured-review) { grid-template-rows: auto 1fr; }
+    .product-information__grid:has(> .facelove-featured-review) > .product-information__media { grid-row: 1; align-self: start; }
+    .product-information__grid:has(> .facelove-featured-review) > .product-details { grid-row: 1 / span 2; }
+    .product-information__grid > .facelove-featured-review { grid-column: 1; grid-row: 2; margin-inline-end: calc(var(--gap) / 2); }
+    .product-information__grid--half > .facelove-featured-review { grid-column: 2; }
+    .product-information--media-right > .facelove-featured-review { grid-column: 2; margin-inline: calc(var(--gap) / 2) 0; }
+    .product-information--media-right.product-information__grid--half > .facelove-featured-review { grid-column: 3; }
+  }
+  @media (max-width: 749px) { .product-information__grid > .facelove-featured-review { grid-column: 2; margin-block-start: 28px; padding: 20px; } }
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "t:names.facelove_featured_review", "tag": null,
+  "settings": [
+    {"type":"richtext","id":"quote","label":"t:settings.text"},
+    {"type":"text","id":"author","label":"t:settings.facelove_author"},
+    {"type":"text","id":"verified_label","label":"t:settings.facelove_verified"},
+    {"type":"image_picker","id":"image","label":"t:settings.image"}
+  ]
+}
+{% endschema %}
