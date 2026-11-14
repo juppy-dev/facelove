@@ -254,6 +254,8 @@
     "show_physical_stores_help": "Also list locations marked as a physical storefront that have the product in stock, even when they don't offer pickup."
   },
   "names": {
+    "facelove_ugc": "Video stories",
+
     "facelove_featured_review": "Featured review",
     "facelove_bundle": "Bundle extras",
     "facelove_proof": "Product social proof",
@@ -768,6 +770,11 @@
     "below_media": "Below media"
   },
   "settings": {
+    "facelove_show_free_shipping": "Show free shipping badge",
+    "facelove_demo_mode": "Show demo labels for placeholder clips and profiles",
+    "facelove_profile_name": "Profile name",
+    "facelove_profile_age": "Age",
+
     "facelove_guarantee_label": "Guarantee label",
     "facelove_accelerated_checkout": "Show accelerated checkout",
     "facelove_best_for": "Best suited for heading",

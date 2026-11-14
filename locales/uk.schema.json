@@ -246,6 +246,8 @@
     "show_physical_stores_help": "Також показувати розташування, позначені як фізична вітрина, де товар є в наявності, навіть якщо вони не пропонують самовивіз."
   },
   "names": {
+    "facelove_ugc": "Video stories",
+
     "facelove_summary": "Product summary",
     "facelove_editorial": "Product editorial",
     "facelove_content": "Content",
@@ -709,6 +711,11 @@
     "below_media": "Під мультимедіа"
   },
   "settings": {
+    "facelove_show_free_shipping": "Show free shipping badge",
+    "facelove_demo_mode": "Show demo labels for placeholder clips and profiles",
+    "facelove_profile_name": "Profile name",
+    "facelove_profile_age": "Age",
+
     "facelove_guarantee_label": "Guarantee label",
     "facelove_accelerated_checkout": "Show accelerated checkout",
     "facelove_best_for": "Best suited for heading",

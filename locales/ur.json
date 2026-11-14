@@ -8,7 +8,21 @@
  * ------------------------------------------------------------
  */
 {
-  "facelove": {"save": "Save {{ amount }}", "bundle_note": "Includes mystery gift + primer", "five_stars": "5 out of 5 stars", "free": "FREE", "free_shipping": "FREE Shipping", "previous_review": "Previous Review", "next_review": "Next Review"},
+  "facelove": {
+    "free_shipping_badge": "+ Free Shipping",
+    "demo_notice": "Concept preview: generated clips and sample profiles, not customer testimonials.",
+    "demo_clip": "Demo clip",
+    "demo_badge": "Demo",
+    "verified_buyer": "Verified Buyer",
+    "featured_product": "Featured product",
+    "play_video": "Play {{ name }} video",
+    "pause_video": "Pause {{ name }} video",
+    "video_error": "This clip could not load. Select Play to try again.",
+    "choose_video": "Choose a video in this block’s settings.",
+    "previous_videos": "Previous videos",
+    "next_videos": "Next videos",
+    "swipe_videos": "Swipe to watch",
+"save": "Save {{ amount }}", "bundle_note": "Includes mystery gift + primer", "five_stars": "5 out of 5 stars", "free": "FREE", "free_shipping": "FREE Shipping", "previous_review": "Previous Review", "next_review": "Next Review"},
   "accessibility": {
     "account": "اکاؤنٹ",
     "active_filters": "فعال فلٹر:",

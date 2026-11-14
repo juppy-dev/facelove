@@ -246,6 +246,8 @@
     "show_physical_stores_help": "పికప్‌ను అందించనప్పటికీ, ఉత్పత్తి స్టాక్‌లో ఉన్న భౌతిక స్టోర్‌ఫ్రంట్‌గా మార్క్ చేయబడిన లొకేషన్‌లను కూడా జాబితా చేయండి."
   },
   "names": {
+    "facelove_ugc": "Video stories",
+
     "facelove_featured_review": "Featured review",
     "facelove_bundle": "Bundle extras",
     "facelove_proof": "Product social proof",
@@ -710,6 +712,11 @@
     "below_media": "మీడియా దిగువన"
   },
   "settings": {
+    "facelove_show_free_shipping": "Show free shipping badge",
+    "facelove_demo_mode": "Show demo labels for placeholder clips and profiles",
+    "facelove_profile_name": "Profile name",
+    "facelove_profile_age": "Age",
+
     "facelove_guarantee_label": "Guarantee label",
     "facelove_accelerated_checkout": "Show accelerated checkout",
     "facelove_best_for": "Best suited for heading",
