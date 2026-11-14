@@ -17,11 +17,11 @@
 </div>
 {% stylesheet %}
   .facelove-proof { width: 100%; font-size: 0.875rem; }
-  .facelove-proof__purchases { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; }
+  .facelove-proof__purchases { display: flex; align-items: center; gap: var(--fl-space-sm); margin: 0 0 var(--fl-space-sm); font-size: 0.8125rem; }
   .facelove-proof__avatars { display: flex; padding-inline-end: 6px; }
   .facelove-proof__avatars img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-background); margin-inline-end: -6px; }
-  .facelove-proof__reviews { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; color: inherit; text-decoration: none; }
-  .facelove-proof__stars { color: #8c5c08; font-size: 1.1rem; letter-spacing: 1px; }
+  .facelove-proof__reviews { display: flex; align-items: center; flex-wrap: wrap; gap: var(--fl-space-xs) var(--fl-space-sm); color: inherit; text-decoration: none; }
+  .facelove-proof__stars { color: var(--fl-color-rating); font-size: 1rem; letter-spacing: 0; }
   .facelove-proof__count { text-decoration: underline; text-underline-offset: 3px; }
   .facelove-proof__reviews:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 {% endstylesheet %}

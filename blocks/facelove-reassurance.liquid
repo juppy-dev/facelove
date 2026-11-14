@@ -4,13 +4,13 @@
   {% content_for 'block', type: 'facelove-reassurance', id: 'guarantee' %}
 {% enddoc %}
 <div class="facelove-reassurance" {{ block.shopify_attributes }}>
-  {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 96 | image_tag: loading: 'lazy', widths: '48, 96', sizes: '48px', alt: '' }}{% endif %}
+  <span class="facelove-reassurance__icon">{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 72 | image_tag: loading: 'lazy', widths: '36, 72', sizes: '36px', alt: '' }}{% else %}{% render 'facelove-icon', name: 'shield' %}{% endif %}</span>
   <div><h2>{{ block.settings.heading | escape }}</h2><div class="rte">{{ block.settings.text }}</div></div>
 </div>
 {% stylesheet %}
-  .facelove-reassurance { display: flex; align-items: start; gap: 14px; padding-block: 16px; border-block: 1px solid rgb(var(--color-foreground-rgb) / 0.15); width: 100%; }
-  .facelove-reassurance img { flex: 0 0 48px; width: 48px; height: 48px; }
-  .facelove-reassurance h2 { font: 600 1rem/1.4 var(--font-body--family); margin: 0 0 5px; }
+  .facelove-reassurance { display: flex; align-items: start; gap: var(--fl-space-lg); padding: var(--fl-space-xl); background: var(--fl-color-well); border: 1px solid var(--fl-color-boundary); border-radius: var(--fl-radius-control); width: 100%; }
+  .facelove-reassurance__icon { flex: 0 0 36px; width: 36px; height: 36px; color: var(--fl-color-accent-ink); }
+  .facelove-reassurance h2 { font: 600 1rem/1.4 var(--font-body--family); margin: 0 0 var(--fl-space-xs); }
   .facelove-reassurance .rte { font-size: 0.875rem; line-height: 1.5; }
   .facelove-reassurance p { margin: 0; }
 {% endstylesheet %}
