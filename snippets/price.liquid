@@ -128,11 +128,12 @@
     -%}
     {% render 'unit-price', price: unit_price, measurement: selected_variant.unit_price_measurement %}
   {%- endif -%}
+  {% if show_free_shipping %}<span class="facelove-price-perks">{% endif %}
   {% if show_savings and show_compare_price %}
     {% assign saving = selected_variant.compare_at_price | minus: selected_variant.price | money_without_trailing_zeros %}
     <span class="facelove-saving">{{ 'facelove.save' | t: amount: saving }}</span>
   {% endif %}
-  {% if show_free_shipping %}<span class="facelove-shipping-badge">{{ 'facelove.free_shipping_badge' | t }}</span>{% endif %}
+  {% if show_free_shipping %}<span class="facelove-shipping-badge">{{ 'facelove.free_shipping_badge' | t }}</span></span>{% endif %}
 </div>
 {%- if has_volume_pricing -%}
   <small

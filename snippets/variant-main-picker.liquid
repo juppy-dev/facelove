@@ -111,9 +111,13 @@
                 <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
               {%- endif %}
             </legend>
-            {% if block_settings.show_variant_prices and product_resource.metafields.facelove.offer_heading != blank %}
+            {% unless section.settings.facelove_hide_offer_banner %}
+            {% if block_settings.show_variant_prices and section.settings.facelove_campaign_heading != blank %}
+              {% render 'facelove-campaign', campaign: section.settings %}
+            {% elsif block_settings.show_variant_prices and product_resource.metafields.facelove.offer_heading != blank %}
               <p class="facelove-offer-heading">{{ product_resource.metafields.facelove.offer_heading.value | escape }}</p>
             {% endif %}
+            {% endunless %}
             {% liquid
               assign offer_values = product_option.values
               if block_settings.show_variant_prices and product_resource.metafields.facelove.bundle_variant != blank
@@ -126,6 +130,9 @@
               {% endif %}
               <label
                 class="variant-option__button-label{% if variant_style == 'swatch' %} variant-option__button-label--has-swatch{% endif %}"
+                {% if block_settings.show_variant_prices and product_resource.metafields.facelove.bundle_variant != blank %}
+                  data-facelove-offer="{% if product_option_value.variant.id == product_resource.metafields.facelove.bundle_variant.value.id %}bundle{% else %}single{% endif %}"
+                {% endif %}
               >
                 <input
                   type="radio"
@@ -184,8 +191,8 @@
                     data-key="variant-option-text"
                   >
                     {{- product_option_value | escape -}}
-                    {% if block_settings.show_variant_prices and product_option_value.variant.id == product_resource.metafields.facelove.bundle_variant.value.id %}
-                      <small class="facelove-offer-note">{{ 'facelove.bundle_note' | t }}</small>
+                    {% if block_settings.show_variant_prices and product_resource.metafields.facelove.bundle_variant != blank %}
+                      <small class="facelove-offer-label">{% if product_option_value.variant.id == product_resource.metafields.facelove.bundle_variant.value.id %}{{ 'facelove.limited_offer' | t }}{% else %}{{ 'facelove.regular_price' | t }}{% endif %}</small>
                     {% endif %}
                   </span>
                   {% if block_settings.show_variant_prices and product_resource.options.size == 1 %}
