@@ -254,6 +254,9 @@
     "show_physical_stores_help": "Also list locations marked as a physical storefront that have the product in stock, even when they don't offer pickup."
   },
   "names": {
+    "facelove_summary": "Product summary",
+    "facelove_editorial": "Product editorial",
+    "facelove_content": "Content",
     "column": "Column",
     "product_title": "Product title",
     "custom_liquid": "Custom Liquid",
@@ -423,6 +426,12 @@
     "comparison_slider": "Comparison slider"
   },
   "options": {
+    "facelove_image": "Image and benefits",
+    "facelove_steps": "Application steps",
+    "facelove_quotes": "Customer quotes",
+    "facelove_questions": "Product questions",
+    "facelove_ingredients": "Ingredients metafield",
+    "facelove_application": "Application metafield",
     "above_carousel": "Above carousel",
     "accent": "Accent",
     "all": "All",
@@ -748,6 +757,13 @@
     "below_media": "Below media"
   },
   "settings": {
+    "facelove_variant_prices": "Show prices for single-option products",
+    "facelove_eyebrow": "Introductory label",
+    "facelove_caption": "Image caption",
+    "facelove_link_label": "Link label",
+    "facelove_anchor": "In-page link name",
+    "facelove_spacing": "Section spacing",
+    "facelove_product_field": "Product information",
     "accordion": "Accordion",
     "account": "Account",
     "actions_display_style": "Menu style",

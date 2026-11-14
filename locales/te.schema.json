@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "categories": {
     "banners": "బ్యానర్‌లు",
@@ -237,6 +246,9 @@
     "show_physical_stores_help": "పికప్‌ను అందించనప్పటికీ, ఉత్పత్తి స్టాక్‌లో ఉన్న భౌతిక స్టోర్‌ఫ్రంట్‌గా మార్క్ చేయబడిన లొకేషన్‌లను కూడా జాబితా చేయండి."
   },
   "names": {
+    "facelove_summary": "Product summary",
+    "facelove_editorial": "Product editorial",
+    "facelove_content": "Content",
     "column": "నిలువు వరుస",
     "product_title": "ఉత్పత్తి శీర్షిక",
     "custom_liquid": "కస్టమ్ Liquid",
@@ -399,6 +411,12 @@
     "comparison_slider": "పోలిక స్లైడర్"
   },
   "options": {
+    "facelove_image": "Image and benefits",
+    "facelove_steps": "Application steps",
+    "facelove_quotes": "Customer quotes",
+    "facelove_questions": "Product questions",
+    "facelove_ingredients": "Ingredients metafield",
+    "facelove_application": "Application metafield",
     "above_carousel": "కరోసెల్ పైన",
     "accent": "యాక్సెంట్",
     "all": "అన్నీ",
@@ -681,6 +699,13 @@
     "below_media": "మీడియా దిగువన"
   },
   "settings": {
+    "facelove_variant_prices": "Show prices for single-option products",
+    "facelove_eyebrow": "Introductory label",
+    "facelove_caption": "Image caption",
+    "facelove_link_label": "Link label",
+    "facelove_anchor": "In-page link name",
+    "facelove_spacing": "Section spacing",
+    "facelove_product_field": "Product information",
     "accordion": "అకార్డియన్",
     "account": "ఖాతా",
     "actions_display_style": "మెనూ స్టైల్",
