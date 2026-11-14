@@ -53,6 +53,7 @@
     data-current-variant-id="{{ current_variant.id }}"
     data-initial-quantity="{{ initial_quantity }}"
     data-default-variant-title="{{ 'products.product.default_title' | t }}"
+    {% if section.settings.show_facelove_review %}data-mobile-always-available{% endif %}
   >
     <div
       class="sticky-add-to-cart__bar color-custom-popover"
@@ -108,6 +109,7 @@
         >
           {{ product.title | escape }}
         </p>
+        <div class="sticky-add-to-cart__metadata">
         <div
           class="sticky-add-to-cart__variant"
           data-testid="sticky-variant-title"
@@ -122,7 +124,11 @@
             {{ variant_title }}
           {% endunless %}
         </div>
+        {% if section.settings.show_facelove_review and section.settings.facelove_sticky_rating != blank %}
+          <span class="facelove-sticky-rating" role="img" aria-label="{{ 'accessibility.rating' | t: rating: section.settings.facelove_sticky_rating | escape }}"><span aria-hidden="true">★</span> {{ section.settings.facelove_sticky_rating | escape }}</span>
+        {% endif %}
         {% if section.settings.show_facelove_review %}<span class="facelove-sticky-shipping">{{ 'facelove.free_shipping' | t }}</span>{% endif %}
+        </div>
       </div>
 
       <div
@@ -196,6 +202,12 @@
 %}
 
 {% stylesheet %}
+  .sticky-add-to-cart__metadata { display: contents; }
+  .facelove-sticky-rating { display: none; }
+  @media (max-width: 749px) {
+    .facelove-sticky-rating { display: inline-flex; align-items: center; gap: 3px; font-size: 0.75rem; font-weight: 600; line-height: 1.2; white-space: nowrap; }
+    .facelove-sticky-rating > span { color: var(--fl-color-rating); font-size: 1rem; line-height: 1; }
+  }
   .sticky-add-to-cart__bar {
     position: fixed;
     bottom: max(20px, var(--safe-area-inset-bottom));
@@ -396,12 +408,88 @@
     }
   ],
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
-    { "type": "checkbox", "id": "show_savings", "label": "t:settings.facelove_show_savings", "default": false },
-    { "type": "checkbox", "id": "show_facelove_review", "label": "t:settings.facelove_featured_review", "default": false },
-    { "type": "font_picker", "id": "facelove_font", "label": "t:settings.font", "default": "montserrat_n4", "visible_if": "{{ section.settings.show_facelove_review }}" },
+    {
+      "type": "text",
+      "id": "facelove_image_tag",
+      "label": "t:settings.facelove_image_tag"
+    },
+    {
+      "type": "checkbox",
+      "id": "facelove_hide_offer_banner",
+      "label": "t:settings.facelove_hide_offer_banner",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "facelove_campaign_heading",
+      "label": "t:settings.facelove_campaign_heading"
+    },
+    {
+      "type": "text",
+      "id": "facelove_campaign_text",
+      "label": "t:settings.text"
+    },
+    {
+      "type": "checkbox",
+      "id": "facelove_campaign_daily",
+      "label": "t:settings.facelove_campaign_daily",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "facelove_campaign_timezone",
+      "label": "t:settings.facelove_campaign_timezone",
+      "default": "America/New_York",
+      "visible_if": "{{ section.settings.facelove_campaign_daily }}"
+    },
+    {
+      "type": "text",
+      "id": "facelove_campaign_end",
+      "label": "t:settings.facelove_campaign_end",
+      "info": "t:info.facelove_campaign_end",
+      "visible_if": "{{ section.settings.facelove_campaign_daily == false }}"
+    },
+    {
+      "type": "range",
+      "id": "facelove_campaign_progress",
+      "label": "t:settings.facelove_progress",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 87
+    },
+    {
+      "type": "checkbox",
+      "id": "show_savings",
+      "label": "t:settings.facelove_show_savings",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_facelove_review",
+      "label": "t:settings.facelove_featured_review",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "facelove_sticky_rating",
+      "label": "t:settings.facelove_rating_text",
+      "visible_if": "{{ section.settings.show_facelove_review }}"
+    },
+    {
+      "type": "font_picker",
+      "id": "facelove_font",
+      "label": "t:settings.font",
+      "default": "montserrat_n4",
+      "visible_if": "{{ section.settings.show_facelove_review }}"
+    },
     {
       "type": "header",
       "content": "t:content.layout"
