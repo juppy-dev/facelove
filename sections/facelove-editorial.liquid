@@ -58,6 +58,7 @@
             {% when 'quotes' %}
               {% if block.settings.text != blank %}
                 <figure class="facelove-editorial__quote" {{ block.shopify_attributes }}>
+                  <p class="facelove-editorial__stars" role="img" aria-label="{{ 'facelove.five_stars' | t }}">★★★★★</p>
                   <blockquote>{{ block.settings.text }}</blockquote>
                   <figcaption>{{ block.settings.heading | escape }}</figcaption>
                 </figure>
@@ -106,6 +107,7 @@
   .facelove-editorial__quote { margin: 0; border-inline-start: 2px solid currentColor; padding-inline-start: 24px; }
   .facelove-editorial__quote blockquote { margin: 0; font-size: 1.125rem; }
   .facelove-editorial__quote figcaption { font-size: 0.875rem; font-weight: 600; }
+  .facelove-editorial__stars { color: #8c5c08; letter-spacing: 2px; }
   .facelove-editorial a:focus-visible, .facelove-editorial summary:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
   @media screen and (max-width: 749px) {
     .facelove-editorial { padding-block: min(var(--facelove-section-space), 44px); }
