@@ -115,7 +115,7 @@ class StickyAddToCartComponent extends Component {
     if (!buyButtonsBlock) return;
 
     // In themes migrated from 2.0, the footer element doesn't exist
-    const footer = document.querySelector('footer') ?? document.querySelector('[class*="footer-group"]');
+    const footer = document.querySelector('footer') ?? document.querySelector('[class*="footer-group"]') ?? document.querySelector('[data-sticky-end]');
     if (!footer) return;
 
     // Observer for buy buttons visibility
