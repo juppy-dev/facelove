@@ -1,78 +1,56 @@
 import { Component } from '@theme/component';
 
-/** @extends {Component<{ chapters: HTMLElement[], cards: HTMLElement[] }>} */
+/** @extends {Component<{ track: HTMLElement, chapters: HTMLElement[], counter: HTMLElement, previous: HTMLButtonElement, next: HTMLButtonElement }>} */
 class FaceloveStory extends Component {
   #abort;
-  #frame;
-  #observer;
-  #visible = false;
-  #media = matchMedia('(min-width: 960px) and (min-height: 720px) and (prefers-reduced-motion: no-preference)');
+  #resize;
+  #index = 0;
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.#connect();
-  }
-
-  updatedCallback() {
-    super.updatedCallback();
-    this.#connect();
-  }
-
+  connectedCallback() { super.connectedCallback(); this.#connect(); }
+  updatedCallback() { super.updatedCallback(); this.#connect(); }
   disconnectedCallback() {
     super.disconnectedCallback();
     this.#abort?.abort();
-    this.#observer?.disconnect();
-    cancelAnimationFrame(this.#frame);
-    this.#frame = undefined;
+    this.#resize?.disconnect();
   }
 
   #connect() {
     this.#abort?.abort();
-    this.#observer?.disconnect();
+    this.#resize?.disconnect();
     this.#abort = new AbortController();
-    const options = { signal: this.#abort.signal, passive: true };
-    const scroller = this.closest('.page-wrapper') ?? window;
-    scroller.addEventListener('scroll', this.#schedule, options);
-    window.addEventListener('resize', this.#schedule, options);
-    this.#media.addEventListener('change', this.#setup, options);
-    this.#observer = new IntersectionObserver(([entry]) => {
-      this.#visible = entry.isIntersecting;
-      this.#schedule();
-    });
-    this.#observer.observe(this);
-    this.#setup();
+    const options = { signal: this.#abort.signal };
+    this.refs.track.addEventListener('scroll', this.#update, { ...options, passive: true });
+    this.refs.track.addEventListener('keydown', this.#keyboard, options);
+    this.#resize = new ResizeObserver(this.#update);
+    this.#resize.observe(this.refs.track);
+    this.dataset.ready = 'true';
+    this.#update();
   }
 
-  #setup = () => {
-    this.dataset.enhanced = String(this.#media.matches);
-    for (const card of this.refs.cards ?? []) {
-      card.style.removeProperty('--fl-progress');
-      card.style.removeProperty('--fl-enter');
-      card.inert = false;
-    }
-    this.#schedule();
-  };
-
-  #schedule = () => {
-    if (this.#frame || !this.#visible || !this.#media.matches) return;
-    this.#frame = requestAnimationFrame(this.#update);
-  };
-
   #update = () => {
-    this.#frame = undefined;
-    if (!this.isConnected || !this.#media.matches) return;
-    // Real card positions drive depth; no artificial scroll runway or wheel interception.
-    const boxes = this.refs.chapters.map((chapter) => chapter.getBoundingClientRect());
-    const clamp = (value) => Math.min(1, Math.max(0, value));
-    for (const [index, card] of this.refs.cards.entries()) {
-      const box = boxes[index];
-      const next = boxes[index + 1];
-      const overlap = next ? clamp((box.height * 0.85 - (next.top - box.top)) / (box.height * 0.85)) : 0;
-      const entering = clamp((box.top - innerHeight * 0.7) / (innerHeight * 0.3));
-      card.style.setProperty('--fl-progress', overlap.toFixed(3));
-      card.style.setProperty('--fl-enter', entering.toFixed(3));
-      card.inert = overlap > 0.95;
-    }
+    const { track, chapters, counter, previous, next } = this.refs;
+    if (!track.clientWidth || !chapters?.length) return;
+    this.#index = Math.min(chapters.length - 1, Math.round(Math.abs(track.scrollLeft) / track.clientWidth));
+    const label = String(this.#index + 1).padStart(2, '0');
+    if (counter.textContent !== label) counter.textContent = label;
+    previous.disabled = this.#index === 0;
+    next.disabled = this.#index === chapters.length - 1;
+  };
+
+  previous() { this.#move(-1); }
+  next() { this.#move(1); }
+
+  #move(direction) {
+    const { track, chapters } = this.refs;
+    const index = Math.max(0, Math.min(chapters.length - 1, this.#index + direction));
+    track.scrollTo({ left: index * track.clientWidth * (getComputedStyle(track).direction === 'rtl' ? -1 : 1), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+  }
+
+  #keyboard = (event) => {
+    if (event.target !== this.refs.track || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    event.preventDefault();
+    const direction = event.key === 'ArrowRight' ? 1 : -1;
+    this.#move(direction * (getComputedStyle(this.refs.track).direction === 'rtl' ? -1 : 1));
   };
 }
 

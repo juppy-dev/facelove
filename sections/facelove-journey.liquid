@@ -1,5 +1,5 @@
 {% comment %}
-  Five source product stories become layered desktop cards; mobile and reduced-motion views retain normal document flow.
+  Source product stories share a stationary heading and a horizontal, manually controlled viewport.
   @example
   Add image and copy blocks in the desired reading order.
 {% endcomment %}
@@ -7,16 +7,25 @@
 {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
 <script src="{{ 'facelove-story.js' | asset_url }}" type="module"></script>
 <facelove-story class="facelove-journey color-custom-{{ section.id }}" id="{{ section.settings.anchor | handleize }}" role="region" aria-labelledby="StoryHeading-{{ section.id }}">
-  <header class="facelove-journey__heading">{% if section.settings.eyebrow != blank %}<p>{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2 id="StoryHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div></header>
-  <div class="facelove-journey__chapters">
+  <header class="facelove-journey__heading">
+    <div>{% if section.settings.eyebrow != blank %}<p>{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2 id="StoryHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div></div>
+    <div class="facelove-journey__controls">
+      <p class="facelove-journey__number" role="status" aria-live="polite" aria-atomic="true"><span ref="counter">01</span><span>/ {{ section.blocks.size | prepend: '0' }}</span></p>
+      <button type="button" ref="previous" on:click="/previous" aria-label="{{ 'accessibility.slideshow_previous' | t }}" aria-controls="StoryTrack-{{ section.id }}" disabled>←</button>
+      <button type="button" ref="next" on:click="/next" aria-label="{{ 'accessibility.slideshow_next' | t }}" aria-controls="StoryTrack-{{ section.id }}">→</button>
+    </div>
+  </header>
+  <div class="facelove-journey__chapters" ref="track" id="StoryTrack-{{ section.id }}" tabindex="0" role="region" aria-labelledby="StoryHeading-{{ section.id }}">
     {% for block in section.blocks %}
       <article class="facelove-journey__chapter" ref="chapters[]" id="Reason-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
-        <div class="facelove-journey__card" ref="cards[]">
-          <figure>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 960 | image_tag: loading: 'lazy', widths: '360, 540, 720, 960', sizes: '(min-width: 1200px) 430px, (min-width: 960px) 38vw, calc(100vw - 88px)' }}{% endif %}{% if block.settings.caption != blank %}<figcaption>{{ block.settings.caption | escape }}</figcaption>{% endif %}</figure>
+        <div class="facelove-journey__card">
+          <figure>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1440 | image_tag: loading: 'lazy', widths: '360, 540, 720, 960, 1440', sizes: '(min-width: 750px) 50vw, 100vw' }}{% endif %}{% if block.settings.caption != blank %}<figcaption>{{ block.settings.caption | escape }}</figcaption>{% endif %}</figure>
           <div class="facelove-journey__copy">
-            <p class="facelove-journey__number"><span>0{{ forloop.index }}</span><span>/ 0{{ section.blocks.size }}</span></p>
             <h3>{{ block.settings.heading | escape }}</h3><div class="rte">{{ block.settings.text }}</div>
-            {% if section.settings.link != blank %}<a class="button facelove-journey__chapter-cta" href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>{% endif %}
+            {% if product != blank %}
+              {% assign form_id = 'StoryProductForm-' | append: section.id | append: '-' | append: block.id %}
+              {% render 'facelove-purchase', product: product, form_id: form_id %}
+            {% elsif section.settings.link != blank %}<a class="button facelove-journey__chapter-cta" href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>{% endif %}
           </div>
         </div>
       </article>
@@ -24,36 +33,44 @@
   </div>
 </facelove-story>
 {% stylesheet %}
-  .facelove-journey { display: block; background: var(--color-background); color: var(--color-foreground); padding: var(--fl-space-section) 0; }
-  .facelove-journey__heading, .facelove-journey__chapters { width: min(var(--fl-container), calc(100% - 2 * var(--fl-gutter))); margin-inline: auto; }
-  .facelove-journey__heading { display: grid; grid-template-columns: 1.2fr 0.8fr; column-gap: var(--fl-space-4xl); align-items: end; margin-block-end: var(--fl-space-3xl); }
-  .facelove-journey__heading > p { grid-column: 1 / -1; font-size: 0.875rem; font-weight: 600; margin: 0 0 var(--fl-space-md); }
+  .facelove-journey { display: block; width: 100%; background: var(--color-background); color: var(--color-foreground); padding-block: var(--fl-space-4xl) 0; }
+  .facelove-journey__heading { display: flex; justify-content: space-between; align-items: center; gap: var(--fl-space-3xl); padding: 0 var(--fl-gutter) var(--fl-space-2xl); }
+  .facelove-journey__heading > div:first-child { min-width: 0; max-width: 780px; }
+  .facelove-journey__heading p { margin: 0; }
   .facelove-journey h2 { font-size: var(--fl-section-title); font-weight: 700; letter-spacing: -0.025em; line-height: 1.15; margin: 0; }
-  .facelove-journey__heading .rte { max-width: 30ch; justify-self: end; }
-  .facelove-journey__heading .rte p { margin: 0; }
-  .facelove-journey__chapters { max-width: 1100px; }
-  .facelove-journey__chapter { padding-block-end: var(--fl-space-xl); scroll-margin-block-start: 80px; }
-  .facelove-journey__card { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: center; gap: var(--fl-space-2xl); padding: var(--fl-space-xl); border-radius: var(--fl-radius-surface); background: var(--fl-color-surface); color: var(--fl-color-ink); box-shadow: var(--fl-shadow-raised); border: 1px solid transparent; }
-  .facelove-journey__chapter figure { margin: 0; min-width: 0; }
-  .facelove-journey__chapter img { width: 100%; max-height: 320px; object-fit: contain; display: block; border-radius: var(--fl-radius-control); }
+  .facelove-journey__heading .rte { margin-block-start: var(--fl-space-lg); color: var(--fl-color-muted); }
+  .facelove-journey__controls { display: none; align-items: center; gap: var(--fl-space-md); flex-shrink: 0; }
+  .facelove-journey[data-ready='true'] .facelove-journey__controls { display: flex; }
+  .facelove-journey__controls button { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--fl-color-boundary); border-radius: 50%; color: var(--fl-color-accent-ink); background: var(--fl-color-surface); font-size: 1.5rem; cursor: pointer; }
+  .facelove-journey__controls button:disabled { opacity: 0.35; cursor: default; }
+  .facelove-journey__chapters { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .facelove-journey__chapter { position: relative; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
+  .facelove-journey__card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; min-height: 100%; background: var(--fl-color-surface); color: var(--fl-color-ink); }
+  .facelove-journey__chapter figure { display: grid; align-content: center; margin: 0; min-width: 0; height: 100%; background: var(--fl-color-well); }
+  .facelove-journey__chapter img { width: 100%; max-height: 560px; aspect-ratio: 1; object-fit: contain; display: block; }
   .facelove-journey__chapter figcaption { margin-block-start: var(--fl-space-md); font-size: 0.8125rem; }
-  .facelove-journey__copy { min-width: 0; }
-  .facelove-journey__number { display: flex; align-items: baseline; gap: var(--fl-space-md); margin-block: 0 var(--fl-space-lg); font-variant-numeric: tabular-nums; }
+  .facelove-journey__copy { min-width: 0; padding: var(--fl-space-3xl) clamp(24px, 5vw, 96px); }
+  .facelove-journey__number { display: flex; align-items: baseline; gap: var(--fl-space-sm); padding-inline-end: var(--fl-space-md); font-variant-numeric: tabular-nums; }
   .facelove-journey__number span:first-child { font-size: 2rem; line-height: 1; font-weight: 600; color: var(--fl-color-accent-ink); }
   .facelove-journey__number span:last-child { font-size: 0.875rem; }
-  .facelove-journey h3 { font-size: clamp(1.25rem, 2vw, 1.625rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 var(--fl-space-lg); max-width: 30ch; }
+  .facelove-journey h3 { font-size: clamp(1.5rem, 2.6vw, 2.5rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 var(--fl-space-xl); max-width: 28ch; }
   .facelove-journey__copy ul { padding-inline-start: var(--fl-space-xl); font-size: 0.9375rem; line-height: 1.5; }
   .facelove-journey__copy li { padding-inline-start: var(--fl-space-xs); margin-block: var(--fl-space-sm); }
   .facelove-journey__chapter-cta { margin-block-start: var(--fl-space-sm); width: fit-content; font-size: 0.8125rem; }
-  @media (min-width: 960px) and (min-height: 720px) and (prefers-reduced-motion: no-preference) {
-    .facelove-journey[data-enhanced='true'] .facelove-journey__chapter { position: sticky; inset-block-start: 72px; }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__card { transform-origin: 50% 0; opacity: calc(1 - var(--fl-progress, 0) * 0.92); transform: perspective(1000px) translate3d(0, calc(var(--fl-enter, 0) * 24px - var(--fl-progress, 0) * 24px), calc(var(--fl-progress, 0) * -120px)) rotateX(calc(var(--fl-progress, 0) * 9deg - var(--fl-enter, 0) * 5deg)) scale(calc(1 - var(--fl-progress, 0) * 0.1 - var(--fl-enter, 0) * 0.03)); }
-  }
-  @media (max-width: 959px) {
-    .facelove-journey { padding-block: var(--fl-space-3xl); }
-    .facelove-journey__heading { display: block; margin-block-end: var(--fl-space-xl); }
-    .facelove-journey__heading .rte { margin-block-start: var(--fl-space-lg); }
-    .facelove-journey__card { grid-template-columns: 1fr; gap: var(--fl-space-xl); }
+  .facelove-journey :is(button, [tabindex]):focus-visible { outline: 2px solid var(--fl-color-accent); outline-offset: -3px; }
+  [dir='rtl'] .facelove-journey__controls button { transform: scaleX(-1); }
+  @media (max-width: 749px) {
+    .facelove-journey { padding-block-start: var(--fl-space-2xl); }
+    .facelove-journey__heading { flex-wrap: wrap; gap: var(--fl-space-md); padding-block-end: var(--fl-space-lg); }
+    .facelove-journey__heading .rte { margin-block-start: var(--fl-space-sm); }
+    .facelove-journey__number span:first-child { font-size: 1.5rem; }
+    .facelove-journey__controls button { width: 44px; height: 44px; }
+    .facelove-journey h2 { font-size: 1.625rem; }
+    .facelove-journey__controls { width: 100%; justify-content: end; }
+    .facelove-journey__heading .facelove-journey__number { margin-inline-end: auto; }
+    .facelove-journey__card { grid-template-columns: 1fr; align-content: start; }
+    .facelove-journey__chapter img { max-height: 340px; }
+    .facelove-journey__copy { padding: var(--fl-space-xl) var(--fl-gutter) var(--fl-space-2xl); }
   }
 {% endstylesheet %}
 {% schema %}
