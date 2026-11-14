@@ -28,7 +28,8 @@
     show_icon: can_add_to_cart,
     product: closest.product,
     add_to_cart_text: add_to_cart_text,
-    data_testid: 'standalone-add-to-cart'
+    data_testid: 'standalone-add-to-cart',
+    show_price: block.settings.show_price
   %}
 </span>
 
@@ -37,6 +38,7 @@
   "name": "t:names.add_to_cart",
   "tag": null,
   "settings": [
+    { "type": "checkbox", "id": "show_price", "label": "t:settings.facelove_show_price", "default": false },
     {
       "type": "select",
       "id": "style_class",

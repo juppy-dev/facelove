@@ -56,7 +56,8 @@
   {% render 'price',
     show_unit_price: true,
     product_resource: product_resource,
-    show_sale_price_first: block_settings.show_sale_price_first
+    show_sale_price_first: block_settings.show_sale_price_first,
+    show_savings: block_settings.show_savings
   %}
 
   {% if block_settings.show_tax_info %}
@@ -97,6 +98,7 @@
   "name": "t:names.product_price",
   "tag": null,
   "settings": [
+    { "type": "checkbox", "id": "show_savings", "label": "t:settings.facelove_show_savings", "default": false },
     {
       "type": "paragraph",
       "content": "t:content.resource_reference_product_price"

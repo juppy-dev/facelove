@@ -1,0 +1,14 @@
+{% doc %}
+  Shared savings and button-price styling, loaded by each price consumer.
+  @example
+  {% render 'facelove-offer-styles' %}
+{% enddoc %}
+{% stylesheet %}
+  .facelove-saving { display: inline-block; font: 650 0.8125rem/1.2 var(--font-body--family); color: #fff; background: #513865; border-radius: 4px; padding: 6px 9px; white-space: nowrap; }
+  .facelove-button-price { display: inline-flex; align-items: baseline; gap: 8px; margin-inline-start: 8px; }
+  .facelove-button-price strong { font-size: 1.125rem; }
+  .facelove-button-price s { font-size: 0.875rem; font-weight: 400; }
+  .facelove-offer-note { display: block; font-size: 0.75rem; font-weight: 400; margin-block-start: 4px; }
+  .facelove-offer-radio { flex: 0 0 18px; height: 18px; border: 1px solid #817589; border-radius: 50%; }
+  label:has(:checked) > .facelove-offer-radio { background: #67517d; border: 4px solid #f2ecf7; outline: 2px solid #67517d; outline-offset: -1px; }
+{% endstylesheet %}
