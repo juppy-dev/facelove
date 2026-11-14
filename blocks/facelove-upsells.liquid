@@ -1,0 +1,67 @@
+{% doc %}
+  Merchant-selected complementary products with explicit variant names and native quick-add forms.
+  @example
+  Select the Foundation Brush and Everlove Mascara in the product list.
+{% enddoc %}
+{% render 'add-to-cart-button-styles' %}
+{% render 'fly-to-cart-styles' %}
+{% render 'buy-buttons-styles' %}
+<script src="{{ 'facelove-reviews.js' | asset_url }}" type="module"></script>
+{% if block.settings.products != blank %}
+  <facelove-reviews class="facelove-upsells" {{ block.shopify_attributes }}>
+    <header><h2>{{ block.settings.heading | escape }}</h2><div class="facelove-upsells__controls"><button type="button" ref="previous" on:click="/previous" aria-label="{{ 'facelove.previous_products' | t }}">←</button><button type="button" ref="next" on:click="/next" aria-label="{{ 'facelove.next_products' | t }}">→</button></div></header>
+    <div class="facelove-upsells__track" ref="track" tabindex="0" role="region" aria-label="{{ block.settings.heading | escape }}">
+      {% for item in block.settings.products %}
+        {% liquid
+          assign variant = item.selected_or_first_available_variant
+          assign form_id = 'UpsellForm-' | append: section.id | append: '-' | append: block.id | append: '-' | append: item.id
+          assign button_text = 'actions.add' | t
+          unless variant.available
+            assign button_text = 'products.product.sold_out' | t
+          endunless
+        %}
+        <article class="facelove-upsells__card">
+          <a class="facelove-upsells__image" href="{{ item.url }}">{% if item.featured_image != blank %}{{ item.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80, 160', sizes: '64px' }}{% endif %}</a>
+          <div class="facelove-upsells__info"><a href="{{ item.url }}">{{ item.title | escape }}</a>{% unless item.has_only_default_variant %}<small>{{ variant.title | escape }}</small>{% endunless %}<p><strong>{{ variant.price | money_without_trailing_zeros }}</strong>{% if variant.compare_at_price > variant.price %}<s>{{ variant.compare_at_price | money_without_trailing_zeros }}</s>{% endif %}</p></div>
+          <product-form-component data-section-id="{{ section.id }}" data-product-id="{{ item.id }}" data-product-url="{{ item.url }}" data-quantity-default="1" on:submit="/handleSubmit">
+            <div class="visually-hidden" ref="liveRegion" role="status" aria-live="assertive" aria-atomic="true"></div>
+            {% form 'product', item, id: form_id, data-type: 'add-to-cart-form' %}
+              <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}"><input type="hidden" name="quantity" value="1">
+              <div ref="productFormButtons"><span class="product-form-text__error hidden" ref="addToCartTextError"></span>
+                {% capture accessible_button_text %}{{ button_text }}<span class="visually-hidden"> — {{ item.title | escape }}{% unless item.has_only_default_variant %}, {{ variant.title | escape }}{% endunless %}</span>{% endcapture %}
+                {% render 'add-to-cart-button', product: item, can_add_to_cart: variant.available, add_to_cart_text: accessible_button_text, show_icon: false, class: 'facelove-upsells__add add-to-cart-button' %}
+              </div>
+            {% endform %}
+          </product-form-component>
+        </article>
+      {% endfor %}
+    </div>
+  </facelove-reviews>
+{% endif %}
+{% stylesheet %}
+  .facelove-upsells { display: block; width: 100%; min-width: 0; margin-block-start: var(--fl-space-sm); }
+  .facelove-upsells header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-block-end: 4px; }
+  .facelove-upsells h2 { margin: 0; font-size: 1rem; font-weight: 600; }
+  .facelove-upsells__controls { display: flex; gap: 2px; }
+  .facelove-upsells__controls button { width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--fl-color-ink); font-size: 1.25rem; cursor: pointer; }
+  .facelove-upsells__controls button:disabled { opacity: 0.3; cursor: default; }
+  .facelove-upsells__track { display: grid; grid-auto-flow: column; grid-auto-columns: calc(100% - 24px); gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; padding-block-end: 4px; }
+  .facelove-upsells__card { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--fl-color-rule); border-radius: 10px; background: var(--fl-color-surface); scroll-snap-align: start; min-width: 0; }
+  .facelove-upsells__image img { display: block; width: 64px; height: 64px; object-fit: contain; }
+  .facelove-upsells__info { min-width: 0; line-height: 1.3; }
+  .facelove-upsells__info > a { display: block; font-size: 0.8125rem; font-weight: 600; color: inherit; text-decoration: none; }
+  .facelove-upsells__info small { display: block; font-size: 0.6875rem; margin-block-start: 3px; }
+  .facelove-upsells__info p { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; margin: 4px 0 0; }
+  .facelove-upsells__info strong { font-size: 0.9375rem; color: var(--fl-color-accent-ink); }
+  .facelove-upsells__info s { font-size: 0.6875rem; color: var(--fl-color-muted); }
+  .product-information .facelove-upsells .facelove-upsells__add { min-height: 44px; padding: 8px 12px; font-size: 0.75rem; border-radius: 6px; }
+  .facelove-upsells .product-form-text__error { white-space: normal; max-width: 12ch; font-size: 0.6875rem; }
+  @media (max-width: 374px) { .facelove-upsells__card { grid-template-columns: 48px minmax(0, 1fr) auto; gap: 6px; padding: 8px; } .facelove-upsells__image img { width: 48px; height: 48px; } .product-information .facelove-upsells .facelove-upsells__add { padding-inline: 8px; } }
+{% endstylesheet %}
+{% schema %}
+{
+  "name":"t:names.facelove_upsells", "tag":null,
+  "settings":[{"type":"text","id":"heading","label":"t:settings.heading"},{"type":"product_list","id":"products","label":"t:settings.products","limit":4}],
+  "presets":[{"name":"t:names.facelove_upsells","category":"t:categories.product"}]
+}
+{% endschema %}
