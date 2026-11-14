@@ -6,23 +6,22 @@
 {% render 'facelove-design' %}
 {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
 <script src="{{ 'facelove-story.js' | asset_url }}" type="module"></script>
-<facelove-story class="facelove-journey color-custom-{{ section.id }}" id="{{ section.settings.anchor | handleize }}" role="region" aria-labelledby="StoryHeading-{{ section.id }}" style="--fl-chapter-count: {{ section.blocks.size }};">
+<facelove-story class="facelove-journey color-custom-{{ section.id }}" id="{{ section.settings.anchor | handleize }}" role="region" aria-labelledby="StoryHeading-{{ section.id }}">
   <header class="facelove-journey__heading">{% if section.settings.eyebrow != blank %}<p>{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2 id="StoryHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div></header>
-  <nav class="facelove-journey__nav" aria-label="{{ section.settings.heading | escape }}">
-    {% for block in section.blocks %}<a ref="links[]" on:click="/selectChapter" href="#Reason-{{ section.id }}-{{ block.id }}" aria-label="{{ block.settings.heading | escape }}">0{{ forloop.index }}</a>{% endfor %}
-  </nav>
   <div class="facelove-journey__chapters">
     {% for block in section.blocks %}
-      <article class="facelove-journey__chapter" {{ block.shopify_attributes }}>
+      <article class="facelove-journey__chapter" ref="chapters[]" id="Reason-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
         <div class="facelove-journey__card" ref="cards[]">
-          <figure>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '360, 540, 720, 960, 1200', sizes: '(min-width: 1320px) 550px, (min-width: 750px) 42vw, calc(100vw - 40px)' }}{% endif %}{% if block.settings.caption != blank %}<figcaption>{{ block.settings.caption | escape }}</figcaption>{% endif %}</figure>
-          <div class="facelove-journey__copy"><p class="facelove-journey__number"><span>0{{ forloop.index }}</span><span>/ 0{{ section.blocks.size }}</span></p><h3 tabindex="-1">{{ block.settings.heading | escape }}</h3><div class="rte">{{ block.settings.text }}</div></div>
+          <figure>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 960 | image_tag: loading: 'lazy', widths: '360, 540, 720, 960', sizes: '(min-width: 1200px) 430px, (min-width: 960px) 38vw, calc(100vw - 88px)' }}{% endif %}{% if block.settings.caption != blank %}<figcaption>{{ block.settings.caption | escape }}</figcaption>{% endif %}</figure>
+          <div class="facelove-journey__copy">
+            <p class="facelove-journey__number"><span>0{{ forloop.index }}</span><span>/ 0{{ section.blocks.size }}</span></p>
+            <h3>{{ block.settings.heading | escape }}</h3><div class="rte">{{ block.settings.text }}</div>
+            {% if section.settings.link != blank %}<a class="button facelove-journey__chapter-cta" href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>{% endif %}
+          </div>
         </div>
-        <div class="facelove-journey__step" ref="steps[]" id="Reason-{{ section.id }}-{{ block.id }}" style="--fl-step: {{ forloop.index }};" aria-hidden="true"></div>
       </article>
     {% endfor %}
   </div>
-  {% if section.settings.link != blank %}<a class="button facelove-journey__link" href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>{% endif %}
 </facelove-story>
 {% stylesheet %}
   .facelove-journey { display: block; background: var(--color-background); color: var(--color-foreground); padding: var(--fl-space-section) 0; }
@@ -32,46 +31,29 @@
   .facelove-journey h2 { font-size: var(--fl-section-title); font-weight: 700; letter-spacing: -0.025em; line-height: 1.15; margin: 0; }
   .facelove-journey__heading .rte { max-width: 30ch; justify-self: end; }
   .facelove-journey__heading .rte p { margin: 0; }
-  .facelove-journey__nav { display: none; }
-  .facelove-journey__chapter { padding-block: var(--fl-space-xl) var(--fl-space-3xl); }
-  .facelove-journey__card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: var(--fl-space-3xl); }
-  .facelove-journey__step { display: none; scroll-margin-block-start: calc(var(--header-height, 0px) + 108px); }
+  .facelove-journey__chapters { max-width: 1100px; }
+  .facelove-journey__chapter { padding-block-end: var(--fl-space-xl); scroll-margin-block-start: 80px; }
+  .facelove-journey__card { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: center; gap: var(--fl-space-2xl); padding: var(--fl-space-xl); border-radius: var(--fl-radius-surface); background: var(--fl-color-surface); color: var(--fl-color-ink); box-shadow: var(--fl-shadow-raised); border: 1px solid transparent; }
   .facelove-journey__chapter figure { margin: 0; min-width: 0; }
-  .facelove-journey__chapter img { width: 100%; max-height: 560px; object-fit: contain; display: block; border-radius: var(--fl-radius-surface); }
+  .facelove-journey__chapter img { width: 100%; max-height: 320px; object-fit: contain; display: block; border-radius: var(--fl-radius-control); }
   .facelove-journey__chapter figcaption { margin-block-start: var(--fl-space-md); font-size: 0.8125rem; }
-  .facelove-journey__copy { min-width: 0; padding-inline: var(--fl-space-2xl); scroll-margin-block-start: calc(var(--header-height, 0px) + 108px); }
-  .facelove-journey__number { display: flex; align-items: baseline; gap: var(--fl-space-md); margin-block: 0 var(--fl-space-xl); font-variant-numeric: tabular-nums; }
-  .facelove-journey__number span:first-child { font-size: 4rem; line-height: 1; font-weight: 600; color: var(--fl-color-accent-ink); }
+  .facelove-journey__copy { min-width: 0; }
+  .facelove-journey__number { display: flex; align-items: baseline; gap: var(--fl-space-md); margin-block: 0 var(--fl-space-lg); font-variant-numeric: tabular-nums; }
+  .facelove-journey__number span:first-child { font-size: 2rem; line-height: 1; font-weight: 600; color: var(--fl-color-accent-ink); }
   .facelove-journey__number span:last-child { font-size: 0.875rem; }
-  .facelove-journey h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 var(--fl-space-xl); max-width: 24ch; }
-  .facelove-journey__copy ul { padding-inline-start: var(--fl-space-xl); font-size: 1rem; line-height: 1.7; }
-  .facelove-journey__copy li { padding-inline-start: var(--fl-space-xs); margin-block: var(--fl-space-md); }
-  .facelove-journey__link { display: flex; width: fit-content; margin: var(--fl-space-3xl) auto 0; }
+  .facelove-journey h3 { font-size: clamp(1.25rem, 2vw, 1.625rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 var(--fl-space-lg); max-width: 30ch; }
+  .facelove-journey__copy ul { padding-inline-start: var(--fl-space-xl); font-size: 0.9375rem; line-height: 1.5; }
+  .facelove-journey__copy li { padding-inline-start: var(--fl-space-xs); margin-block: var(--fl-space-sm); }
+  .facelove-journey__chapter-cta { margin-block-start: var(--fl-space-sm); width: fit-content; font-size: 0.8125rem; }
   @media (min-width: 960px) and (min-height: 720px) and (prefers-reduced-motion: no-preference) {
-    .facelove-journey[data-enhanced='true'] .facelove-journey__nav { position: sticky; inset-block-start: calc(var(--header-height, 0px) + 16px); z-index: 2; display: flex; width: fit-content; margin: 0 auto var(--fl-space-xl); padding: var(--fl-space-xs); gap: var(--fl-space-xs); background: var(--fl-color-surface); border-radius: var(--fl-radius-pill); box-shadow: var(--fl-shadow-soft); }
-    .facelove-journey__nav a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; color: var(--fl-color-accent-ink); text-decoration: none; font-size: 0.875rem; font-weight: 600; font-variant-numeric: tabular-nums; transition: background-color var(--fl-duration-fast) var(--fl-ease); }
-    .facelove-journey__nav a:hover { background: var(--fl-color-well); }
-    .facelove-journey__nav a[aria-current] { color: var(--fl-color-on-accent); background: var(--fl-color-accent-ink); }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__chapters { display: grid; grid-template-columns: minmax(0, 1fr); perspective: 1200px; }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__chapter { display: contents; }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__step { display: block; grid-column: 1; grid-row: var(--fl-step); min-height: 78svh; pointer-events: none; }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__card { grid-column: 1; grid-row: 1 / span var(--fl-chapter-count); position: sticky; inset-block-start: calc(var(--header-height, 0px) + 88px); align-self: start; padding: var(--fl-space-2xl); background: var(--fl-color-surface); color: var(--fl-color-ink); border-radius: var(--fl-radius-surface); box-shadow: var(--fl-shadow-raised); transform-origin: 50% 85%; opacity: 0; pointer-events: none; transform: translate3d(0, 56px, 0) rotateX(-6deg) scale(0.98); transition: transform 480ms var(--fl-ease), opacity 320ms var(--fl-ease); }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__card[data-state='before'] { transform: translate3d(0, -32px, -90px) rotateX(5deg) scale(0.9); }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__card[data-state='active'] { opacity: 1; transform: translate3d(0, 0, 0); pointer-events: auto; z-index: 1; }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__chapter img { height: min(480px, calc(100svh - 264px)); }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__copy { padding: 0; }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__number { margin-block-end: var(--fl-space-lg); }
-    .facelove-journey[data-enhanced='true'] .facelove-journey__number span:first-child { font-size: 3rem; }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__chapter { position: sticky; inset-block-start: 72px; }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__card { transform-origin: 50% 0; opacity: calc(1 - var(--fl-progress, 0) * 0.92); transform: perspective(1000px) translate3d(0, calc(var(--fl-enter, 0) * 24px - var(--fl-progress, 0) * 24px), calc(var(--fl-progress, 0) * -120px)) rotateX(calc(var(--fl-progress, 0) * 9deg - var(--fl-enter, 0) * 5deg)) scale(calc(1 - var(--fl-progress, 0) * 0.1 - var(--fl-enter, 0) * 0.03)); }
   }
   @media (max-width: 959px) {
     .facelove-journey { padding-block: var(--fl-space-3xl); }
     .facelove-journey__heading { display: block; margin-block-end: var(--fl-space-xl); }
     .facelove-journey__heading .rte { margin-block-start: var(--fl-space-lg); }
     .facelove-journey__card { grid-template-columns: 1fr; gap: var(--fl-space-xl); }
-    .facelove-journey__chapter img { max-height: 400px; }
-    .facelove-journey__copy { padding: 0; }
-    .facelove-journey__number { margin-block-end: var(--fl-space-lg); }
-    .facelove-journey__number span:first-child { font-size: 2.5rem; }
   }
 {% endstylesheet %}
 {% schema %}

@@ -1,68 +1,79 @@
 import { Component } from '@theme/component';
 
-/** @extends {Component<{ steps: HTMLElement[], cards: HTMLElement[], links: HTMLAnchorElement[] }>} */
+/** @extends {Component<{ chapters: HTMLElement[], cards: HTMLElement[] }>} */
 class FaceloveStory extends Component {
   #abort;
+  #frame;
   #observer;
+  #visible = false;
   #media = matchMedia('(min-width: 960px) and (min-height: 720px) and (prefers-reduced-motion: no-preference)');
 
   connectedCallback() {
     super.connectedCallback();
-    this.#abort = new AbortController();
-    this.#media.addEventListener('change', this.#setup, { signal: this.#abort.signal });
-    this.#setup();
+    this.#connect();
   }
 
   updatedCallback() {
     super.updatedCallback();
-    this.#setup();
+    this.#connect();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.#abort.abort();
+    this.#abort?.abort();
     this.#observer?.disconnect();
+    cancelAnimationFrame(this.#frame);
+    this.#frame = undefined;
+  }
+
+  #connect() {
+    this.#abort?.abort();
+    this.#observer?.disconnect();
+    this.#abort = new AbortController();
+    const options = { signal: this.#abort.signal, passive: true };
+    const scroller = this.closest('.page-wrapper') ?? window;
+    scroller.addEventListener('scroll', this.#schedule, options);
+    window.addEventListener('resize', this.#schedule, options);
+    this.#media.addEventListener('change', this.#setup, options);
+    this.#observer = new IntersectionObserver(([entry]) => {
+      this.#visible = entry.isIntersecting;
+      this.#schedule();
+    });
+    this.#observer.observe(this);
+    this.#setup();
   }
 
   #setup = () => {
-    this.#observer?.disconnect();
-    const enhanced = this.#media.matches;
-    this.dataset.enhanced = String(enhanced);
-    this.#select(0);
-    if (!enhanced) return;
-
-    // Observe the reading band instead of running layout work on every scroll frame.
-    this.#observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting);
-      if (!visible.length) return;
-      this.#select(this.refs.steps.indexOf(visible[visible.length - 1].target));
-    }, { rootMargin: '-35% 0px -45% 0px', threshold: 0 });
-    for (const step of this.refs.steps ?? []) this.#observer.observe(step);
+    this.dataset.enhanced = String(this.#media.matches);
+    for (const card of this.refs.cards ?? []) {
+      card.style.removeProperty('--fl-progress');
+      card.style.removeProperty('--fl-enter');
+      card.inert = false;
+    }
+    this.#schedule();
   };
 
-  /** @param {MouseEvent} event */
-  selectChapter(event) {
-    if (!(event.target instanceof Element)) return;
-    const link = event.target.closest('a');
-    const index = this.refs.links.indexOf(link);
-    if (index < 0) return;
-    event.preventDefault();
-    this.refs.steps[index].scrollIntoView({ block: 'start', behavior: 'instant' });
-    this.#select(index);
-    this.refs.cards[index].querySelector('h3')?.focus({ preventScroll: true });
-  }
+  #schedule = () => {
+    if (this.#frame || !this.#visible || !this.#media.matches) return;
+    this.#frame = requestAnimationFrame(this.#update);
+  };
 
-  /** @param {number} index */
-  #select(index) {
-    for (const [position, card] of (this.refs.cards ?? []).entries()) {
-      card.dataset.state = position === index ? 'active' : position < index ? 'before' : 'after';
-      card.toggleAttribute('inert', this.#media.matches && position !== index);
+  #update = () => {
+    this.#frame = undefined;
+    if (!this.isConnected || !this.#media.matches) return;
+    // Real card positions drive depth; no artificial scroll runway or wheel interception.
+    const boxes = this.refs.chapters.map((chapter) => chapter.getBoundingClientRect());
+    const clamp = (value) => Math.min(1, Math.max(0, value));
+    for (const [index, card] of this.refs.cards.entries()) {
+      const box = boxes[index];
+      const next = boxes[index + 1];
+      const overlap = next ? clamp((box.height * 0.85 - (next.top - box.top)) / (box.height * 0.85)) : 0;
+      const entering = clamp((box.top - innerHeight * 0.7) / (innerHeight * 0.3));
+      card.style.setProperty('--fl-progress', overlap.toFixed(3));
+      card.style.setProperty('--fl-enter', entering.toFixed(3));
+      card.inert = overlap > 0.95;
     }
-    for (const [position, link] of (this.refs.links ?? []).entries()) {
-      if (position === index && this.#media.matches) link.setAttribute('aria-current', 'step');
-      else link.removeAttribute('aria-current');
-    }
-  }
+  };
 }
 
 if (!customElements.get('facelove-story')) customElements.define('facelove-story', FaceloveStory);
