@@ -1,0 +1,64 @@
+{% doc %}
+  Shows product-owned shade guidance and a brief benefit list beside the native purchase form.
+  @example
+  {% content_for 'block', type: 'facelove-summary', id: 'product-summary', closest.product: product %}
+{% enddoc %}
+
+{% liquid
+  assign product_resource = closest.product
+  assign color_id = 'facelove-' | append: block.id
+%}
+{% render 'contrast-override', background_color: block.settings.background_color, section_id: color_id %}
+<div class="facelove-summary" {{ block.shopify_attributes }}>
+  {% if product_resource.metafields.facelove.shade_guidance != blank %}
+    <p class="facelove-summary__shade color-custom-{{ color_id }}">
+      {{ product_resource.metafields.facelove.shade_guidance.value | escape }}
+    </p>
+  {% endif %}
+  {% if product_resource.metafields.facelove.benefits.value.size > 0 %}
+    <ul class="facelove-summary__benefits">
+      {% for benefit in product_resource.metafields.facelove.benefits.value limit: 3 %}
+        <li>{{ benefit | escape }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .facelove-summary { width: 100%; }
+  .facelove-summary__shade { margin: 0; padding: 12px 16px; font-size: 0.875rem; line-height: 1.5; }
+  .facelove-summary__benefits { padding-inline-start: 20px; margin-block: 16px 0; line-height: 1.6; }
+  .facelove-summary__benefits li { padding-inline-start: 4px; }
+  .product-information:has(.facelove-summary) {
+    --style-border-radius-buttons-primary: 4px;
+    --style-border-radius-buttons-secondary: 4px;
+    font-size: 16px;
+  }
+  .product-information:has(.facelove-summary) h1 { font-size: clamp(2rem, 3.1vw, 2.8rem); font-weight: 500; line-height: 1.12; letter-spacing: -0.025em; }
+  .product-information:has(.facelove-summary) .price { font-size: 1.5rem; font-weight: 600; }
+  .product-information:has(.facelove-summary) .compare-at-price { font-size: 1rem; opacity: 0.75; }
+  .product-information:has(.facelove-summary) .variant-option--buttons { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .product-information:has(.facelove-summary) .variant-option__button-label { justify-content: space-between; gap: 12px; min-height: 64px; min-width: 0; width: 100%; padding: 16px; border-radius: 4px; white-space: normal; }
+  .product-information:has(.facelove-summary) .variant-option__button-label__text { text-align: start; }
+  .product-information:has(.facelove-summary) .variant-option__button-label:has(:focus-visible) { outline: 2px solid currentColor; outline-offset: 4px; }
+  .product-information:has(.facelove-summary) .product-form-buttons .add-to-cart-button { min-height: 54px; font-size: 1rem; }
+  @media screen and (max-width: 749px) {
+    .product-information:has(.facelove-summary) .product-details > .group-block { padding-block-start: 20px; }
+    .product-information:has(.facelove-summary) .product-media-container { max-height: 360px; }
+    .product-information:has(.facelove-summary) .facelove-summary__benefits { font-size: 0.875rem; }
+    .shopify-section:has(.facelove-summary) .sticky-add-to-cart__button { width: auto; padding-inline: 16px; }
+    .shopify-section:has(.facelove-summary) .sticky-add-to-cart__button .add-to-cart-text__content { display: inline; }
+    .shopify-section:has(.facelove-summary) .sticky-add-to-cart__button .add-to-cart-text > .svg-wrapper { display: none; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.facelove_summary",
+  "tag": null,
+  "settings": [
+    { "type": "color", "id": "background_color", "label": "t:settings.background_color", "default": "#eee7f5" }
+  ],
+  "presets": [{ "name": "t:names.facelove_summary", "category": "t:categories.product" }]
+}
+{% endschema %}

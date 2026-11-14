@@ -1,0 +1,147 @@
+{% comment %}
+  Product storytelling with merchant-owned media and copy, plus native disclosures.
+  @example
+  Add an editorial section to the product template and choose its content layout.
+{% endcomment %}
+
+{% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+<section
+  class="facelove-editorial color-custom-{{ section.id }}"
+  {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}
+  style="--facelove-section-space: {{ section.settings.spacing }}px;"
+>
+  <div class="facelove-editorial__inner facelove-editorial__inner--{{ section.settings.layout }}">
+    {% if section.settings.layout == 'image' and section.settings.image != blank %}
+      <figure class="facelove-editorial__figure">
+        {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '360, 540, 720, 960, 1200, 1400', sizes: '(min-width: 1320px) 580px, (min-width: 750px) calc(47vw - 40px), calc(100vw - 40px)' }}
+        {% if section.settings.caption != blank %}<figcaption>{{ section.settings.caption | escape }}</figcaption>{% endif %}
+      </figure>
+    {% endif %}
+    <div class="facelove-editorial__intro">
+      {% if section.settings.eyebrow != blank %}<p class="facelove-editorial__eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+      {% if section.settings.heading != blank %}<h2>{{ section.settings.heading | escape }}</h2>{% endif %}
+      {% if section.settings.text != blank %}<div class="rte">{{ section.settings.text }}</div>{% endif %}
+      {% if section.settings.layout == 'image' %}
+        <div class="facelove-editorial__points">
+          {% for block in section.blocks %}
+            <div class="facelove-editorial__point" {{ block.shopify_attributes }}>
+              {% if block.settings.heading != blank %}<h3>{{ block.settings.heading | escape }}</h3>{% endif %}
+              {{ block.settings.text }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if section.settings.link != blank and section.settings.link_label != blank %}
+        <a class="facelove-editorial__link" href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>
+      {% endif %}
+    </div>
+    {% unless section.settings.layout == 'image' %}
+      <div class="facelove-editorial__content">
+        {% for block in section.blocks %}
+          {% case section.settings.layout %}
+            {% when 'questions' %}
+              {% if block.settings.heading != blank %}
+                <details class="facelove-editorial__question" {{ block.shopify_attributes }}>
+                  <summary>{{ block.settings.heading | escape }}<span aria-hidden="true">+</span></summary>
+                  <div class="rte">
+                    {% if block.settings.product_field == 'ingredients' %}
+                      {{ block.settings.text }}
+                      {{ product.metafields.facelove.ingredients | metafield_tag }}
+                    {% elsif block.settings.product_field == 'application' %}
+                      {{ product.metafields.facelove.how_to_use | metafield_tag }}
+                    {% else %}
+                      {{ block.settings.text }}
+                    {% endif %}
+                  </div>
+                </details>
+              {% endif %}
+            {% when 'quotes' %}
+              {% if block.settings.text != blank %}
+                <figure class="facelove-editorial__quote" {{ block.shopify_attributes }}>
+                  <blockquote>{{ block.settings.text }}</blockquote>
+                  <figcaption>{{ block.settings.heading | escape }}</figcaption>
+                </figure>
+              {% endif %}
+            {% else %}
+              <div class="facelove-editorial__step" {{ block.shopify_attributes }}>
+                <span class="facelove-editorial__number" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+                <div>{% if block.settings.heading != blank %}<h3>{{ block.settings.heading | escape }}</h3>{% endif %}{{ block.settings.text }}</div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endunless %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .facelove-editorial { padding-block: var(--facelove-section-space); color: var(--color-foreground); background: var(--color-background); font-size: 16px; line-height: 1.6; scroll-margin-block-start: 100px; }
+  .facelove-editorial__inner { width: min(1240px, calc(100% - 80px)); margin-inline: auto; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(32px, 6vw, 80px); }
+  .facelove-editorial__inner--image { grid-template-columns: 1fr 1fr; align-items: center; }
+  .facelove-editorial__intro, .facelove-editorial__content { min-width: 0; }
+  .facelove-editorial__eyebrow { font-size: 0.875rem; font-weight: 600; margin-block: 0 12px; }
+  .facelove-editorial h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.15; letter-spacing: -0.025em; font-weight: 500; margin-block: 0 24px; max-width: 15ch; }
+  .facelove-editorial h3 { font-size: 1rem; line-height: 1.4; font-weight: 600; margin-block: 0 6px; }
+  .facelove-editorial p { margin-block: 0 16px; }
+  .facelove-editorial__figure { margin: 0; }
+  .facelove-editorial__figure img { display: block; width: 100%; height: auto; }
+  .facelove-editorial figcaption { font-size: 0.75rem; margin-block-start: 10px; }
+  .facelove-editorial__point { border-block-start: 1px solid rgb(var(--color-foreground-rgb) / 0.18); padding-block: 16px; }
+  .facelove-editorial__point p { margin: 0; }
+  .facelove-editorial__link { display: inline-block; padding-block: 12px; text-underline-offset: 5px; }
+  .facelove-editorial__step { display: flex; gap: 24px; padding-block: 0 24px; margin-block-end: 24px; border-block-end: 1px solid rgb(var(--color-foreground-rgb) / 0.18); }
+  .facelove-editorial__step:last-child { margin-block-end: 0; }
+  .facelove-editorial__number { font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+  .facelove-editorial__step p { margin: 0; }
+  .facelove-editorial__question { border-block-end: 1px solid rgb(var(--color-foreground-rgb) / 0.18); }
+  .facelove-editorial__question summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 64px; padding-block: 20px; font-weight: 500; list-style: none; }
+  .facelove-editorial__question summary::-webkit-details-marker { display: none; }
+  .facelove-editorial__question summary span { font-size: 1.4rem; }
+  .facelove-editorial__question[open] summary span { transform: rotate(45deg); }
+  .facelove-editorial__question .rte { padding-block-end: 24px; }
+  .facelove-editorial__inner--quotes { display: block; }
+  .facelove-editorial__inner--quotes .facelove-editorial__intro { text-align: center; margin-block-end: 36px; }
+  .facelove-editorial__inner--quotes h2 { margin-inline: auto; max-width: none; }
+  .facelove-editorial__inner--quotes .facelove-editorial__content { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 40px; }
+  .facelove-editorial__quote { margin: 0; border-inline-start: 2px solid currentColor; padding-inline-start: 24px; }
+  .facelove-editorial__quote blockquote { margin: 0; font-size: 1.125rem; }
+  .facelove-editorial__quote figcaption { font-size: 0.875rem; font-weight: 600; }
+  .facelove-editorial a:focus-visible, .facelove-editorial summary:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+  @media screen and (max-width: 749px) {
+    .facelove-editorial { padding-block: min(var(--facelove-section-space), 44px); }
+    .facelove-editorial__inner { width: calc(100% - 40px); grid-template-columns: 1fr; gap: 32px; }
+    .facelove-editorial__inner--image .facelove-editorial__intro { order: -1; }
+    .facelove-editorial h2 { max-width: 17ch; }
+    .facelove-editorial__inner--quotes .facelove-editorial__content { gap: 28px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.facelove_editorial",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "select", "id": "layout", "label": "t:settings.layout", "options": [{"value":"image","label":"t:options.facelove_image"},{"value":"steps","label":"t:options.facelove_steps"},{"value":"quotes","label":"t:options.facelove_quotes"},{"value":"questions","label":"t:options.facelove_questions"}], "default":"image" },
+    { "type": "text", "id": "eyebrow", "label": "t:settings.facelove_eyebrow" },
+    { "type": "text", "id": "heading", "label": "t:settings.heading" },
+    { "type": "richtext", "id": "text", "label": "t:settings.text" },
+    { "type": "image_picker", "id": "image", "label": "t:settings.image", "visible_if": "{{ section.settings.layout == 'image' }}" },
+    { "type": "text", "id": "caption", "label": "t:settings.facelove_caption", "visible_if": "{{ section.settings.layout == 'image' }}" },
+    { "type": "url", "id": "link", "label": "t:settings.link" },
+    { "type": "text", "id": "link_label", "label": "t:settings.facelove_link_label" },
+    { "type": "text", "id": "anchor", "label": "t:settings.facelove_anchor" },
+    { "type": "color", "id": "background_color", "label": "t:settings.background_color", "default": "#ffffff" },
+    { "type": "range", "id": "spacing", "label": "t:settings.facelove_spacing", "min": 24, "max": 100, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "blocks": [{
+    "type": "content",
+    "name": "t:names.facelove_content",
+    "settings": [
+      { "type": "text", "id": "heading", "label": "t:settings.heading" },
+      { "type": "richtext", "id": "text", "label": "t:settings.text" },
+      { "type": "select", "id": "product_field", "label": "t:settings.facelove_product_field", "options": [{"value":"none","label":"t:options.none"},{"value":"ingredients","label":"t:options.facelove_ingredients"},{"value":"application","label":"t:options.facelove_application"}], "default":"none" }
+    ]
+  }],
+  "presets": [{ "name":"t:names.facelove_editorial", "category":"t:categories.storytelling" }]
+}
+{% endschema %}
