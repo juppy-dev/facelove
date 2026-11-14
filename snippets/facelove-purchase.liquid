@@ -1,0 +1,30 @@
+{% doc %}
+  A native product form that follows the PDP selection across editorial sections.
+  @param {product} product - The current PDP product.
+  @param {string} form_id - Unique form identity, including section and block where applicable.
+  @example
+  {% render 'facelove-purchase', product: product, form_id: form_id %}
+{% enddoc %}
+{% render 'add-to-cart-button-styles' %}
+{% render 'fly-to-cart-styles' %}
+{% render 'buy-buttons-styles' %}
+<script src="{{ 'facelove-purchase.js' | asset_url }}" type="module"></script>
+{% assign variant = product.selected_or_first_available_variant %}
+<facelove-purchase data-product-id="{{ product.id }}" data-add-label="{{ 'actions.add_to_cart' | t | escape }}" data-unavailable-label="{{ 'products.product.sold_out' | t | escape }}">
+  <product-form-component data-section-id="{{ section.id }}" data-product-id="{{ product.id }}" data-product-url="{{ product.url }}" data-quantity-default="1" on:submit="/handleSubmit">
+    <div class="visually-hidden" ref="liveRegion" aria-live="assertive" role="status" aria-atomic="true"></div>
+    {% form 'product', product, id: form_id, data-type: 'add-to-cart-form' %}
+      <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <div ref="productFormButtons">
+        <span ref="addToCartTextError" class="product-form-text__error hidden"></span>
+        {% capture button_text %}<span data-purchase-label>{% if variant.available %}{{ 'actions.add_to_cart' | t }} — {{ variant.title | escape }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</span>{% endcapture %}
+        {% render 'add-to-cart-button', product: product, can_add_to_cart: variant.available, add_to_cart_text: button_text, show_icon: false, class: 'facelove-purchase__button add-to-cart-button' %}
+      </div>
+    {% endform %}
+  </product-form-component>
+</facelove-purchase>
+{% stylesheet %}
+  facelove-purchase { display: block; margin-block-start: var(--fl-space-lg); }
+  .facelove-purchase__button { width: fit-content; font-size: 0.8125rem; }
+{% endstylesheet %}
