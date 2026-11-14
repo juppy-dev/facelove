@@ -1,49 +1,77 @@
 {% comment %}
-  Five source product stories form a sticky desktop stack; mobile and reduced-motion views retain normal document flow.
+  Five source product stories become layered desktop cards; mobile and reduced-motion views retain normal document flow.
   @example
   Add image and copy blocks in the desired reading order.
 {% endcomment %}
+{% render 'facelove-design' %}
 {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
-<section class="facelove-journey color-custom-{{ section.id }}" id="{{ section.settings.anchor | handleize }}">
-  <header class="facelove-journey__heading"><p>{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div></header>
+<script src="{{ 'facelove-story.js' | asset_url }}" type="module"></script>
+<facelove-story class="facelove-journey color-custom-{{ section.id }}" id="{{ section.settings.anchor | handleize }}" role="region" aria-labelledby="StoryHeading-{{ section.id }}" style="--fl-chapter-count: {{ section.blocks.size }};">
+  <header class="facelove-journey__heading">{% if section.settings.eyebrow != blank %}<p>{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2 id="StoryHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div></header>
+  <nav class="facelove-journey__nav" aria-label="{{ section.settings.heading | escape }}">
+    {% for block in section.blocks %}<a ref="links[]" on:click="/selectChapter" href="#Reason-{{ section.id }}-{{ block.id }}" aria-label="{{ block.settings.heading | escape }}">0{{ forloop.index }}</a>{% endfor %}
+  </nav>
   <div class="facelove-journey__chapters">
     {% for block in section.blocks %}
       <article class="facelove-journey__chapter" {{ block.shopify_attributes }}>
-        <figure>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '360, 540, 720, 960, 1200', sizes: '(min-width: 1320px) 600px, (min-width: 750px) 45vw, calc(100vw - 40px)' }}{% endif %}{% if block.settings.caption != blank %}<figcaption>{{ block.settings.caption | escape }}</figcaption>{% endif %}</figure>
-        <div class="facelove-journey__copy"><p class="facelove-journey__number"><span>0{{ forloop.index }}</span><span>/ 0{{ section.blocks.size }}</span></p><h3>{{ block.settings.heading | escape }}</h3><div class="rte">{{ block.settings.text }}</div></div>
+        <div class="facelove-journey__card" ref="cards[]">
+          <figure>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '360, 540, 720, 960, 1200', sizes: '(min-width: 1320px) 550px, (min-width: 750px) 42vw, calc(100vw - 40px)' }}{% endif %}{% if block.settings.caption != blank %}<figcaption>{{ block.settings.caption | escape }}</figcaption>{% endif %}</figure>
+          <div class="facelove-journey__copy"><p class="facelove-journey__number"><span>0{{ forloop.index }}</span><span>/ 0{{ section.blocks.size }}</span></p><h3 tabindex="-1">{{ block.settings.heading | escape }}</h3><div class="rte">{{ block.settings.text }}</div></div>
+        </div>
+        <div class="facelove-journey__step" ref="steps[]" id="Reason-{{ section.id }}-{{ block.id }}" style="--fl-step: {{ forloop.index }};" aria-hidden="true"></div>
       </article>
     {% endfor %}
   </div>
   {% if section.settings.link != blank %}<a class="button facelove-journey__link" href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>{% endif %}
-</section>
+</facelove-story>
 {% stylesheet %}
-  .facelove-journey { background: var(--color-background); color: var(--color-foreground); padding: 80px 0; }
-  .facelove-journey__heading, .facelove-journey__chapters { width: min(1240px, calc(100% - 80px)); margin: auto; }
-  .facelove-journey__heading { max-width: 760px; text-align: center; margin-block-end: 48px; }
-  .facelove-journey__heading > p { font-size: 0.875rem; font-weight: 600; }
-  .facelove-journey h2 { font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.025em; line-height: 1.12; margin: 0 0 20px; }
-  .facelove-journey__chapter { position: sticky; top: 90px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; background: var(--color-background); border-block-start: 1px solid rgb(var(--color-foreground-rgb) / 0.2); padding-block: 28px 48px; gap: 64px; min-height: 650px; }
+  .facelove-journey { display: block; background: var(--color-background); color: var(--color-foreground); padding: var(--fl-space-section) 0; }
+  .facelove-journey__heading, .facelove-journey__chapters { width: min(var(--fl-container), calc(100% - 2 * var(--fl-gutter))); margin-inline: auto; }
+  .facelove-journey__heading { display: grid; grid-template-columns: 1.2fr 0.8fr; column-gap: var(--fl-space-4xl); align-items: end; margin-block-end: var(--fl-space-3xl); }
+  .facelove-journey__heading > p { grid-column: 1 / -1; font-size: 0.875rem; font-weight: 600; margin: 0 0 var(--fl-space-md); }
+  .facelove-journey h2 { font-size: var(--fl-section-title); font-weight: 700; letter-spacing: -0.025em; line-height: 1.15; margin: 0; }
+  .facelove-journey__heading .rte { max-width: 30ch; justify-self: end; }
+  .facelove-journey__heading .rte p { margin: 0; }
+  .facelove-journey__nav { display: none; }
+  .facelove-journey__chapter { padding-block: var(--fl-space-xl) var(--fl-space-3xl); }
+  .facelove-journey__card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: var(--fl-space-3xl); }
+  .facelove-journey__step { display: none; scroll-margin-block-start: calc(var(--header-height, 0px) + 108px); }
   .facelove-journey__chapter figure { margin: 0; min-width: 0; }
-  .facelove-journey__chapter img { width: 100%; max-height: 530px; object-fit: contain; display: block; }
-  .facelove-journey__chapter figcaption { margin-block-start: 10px; font-size: 0.75rem; }
-  .facelove-journey__copy { padding-inline-end: 32px; }
-  .facelove-journey__number { display: flex; align-items: baseline; gap: 12px; margin-block: 0 32px; font-variant-numeric: tabular-nums; }
-  .facelove-journey__number span:first-child { font-size: 3.25rem; line-height: 1; font-weight: 500; color: #67517d; }
+  .facelove-journey__chapter img { width: 100%; max-height: 560px; object-fit: contain; display: block; border-radius: var(--fl-radius-surface); }
+  .facelove-journey__chapter figcaption { margin-block-start: var(--fl-space-md); font-size: 0.8125rem; }
+  .facelove-journey__copy { min-width: 0; padding-inline: var(--fl-space-2xl); scroll-margin-block-start: calc(var(--header-height, 0px) + 108px); }
+  .facelove-journey__number { display: flex; align-items: baseline; gap: var(--fl-space-md); margin-block: 0 var(--fl-space-xl); font-variant-numeric: tabular-nums; }
+  .facelove-journey__number span:first-child { font-size: 4rem; line-height: 1; font-weight: 600; color: var(--fl-color-accent-ink); }
   .facelove-journey__number span:last-child { font-size: 0.875rem; }
-  .facelove-journey h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 24px; max-width: 20ch; }
-  .facelove-journey__copy ul { padding-inline-start: 20px; font-size: 1rem; line-height: 1.6; }
-  .facelove-journey__copy li { padding-inline-start: 4px; margin-block: 12px; }
-  .facelove-journey__link { display: flex; width: fit-content; margin: 36px auto 0; min-height: 52px; border-radius: 4px; }
-  @media (max-width: 749px), (max-height: 720px), (prefers-reduced-motion: reduce) { .facelove-journey__chapter { position: relative; top: auto; } }
-  @media (max-width: 749px) {
-    .facelove-journey { padding-block: 44px; }
-    .facelove-journey__heading, .facelove-journey__chapters { width: calc(100% - 40px); }
-    .facelove-journey__heading { text-align: start; margin-block-end: 28px; }
-    .facelove-journey__chapter { grid-template-columns: 1fr; gap: 24px; min-height: auto; padding-block: 24px 36px; }
-    .facelove-journey__chapter img { max-height: 380px; }
+  .facelove-journey h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 var(--fl-space-xl); max-width: 24ch; }
+  .facelove-journey__copy ul { padding-inline-start: var(--fl-space-xl); font-size: 1rem; line-height: 1.7; }
+  .facelove-journey__copy li { padding-inline-start: var(--fl-space-xs); margin-block: var(--fl-space-md); }
+  .facelove-journey__link { display: flex; width: fit-content; margin: var(--fl-space-3xl) auto 0; }
+  @media (min-width: 960px) and (min-height: 720px) and (prefers-reduced-motion: no-preference) {
+    .facelove-journey[data-enhanced='true'] .facelove-journey__nav { position: sticky; inset-block-start: calc(var(--header-height, 0px) + 16px); z-index: 2; display: flex; width: fit-content; margin: 0 auto var(--fl-space-xl); padding: var(--fl-space-xs); gap: var(--fl-space-xs); background: var(--fl-color-surface); border-radius: var(--fl-radius-pill); box-shadow: var(--fl-shadow-soft); }
+    .facelove-journey__nav a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; color: var(--fl-color-accent-ink); text-decoration: none; font-size: 0.875rem; font-weight: 600; font-variant-numeric: tabular-nums; transition: background-color var(--fl-duration-fast) var(--fl-ease); }
+    .facelove-journey__nav a:hover { background: var(--fl-color-well); }
+    .facelove-journey__nav a[aria-current] { color: var(--fl-color-on-accent); background: var(--fl-color-accent-ink); }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__chapters { display: grid; grid-template-columns: minmax(0, 1fr); perspective: 1200px; }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__chapter { display: contents; }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__step { display: block; grid-column: 1; grid-row: var(--fl-step); min-height: 78svh; pointer-events: none; }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__card { grid-column: 1; grid-row: 1 / span var(--fl-chapter-count); position: sticky; inset-block-start: calc(var(--header-height, 0px) + 88px); align-self: start; padding: var(--fl-space-2xl); background: var(--fl-color-surface); color: var(--fl-color-ink); border-radius: var(--fl-radius-surface); box-shadow: var(--fl-shadow-raised); transform-origin: 50% 85%; opacity: 0; pointer-events: none; transform: translate3d(0, 56px, 0) rotateX(-6deg) scale(0.98); transition: transform 480ms var(--fl-ease), opacity 320ms var(--fl-ease); }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__card[data-state='before'] { transform: translate3d(0, -32px, -90px) rotateX(5deg) scale(0.9); }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__card[data-state='active'] { opacity: 1; transform: translate3d(0, 0, 0); pointer-events: auto; z-index: 1; }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__chapter img { height: min(480px, calc(100svh - 264px)); }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__copy { padding: 0; }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__number { margin-block-end: var(--fl-space-lg); }
+    .facelove-journey[data-enhanced='true'] .facelove-journey__number span:first-child { font-size: 3rem; }
+  }
+  @media (max-width: 959px) {
+    .facelove-journey { padding-block: var(--fl-space-3xl); }
+    .facelove-journey__heading { display: block; margin-block-end: var(--fl-space-xl); }
+    .facelove-journey__heading .rte { margin-block-start: var(--fl-space-lg); }
+    .facelove-journey__card { grid-template-columns: 1fr; gap: var(--fl-space-xl); }
+    .facelove-journey__chapter img { max-height: 400px; }
     .facelove-journey__copy { padding: 0; }
-    .facelove-journey__number { margin-block-end: 18px; }
-    .facelove-journey__number span:first-child { font-size: 2rem; }
+    .facelove-journey__number { margin-block-end: var(--fl-space-lg); }
+    .facelove-journey__number span:first-child { font-size: 2.5rem; }
   }
 {% endstylesheet %}
 {% schema %}
