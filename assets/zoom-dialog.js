@@ -136,7 +136,7 @@ export class ZoomDialog extends Component {
     if (!targetThumbnail || !(targetThumbnail instanceof HTMLElement)) return;
 
     Array.from(thumbnails.querySelectorAll('button')).forEach((button, i) => {
-      button.setAttribute('aria-selected', `${i === activeIndex}`);
+      button.setAttribute('aria-current', `${i === activeIndex}`);
     });
 
     this.loadHighResolutionImage(mostVisibleElement);
@@ -244,7 +244,7 @@ export class ZoomDialog extends Component {
     if (!targetThumbnail || !(targetThumbnail instanceof HTMLElement)) return;
 
     Array.from(thumbnails.querySelectorAll('button')).forEach((button, i) => {
-      button.setAttribute('aria-selected', `${i === index}`);
+      button.setAttribute('aria-current', `${i === index}`);
     });
 
     scrollIntoView(targetThumbnail, {
