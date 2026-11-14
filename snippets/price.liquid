@@ -6,10 +6,11 @@
   @param {boolean} [show_unit_price] - Whether to show the unit price
   @param {boolean} [show_sale_price_first] - Whether to show the sale price first
   @param {boolean} [show_savings] - Show the selected variant's absolute saving.
+  @param {boolean} [show_free_shipping] - Show the configured free-shipping promise beside the product price.
 {%- enddoc -%}
 
 {% render 'price-styles' %}
-{% if show_savings %}{% render 'facelove-offer-styles' %}{% endif %}
+{% if show_savings or show_free_shipping %}{% render 'facelove-offer-styles' %}{% endif %}
 
 {%- liquid
   assign show_unit_price = show_unit_price | default: false
@@ -131,6 +132,7 @@
     {% assign saving = selected_variant.compare_at_price | minus: selected_variant.price | money_without_trailing_zeros %}
     <span class="facelove-saving">{{ 'facelove.save' | t: amount: saving }}</span>
   {% endif %}
+  {% if show_free_shipping %}<span class="facelove-shipping-badge">{{ 'facelove.free_shipping_badge' | t }}</span>{% endif %}
 </div>
 {%- if has_volume_pricing -%}
   <small
