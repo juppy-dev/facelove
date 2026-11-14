@@ -1,4 +1,4 @@
-# Facelove Shopify theme
+# Facelove Shopify Test
 
 A native Liquid product page built on Shopify Horizon 4.5.0 for the Facelove trial.
 
@@ -17,10 +17,6 @@ shopify theme check
 ```
 
 Product records, metafields, uploaded photos and videos live in Shopify and are not embedded in this repository. The theme references the existing test-store resources. Local screenshots, research reports, generated ZIPs and dependencies are excluded from Git.
-
-## History
-
-The implementation was developed on November 12–14, 2026 before Git was initialized. This commit history was reconstructed afterward from saved source checkpoints and grouped by feature. Commit timestamps record the reconstruction; they are not a contemporaneous record of the original sessions. See [HISTORY.md](HISTORY.md) for checkpoint provenance.
 
 ## Shopify connection
 
