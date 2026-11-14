@@ -1,0 +1,69 @@
+{% comment %}
+  Five source product stories form a sticky desktop stack; mobile and reduced-motion views retain normal document flow.
+  @example
+  Add image and copy blocks in the desired reading order.
+{% endcomment %}
+{% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+<section class="facelove-journey color-custom-{{ section.id }}" id="{{ section.settings.anchor | handleize }}">
+  <header class="facelove-journey__heading"><p>{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.text }}</div></header>
+  <div class="facelove-journey__chapters">
+    {% for block in section.blocks %}
+      <article class="facelove-journey__chapter" {{ block.shopify_attributes }}>
+        <figure>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '360, 540, 720, 960, 1200', sizes: '(min-width: 1320px) 600px, (min-width: 750px) 45vw, calc(100vw - 40px)' }}{% endif %}{% if block.settings.caption != blank %}<figcaption>{{ block.settings.caption | escape }}</figcaption>{% endif %}</figure>
+        <div class="facelove-journey__copy"><p class="facelove-journey__number"><span>0{{ forloop.index }}</span><span>/ 0{{ section.blocks.size }}</span></p><h3>{{ block.settings.heading | escape }}</h3><div class="rte">{{ block.settings.text }}</div></div>
+      </article>
+    {% endfor %}
+  </div>
+  {% if section.settings.link != blank %}<a class="button facelove-journey__link" href="{{ section.settings.link }}">{{ section.settings.link_label | escape }}</a>{% endif %}
+</section>
+{% stylesheet %}
+  .facelove-journey { background: var(--color-background); color: var(--color-foreground); padding: 80px 0; }
+  .facelove-journey__heading, .facelove-journey__chapters { width: min(1240px, calc(100% - 80px)); margin: auto; }
+  .facelove-journey__heading { max-width: 760px; text-align: center; margin-block-end: 48px; }
+  .facelove-journey__heading > p { font-size: 0.875rem; font-weight: 600; }
+  .facelove-journey h2 { font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.025em; line-height: 1.12; margin: 0 0 20px; }
+  .facelove-journey__chapter { position: sticky; top: 90px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; background: var(--color-background); border-block-start: 1px solid rgb(var(--color-foreground-rgb) / 0.2); padding-block: 28px 48px; gap: 64px; min-height: 650px; }
+  .facelove-journey__chapter figure { margin: 0; min-width: 0; }
+  .facelove-journey__chapter img { width: 100%; max-height: 530px; object-fit: contain; display: block; }
+  .facelove-journey__chapter figcaption { margin-block-start: 10px; font-size: 0.75rem; }
+  .facelove-journey__copy { padding-inline-end: 32px; }
+  .facelove-journey__number { display: flex; align-items: baseline; gap: 12px; margin-block: 0 32px; font-variant-numeric: tabular-nums; }
+  .facelove-journey__number span:first-child { font-size: 3.25rem; line-height: 1; font-weight: 500; color: #67517d; }
+  .facelove-journey__number span:last-child { font-size: 0.875rem; }
+  .facelove-journey h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 24px; max-width: 20ch; }
+  .facelove-journey__copy ul { padding-inline-start: 20px; font-size: 1rem; line-height: 1.6; }
+  .facelove-journey__copy li { padding-inline-start: 4px; margin-block: 12px; }
+  .facelove-journey__link { display: flex; width: fit-content; margin: 36px auto 0; min-height: 52px; border-radius: 4px; }
+  @media (max-width: 749px), (max-height: 720px), (prefers-reduced-motion: reduce) { .facelove-journey__chapter { position: relative; top: auto; } }
+  @media (max-width: 749px) {
+    .facelove-journey { padding-block: 44px; }
+    .facelove-journey__heading, .facelove-journey__chapters { width: calc(100% - 40px); }
+    .facelove-journey__heading { text-align: start; margin-block-end: 28px; }
+    .facelove-journey__chapter { grid-template-columns: 1fr; gap: 24px; min-height: auto; padding-block: 24px 36px; }
+    .facelove-journey__chapter img { max-height: 380px; }
+    .facelove-journey__copy { padding: 0; }
+    .facelove-journey__number { margin-block-end: 18px; }
+    .facelove-journey__number span:first-child { font-size: 2rem; }
+  }
+{% endstylesheet %}
+{% schema %}
+{
+  "name":"t:names.facelove_journey", "disabled_on":{"groups":["header","footer"]},
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"t:settings.facelove_eyebrow"},
+    {"type":"text","id":"heading","label":"t:settings.heading"},
+    {"type":"richtext","id":"text","label":"t:settings.text"},
+    {"type":"text","id":"anchor","label":"t:settings.facelove_anchor"},
+    {"type":"url","id":"link","label":"t:settings.link"},
+    {"type":"text","id":"link_label","label":"t:settings.facelove_link_label"},
+    {"type":"color","id":"background_color","label":"t:settings.background_color","default":"#f5f0f8"}
+  ],
+  "blocks":[{"type":"chapter","name":"t:names.facelove_content","settings":[
+    {"type":"text","id":"heading","label":"t:settings.heading"},
+    {"type":"richtext","id":"text","label":"t:settings.text"},
+    {"type":"image_picker","id":"image","label":"t:settings.image"},
+    {"type":"text","id":"caption","label":"t:settings.facelove_caption"}
+  ]}],
+  "presets":[{"name":"t:names.facelove_journey","category":"t:categories.storytelling"}]
+}
+{% endschema %}
